@@ -168,7 +168,7 @@
     }).then(function () {
       if (S.jpn === false) { return; }
       return pass('jpn', clean(draw(img, 2600, turn)), '11', 'Reading Japanese, pass 3 of 3').then(function (j) {
-        var jl = j.split(/\n/).filter(function (l) { return JP.test(l); }).map(function (l) { return l.replace(/\s+/g, ' ').trim(); });
+        var jl = j.split(/\n/).filter(function (l) { return (l.match(/[一-鿿]/g) || []).length >= 2; }).map(function (l) { return l.replace(/\s+/g, ' ').trim(); });
         if (jl.length) { best = best + '\n' + jl.join('\n'); }
       }).catch(function () {});
     }).then(function () {
