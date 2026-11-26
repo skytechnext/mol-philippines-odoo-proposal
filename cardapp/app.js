@@ -21,14 +21,29 @@
       .then(function (r) { if (r.error) { throw new Error((r.error.data && r.error.data.message) || r.error.message || 'Odoo error'); } return r.result; });
   }
   function db() { return S.db ? Promise.resolve(S.db) : call('db', 'list', []).then(function (l) { S.db = l[0]; store(); return S.db; }).catch(function () { S.db = location.hostname.split('.')[0]; store(); return S.db; }); }
+  function post(url, params) {
+    return fetch(url, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', method: 'call', id: ++rpcId, params: params }) })
+      .then(function (r) { return r.json(); })
+      .then(function (r) { if (r.error) { throw new Error((r.error.data && r.error.data.message) || r.error.message || 'Odoo error'); } return r.result; });
+  }
+  /* resolves to 'session' when this browser is already signed in to Odoo, otherwise to 'key' */
+  function mode() {
+    if (state.mode) { return Promise.resolve(state.mode); }
+    return post('/web/session/get_session_info', {}).then(function (i) { if (i && i.uid) { state.who = i.name || i.username; return 'session'; } return 'key'; })
+      .catch(function () { return 'key'; }).then(function (m) { state.mode = m; return m; });
+  }
   function login() {
-    if (!S.key) { return Promise.reject(new Error('Add your Odoo API key in Settings first.')); }
+    if (!S.key) { return Promise.reject(new Error('Sign in to Odoo in this browser, or add an API key in Settings.')); }
     if (S.uid) { return Promise.resolve(S.uid); }
-    return db().then(function (d) { return call('common', 'authenticate', [d, S.user || 'admin', S.key, {}]); })
-      .then(function (uid) { if (!uid) { throw new Error('Odoo refused the login. Check the user name and API key.'); } S.uid = uid; store(); return uid; });
+    var user = (S.user || 'admin').trim().toLowerCase();
+    return db().then(function (d) { return call('common', 'authenticate', [d, user, S.key.trim(), {}]); })
+      .then(function (uid) { if (!uid) { throw new Error('Odoo refused the API key for user "' + user + '". The user name is the Odoo login (for the demo: admin), and the key must be one created for that user.'); } S.uid = uid; store(); return uid; });
   }
   function odoo(model, method, args, kw) {
-    return login().then(function (uid) { return call('object', 'execute_kw', [S.db, uid, S.key, model, method, args || [], kw || {}]); });
+    return mode().then(function (m) {
+      if (m === 'session') { return post('/web/dataset/call_kw/' + model + '/' + method, { model: model, method: method, args: args || [], kwargs: kw || {} }); }
+      return login().then(function (uid) { return call('object', 'execute_kw', [S.db, uid, S.key.trim(), model, method, args || [], kw || {}]); });
+    });
   }
 
   /* ---------- reading the card ---------- */
@@ -60,6 +75,7 @@
     for (i = 0; i < p.length; i += 4) { g = Math.max(0, Math.min(255, (p[i] - lo) * 255 / span)); p[i] = p[i + 1] = p[i + 2] = g; }
     x.putImageData(d, 0, 0); return c;
   }
+  function invert(c) { var x = c.getContext('2d'), d = x.getImageData(0, 0, c.width, c.height), p = d.data; for (var i = 0; i < p.length; i += 4) { p[i] = p[i + 1] = p[i + 2] = 255 - p[i]; } x.putImageData(d, 0, 0); return c; }
   var JP = /[぀-ヿ㐀-鿿]/;
   var MOB = /^(hp|h\/p|h\.p|handphone|hand ?phone|mobile|mob|cell|cp|m|c|携帯)$/i;
   var FAX = /^(fax|f|facsimile)$/i;
@@ -121,6 +137,10 @@
       if (latin || jp) { out.name = l; used[i] = 1; }
     }
     if (!out.name) { for (var j = 0; j < lines.length; j++) { if (!used[j] && !/\d/.test(lines[j]) && lines[j].length > 3 && lines[j].length < 40) { out.name = lines[j]; break; } } }
+    if (out.email && out.name) { /* an icon beside the address is often read as one extra leading letter */
+      var loc = out.email.split('@')[0], first = out.name.toLowerCase().split(' ')[0];
+      if (first.length > 2 && loc.slice(1).indexOf(first) === 0 && loc.indexOf(first) !== 0) { out.email = out.email.slice(1); }
+    }
     if (!out.company && out.email) { var d = out.email.split('@')[1].split('.')[0]; if (!/gmail|yahoo|outlook|hotmail|icloud/.test(d)) { out.company = d.charAt(0).toUpperCase() + d.slice(1); } }
     return out;
   }
@@ -151,8 +171,10 @@
       img = i; state.img = draw(img, 1800, 0).toDataURL('image/jpeg', 0.85); $('shot').src = state.img;
       if (!window.Tesseract) { throw new Error('The text reader did not load. Check the connection and try again.'); }
       var c = clean(draw(img, 2600, 0));
-      return pass('eng', c, '3', 'Reading, pass 1 of 3').then(function (a) {
-        return pass('eng', c, '11', 'Reading, pass 2 of 3').then(function (b) { best = score(b) > score(a) ? merge(b, a) : merge(a, b); });
+      return pass('eng', c, '3', 'Reading, pass 1 of 4').then(function (a) {
+        return pass('eng', c, '11', 'Reading, pass 2 of 4').then(function (b) { best = score(b) > score(a) ? merge(b, a) : merge(a, b); });
+      }).then(function () {
+        return pass('eng', invert(clean(draw(img, 2600, 0))), '11', 'Reading light print, pass 3 of 4').then(function (n) { best = merge(best, n); });
       });
     }).then(function () {
       if (score(best) >= 14) { return; }
@@ -167,7 +189,7 @@
       return chain;
     }).then(function () {
       if (S.jpn === false) { return; }
-      return pass('jpn', clean(draw(img, 2600, turn)), '11', 'Reading Japanese, pass 3 of 3').then(function (j) {
+      return pass('jpn', clean(draw(img, 2600, turn)), '11', 'Reading Japanese, pass 4 of 4').then(function (j) {
         var jl = j.split(/\n/).filter(function (l) { return (l.match(/[一-鿿]/g) || []).length >= 2; }).map(function (l) { return l.replace(/\s+/g, ' ').trim(); });
         if (jl.length) { best = best + '\n' + jl.join('\n'); }
       }).catch(function () {});
@@ -252,13 +274,12 @@
     var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([t], { type: 'text/vcard' })); a.download = v.name.replace(/[^\w぀-鿿]+/g, '_') + '.vcf'; a.click();
   }
   function recent() {
-    if (!S.key) { $('recent').innerHTML = '<p class="hint">Open Settings and add your Odoo API key to connect.</p>'; return; }
     odoo('res.partner', 'search_read', [[['category_id.name', '=', 'Scanned card'], ['is_company', '=', false]]], { fields: ['name', 'function', 'parent_id', 'phone', 'email'], limit: 12, order: 'create_date desc' })
       .then(function (rows) {
         $('recent').innerHTML = rows.map(function (r) {
           return '<a class="row" href="/odoo/action-contacts.action_contacts/' + r.id + '" target="_blank"><b>' + esc(r.name) + '</b><span>' + esc([r['function'], r.parent_id && r.parent_id[1]].filter(Boolean).join(' · ')) + '</span></a>';
         }).join('') || '<p class="hint">No scanned cards yet.</p>';
-        $('conn').textContent = 'Connected to Odoo'; $('conn').className = 'conn ok';
+        $('conn').textContent = state.mode === 'session' ? 'Signed in' + (state.who ? ': ' + state.who : '') : 'Connected by API key'; $('conn').className = 'conn ok';
       }).catch(function (e) { $('conn').textContent = 'Not connected'; $('conn').className = 'conn'; $('recent').innerHTML = '<p class="hint">' + esc(e.message) + '</p>'; });
   }
 
@@ -272,7 +293,7 @@
     '<label class="big">Take a photo<input id="cam" type="file" accept="image/*" capture="environment"></label>' +
     '<label class="ghost">Choose from photos<input id="pick" type="file" accept="image/*"></label>' +
     '<h2>Recently scanned</h2><div id="recent"></div></section>' +
-    '<section id="work" style="display:none"><img id="shot" alt=""><div class="scanline"></div><p id="prog" class="prog">Reading...</p><p class="hint">The first scan downloads the English and Japanese reading data, about 15 MB. Later scans are faster.</p></section>' +
+    '<section id="work" style="display:none"><img id="shot" alt=""><div class="scanline"></div><p id="prog" class="prog">Reading...</p><p class="hint">The card is read several times to catch small and light print. The first scan also downloads the reading data, about 15 MB, so it is the slowest.</p></section>' +
     '<section id="review" style="display:none"><h1>Check the details</h1><img id="shot2" class="thumb" alt="">' +
     '<p id="weak" class="warn" style="display:none">I could not find a phone number or an email on this photo. Fill the card with the frame, hold it flat in good light, and try again, or type the details below.</p>' +
     field('name', 'Name') + field('company', 'Company') + field('title', 'Job title') + field('phone', 'Mobile or phone', 'tel') + '<div id="alts" class="chips"></div>' + field('email', 'Email', 'email') + field('website', 'Website') + field('address', 'Address') +
@@ -289,7 +310,7 @@
     '<label class="check"><input id="s_jpn" type="checkbox"> Also read Japanese (slower)</label>' +
     '<label class="ghost">Photo of your own business card<input id="s_card" type="file" accept="image/*"></label><img id="s_cardimg" class="thumb" alt="">' +
     '<button id="s_save" class="big">Save settings</button><button id="s_back" class="ghost">Back</button>' +
-    '<p class="hint">The API key stays in this browser on this phone. It is sent only to this Odoo site.</p></section>' +
+    '<p class="hint">If this browser is already signed in to Odoo, the app uses that sign-in and no API key is needed. Otherwise enter the Odoo login (for the demo: admin) and an API key created for that user. The key stays in this browser and is sent only to this Odoo site.</p></section>' +
     '</main><div id="toast" class="toast"></div>';
 
   $('cam').onchange = $('pick').onchange = function (e) { if (e.target.files[0]) { scan(e.target.files[0]); } e.target.value = ''; };
@@ -303,11 +324,11 @@
   };
   $('s_card').onchange = function (e) { if (e.target.files[0]) { shrink(e.target.files[0]).then(function (c) { S.card = c.toDataURL('image/jpeg', 0.8); $('s_cardimg').src = S.card; }); } };
   $('s_save').onclick = function () {
-    S.user = $('s_user').value.trim() || 'admin'; S.key = $('s_key').value.trim(); S.me = $('s_me').value.trim(); S.cc = $('s_cc').value.replace(/\D/g, '') || '63'; S.auto = $('s_auto').checked; S.jpn = $('s_jpn').checked; S.uid = null;
+    S.user = $('s_user').value.trim() || 'admin'; S.key = $('s_key').value.trim(); S.me = $('s_me').value.trim(); S.cc = $('s_cc').value.replace(/\D/g, '') || '63'; S.auto = $('s_auto').checked; S.jpn = $('s_jpn').checked; S.uid = null; state.mode = null;
     try { store(); } catch (err) { S.card = null; store(); toast('The card photo was too large to keep. Settings saved without it.', true); }
     show('home'); recent();
   };
   $('s_back').onclick = function () { show('home'); };
   recent();
-  if (!S.key) { $('gear').click(); }
+
 })();
