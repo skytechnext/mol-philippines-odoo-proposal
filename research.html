@@ -118,8 +118,10 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
     <div class="nav-links">
       <a href="#asks">Key asks</a>
       <a href="#account">Account</a>
+      <a href="#cardapp">Card app</a>
       <a href="#obd">Vehicle monitoring</a>
       <a href="#attendance">Attendance</a>
+      <a href="#zk">ZKTeco</a>
       <a href="#open">Open items</a>
       <a href="#phrases">Shipping terms</a>
     </div>
@@ -130,7 +132,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   <div class="container">
     <span class="eyebrow">Research &amp; preparation</span>
     <h1>What MOL Enterprise Philippines asked for, and what we found out.</h1>
-    <p>Working notes behind the proposal: the key asks from the discovery session of 26 November 2026, research into ESP32-based OBD devices for vehicle monitoring, and the points still to confirm.</p>
+    <p>Working notes behind the proposal: the key asks from the discovery session of 26 November 2026, research into a MOL-branded business card app, ESP32-based OBD devices and ZKTeco integration, and the points still to confirm.</p>
   </div>
 </header>
 
@@ -179,6 +181,50 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <b>Approval path</b><span>Local IT administration, accounting budget review, then vendor assessment by Tokyo headquarters</span>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="cardapp" class="alt">
+  <div class="container">
+    <span class="eyebrow">Research · business card app</span>
+    <h2>A MOL-branded card scanner on Odoo's database</h2>
+    <p class="sub">Because the users include the president and senior leaders, the proposal is a custom app for iPhone and Android instead of Odoo's standard app. This is what already exists that we can build on.</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 1000 150" role="img" aria-label="The MOL app photographs a card, reads it on the phone, the user confirms, and the contact is saved to Odoo Contacts">
+        <g font-size="14" text-anchor="middle">
+          <rect x="10" y="35" width="210" height="80" rx="8" fill="#005396"/><text x="115" y="68" font-weight="700" fill="#fff">MOL app (iOS · Android)</text><text x="115" y="90" fill="#D5E4F1" font-size="12.5">camera, review screen</text>
+          <rect x="265" y="35" width="200" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="365" y="68" font-weight="700" fill="#001B33">On-device OCR</text><text x="365" y="90" fill="#3F4C5C" font-size="12.5">Google ML Kit text recognition</text>
+          <rect x="510" y="35" width="200" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="610" y="68" font-weight="700" fill="#001B33">Field parser</text><text x="610" y="90" fill="#3F4C5C" font-size="12.5">name · company · phone · email</text>
+          <rect x="755" y="35" width="235" height="80" rx="8" fill="#001B33"/><text x="872" y="68" font-weight="700" fill="#fff">Odoo Contacts</text><text x="872" y="90" fill="#D5E4F1" font-size="12.5">via Odoo's external API (HTTPS)</text>
+        </g>
+        <g stroke="#005396" stroke-width="2" marker-end="url(#ar)"><path d="M220 75H261"/><path d="M465 75H506"/><path d="M710 75H751"/></g>
+      </svg>
+    </div>
+
+    <h3 style="font-size:1.2rem;margin-bottom:14px">Existing projects and code</h3>
+    <div class="tw"><table>
+      <tr><th>Project</th><th>What it is</th><th>Use for MOL</th><th>Watch for</th></tr>
+      <tr><td><a href="https://pub.dev/packages/advanced_business_card_reader" target="_blank" rel="noopener">advanced_business_card_reader</a></td><td>Open-source Flutter package (MIT). Reads a card with ML Kit and parses name, company, phone, email and website.</td><td>Starting point for the OCR and parsing layer</td><td>Latin script only as shipped; Japanese needs ML Kit's Japanese recogniser added</td></tr>
+      <tr><td><a href="https://pub.dev/packages/business_card_scanner" target="_blank" rel="noopener">business_card_scanner</a></td><td>Open-source Flutter package (MIT). Offline extraction of emails, phone numbers and URLs with ML Kit.</td><td>Reference for offline extraction</td><td>New and lightly used; fewer fields</td></tr>
+      <tr><td><a href="https://github.com/crewcircle/CardSnap" target="_blank" rel="noopener">CardSnap</a></td><td>Native Android app. ML Kit OCR, parses details and saves to device contacts.</td><td>Reference for the "save to phone contacts" flow</td><td>Android only; licence to check</td></tr>
+      <tr><td><a href="https://pub.dev/packages/odoo_rpc" target="_blank" rel="noopener">odoo_rpc</a></td><td>Dart client library for Odoo. Its own example creates a contact record.</td><td>The link between the app and Odoo</td><td>Uses JSON-RPC, which Odoo plans to remove in Odoo 22; build on the newer JSON-2 API or plan the switch</td></tr>
+      <tr><td><a href="https://pub.dev/packages/odoo_rest_ov" target="_blank" rel="noopener">odoo_rest_ov</a></td><td>Higher-level Dart wrapper with one-line create and search calls; states it is tested on Odoo 14 to 19.</td><td>Alternative Odoo link</td><td>Small project; review the code before relying on it</td></tr>
+      <tr><td>Odoo's built-in card scan</td><td>Odoo's CRM mobile app digitises cards using paid credits.</td><td>Baseline to compare against; fallback if the custom app is deferred</td><td>Odoo branding and menus; per-scan credits</td></tr>
+    </table></div>
+
+    <div class="grid g3" style="margin-top:28px">
+      <div class="box"><span class="pill p-ok">Recommended build</span><h3>Flutter, one codebase</h3><p>One app for iPhone and Android. Google ML Kit for OCR on the device, with Latin and Japanese recognisers. Our own parser tuned on real MOL cards. Odoo Contacts as the only database.</p></div>
+      <div class="box"><span class="pill p-check">To decide with MOL</span><h3>How it is published</h3><p>Public store listings must be under MOL's own Apple and Google developer accounts. For a staff-only app, Apple's unlisted or Business Manager distribution and managed Google Play avoid a public listing.</p></div>
+      <div class="box"><span class="pill p-warn">Risks</span><h3>What needs care</h3><ul>
+        <li>Brand approval from MOL for name, icon and store pages</li>
+        <li>Store review times, especially the first Apple submission</li>
+        <li>OCR accuracy on stylised or bilingual cards; always show a confirm screen</li>
+        <li>The app and its data flow go into the Tokyo security assessment</li>
+        <li>Odoo's external API requires the Custom plan</li>
+      </ul></div>
+    </div>
+    <p class="src">Package details are as listed on pub.dev and GitHub at the time of research; none has been tested by us yet.</p>
   </div>
 </section>
 
@@ -240,24 +286,55 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
 
 <section id="attendance" class="alt">
   <div class="container">
-    <span class="eyebrow">Preparation · attendance</span>
-    <h2>Driver attendance design notes</h2>
+    <span class="eyebrow">Preparation · driver attendance</span>
+    <h2>Clock-in with odometer photo and location</h2>
     <div class="grid g3">
-      <div class="box"><h3>Two-device setup</h3><p>A tablet fixed in each vehicle (about US$200 as discussed, with 4G SIM) for clock in and out; the driver's phone for leave and status. A single-device variant is possible if cost matters more.</p></div>
-      <div class="box"><h3>Badge scanning</h3><p>Odoo's attendance kiosk accepts a badge barcode or QR scan through the tablet camera. The tablet is locked to that one screen so nothing else in Odoo is reachable.</p></div>
-      <div class="box"><h3>ZKTeco terminals</h3><p>Third-party connectors exist that pull punches from ZKTeco devices into Odoo, but support depends on the device model and firmware. We need the model numbers to confirm.</p></div>
+      <div class="box"><h3>The flow</h3><p>Start and end of day, in the Odoo app: clock in or out with location on, photograph the odometer, type the reading. The reading posts to the vehicle's odometer log in Fleet; the photo is kept as evidence.</p></div>
+      <div class="box"><h3>What is standard, what is added</h3><p>Odoo Attendances already supports mobile check-in and can record the location of each one. The odometer photo and reading, and the link from the attendance to the driver's vehicle, are additions we would build.</p></div>
+      <div class="box"><h3>Points to settle</h3><ul>
+        <li>Location at clock-in and clock-out only, never continuous — to state in the driver policy</li>
+        <li>Personal or company phones for agency drivers</li>
+        <li>What happens with no signal: allow a late sync</li>
+        <li>Typed reading is checked against the last one; the photo settles disputes</li>
+      </ul></div>
+    </div>
+    <p class="src">Third-party examples of location-stamped attendance: <a href="https://apps.odoo.com/apps/modules/19.0/v3c_hr_attendance" target="_blank" rel="noopener">v3c_hr_attendance</a>, <a href="https://apps.odoo.com/apps/modules/19.0/ps_geofencing_attendance" target="_blank" rel="noopener">ps_geofencing_attendance</a>. One Odoo forum user reported inaccurate mobile locations on Odoo 17, so accuracy should be tested on the drivers' phones.</p>
+  </div>
+</section>
+
+<section id="zk">
+  <div class="container">
+    <span class="eyebrow">Research · office attendance</span>
+    <h2>Connecting ZKTeco terminals to Odoo</h2>
+    <p class="sub">Odoo has no official ZKTeco connector, and we found none maintained by the Odoo Community Association. Several third-party modules exist for current Odoo versions. They connect in one of two ways.</p>
+    <div class="grid g2" style="margin-bottom:28px">
+      <div class="box"><span class="pill p-ok">Preferred</span><h3>Push (ADMS)</h3><p>The terminal sends each punch to Odoo over the internet as it happens. Nothing needs to reach into the office network, which suits a cloud-hosted Odoo. The terminal's firmware must support ADMS.</p></div>
+      <div class="box"><span class="pill p-check">Alternative</span><h3>Pull (pyzk)</h3><p>Odoo connects to the terminal on port 4370 and downloads the log on a schedule. Odoo and the terminal must be on the same network, or the port must be opened through the office firewall.</p></div>
+    </div>
+    <div class="tw"><table>
+      <tr><th>Module</th><th>Odoo versions listed</th><th>Connection</th><th>Notes</th></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/mindscript_zkteco_integration" target="_blank" rel="noopener">Mindscript ZKTeco Biometric Attendance Suite</a></td><td>18, 19</td><td>Push (ADMS) and pull (pyzk)</td><td>Multiple devices, anomaly detection, reports. Proprietary licence (OPL-1).</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/odoo_zkteco_biometric_attendance" target="_blank" rel="noopener">ZKTeco Biometric Attendance</a></td><td>18, 19</td><td>Push (ADMS) and pull (pyzk)</td><td>Pull mode needs the same network or port forwarding.</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/15.0/dps_zkteco_biometric_integration" target="_blank" rel="noopener">DPS ZKTeco Biometric Integration</a></td><td>15 to 19</td><td>Push (HTTP/ADMS), plus scheduled sync</td><td>Open-source licence (AGPL-3), so the code can be reviewed and adapted.</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/azk_zkteco_attendance" target="_blank" rel="noopener">Azk ZKTeco Attendance Machine Integration</a></td><td>16, 19</td><td>See listing</td><td>Paid, about US$117. Tested by its vendor on one device model; compatibility check advised.</td></tr>
+    </table></div>
+    <div class="grid g2" style="margin-top:28px">
+      <div class="box"><span class="pill p-ok">Recommendation</span><h3>Push connector, tested on MOL's devices</h3><p>Shortlist a push-capable module with reviewable code (DPS or Mindscript), then test it against MOL's actual terminal models before committing. Vendor claims above are unverified.</p></div>
+      <div class="box"><span class="pill p-warn">Hosting matters</span><h3>Needs Odoo.sh or on-premise</h3><p>Third-party modules such as these cannot be installed on Odoo Online. The connector requires Odoo.sh or a self-hosted server, which affects the hosting line in the quotation.</p></div>
     </div>
   </div>
 </section>
 
-<section id="open">
+
+<section id="open" class="alt">
   <div class="container">
     <span class="eyebrow">Still to confirm</span>
     <h2>Open items</h2>
     <div class="grid g3">
-      <div class="box"><span class="pill p-check">TechNext</span><h3>ZKTeco compatibility</h3><p>Get device models; check for an open interface.</p></div>
+      <div class="box"><span class="pill p-check">MOL</span><h3>ZKTeco device models</h3><p>Model and firmware of each terminal, to confirm push (ADMS) support.</p></div>
+      <div class="box"><span class="pill p-check">TechNext</span><h3>Hosting choice</h3><p>Odoo Online or Odoo.sh. The ZKTeco connector and custom attendance fields point to Odoo.sh.</p></div>
       <div class="box"><span class="pill p-check">TechNext</span><h3>Microsoft E5 fit</h3><p>What the E5 licence allows for integrations with Outlook, Teams and Power Platform.</p></div>
-      <div class="box"><span class="pill p-check">TechNext</span><h3>Business card integrations</h3><p>Scope and credit costs for scanning; feasibility of Viber and Apple contacts sync.</p></div>
+      <div class="box"><span class="pill p-check">Both</span><h3>Card app publication</h3><p>MOL developer accounts, brand approval, and public or staff-only distribution.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>AI and security policy</h3><p>Policy documents and vendor assessment forms to be shared.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>User and driver counts</h3><p>Number of Odoo users and number of drivers, to size licences.</p></div>
       <div class="box"><span class="pill p-check">Both</span><h3>OBD pilot vehicles</h3><p>Which vehicle of each model can be used for the two-week trial.</p></div>
@@ -265,7 +342,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   </div>
 </section>
 
-<section id="phrases" class="alt">
+<section id="phrases">
   <div class="container">
     <span class="eyebrow">Industry preparation</span>
     <h2>Shipping terms in MOL's business</h2>
