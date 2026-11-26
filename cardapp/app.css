@@ -40,3 +40,6 @@ textarea{font-size:13px;font-family:ui-monospace,Consolas,monospace}
 .toast{position:fixed;left:16px;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));background:#001B33;color:#fff;padding:13px 16px;border-radius:12px;font-size:14.5px;opacity:0;transform:translateY(20px);transition:.25s;pointer-events:none;z-index:9}
 .toast.show{opacity:1;transform:none}
 .toast.bad{background:#B42318}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{border:1.5px solid #C9D6E4;background:#fff;color:#005396;border-radius:99px;padding:6px 12px;font-size:14px;font-family:inherit}
+.warn{background:#FFF4E5;border:1px solid #F3C078;color:#7A4A00;border-radius:10px;padding:10px 12px;font-size:14px;margin:8px 0}

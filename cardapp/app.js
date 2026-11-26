@@ -32,39 +32,82 @@
   }
 
   /* ---------- reading the card ---------- */
-  function shrink(file) {
+  function load_img(file) {
     return new Promise(function (ok, no) {
       var img = new Image();
-      img.onload = function () {
-        var k = Math.min(1, 1800 / Math.max(img.width, img.height));
-        var c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(img.src); ok(c);
-      };
+      img.onload = function () { ok(img); };
       img.onerror = function () { no(new Error('That file is not an image I can read.')); };
       img.src = URL.createObjectURL(file);
     });
   }
+  function draw(img, max, turn) {
+    var k = Math.min(1, max / Math.max(img.width, img.height));
+    var w = Math.round(img.width * k), h = Math.round(img.height * k);
+    var c = document.createElement('canvas'); var x = c.getContext('2d');
+    if (turn === 90 || turn === 270) { c.width = h; c.height = w; } else { c.width = w; c.height = h; }
+    x.translate(c.width / 2, c.height / 2); x.rotate((turn || 0) * Math.PI / 180); x.drawImage(img, -w / 2, -h / 2, w, h);
+    return c;
+  }
+  function shrink(file) { return load_img(file).then(function (img) { return draw(img, 1800, 0); }); }
+  /* grey-scale and stretch contrast so small print on a phone photo stands out */
+  function clean(c) {
+    var x = c.getContext('2d'), d = x.getImageData(0, 0, c.width, c.height), p = d.data, hist = new Uint32Array(256), i, g;
+    for (i = 0; i < p.length; i += 4) { g = (p[i] * 77 + p[i + 1] * 150 + p[i + 2] * 29) >> 8; p[i] = g; hist[g]++; }
+    var n = p.length / 4, lo = 0, hi = 255, acc = 0;
+    for (i = 0; i < 256; i++) { acc += hist[i]; if (acc > n * 0.02) { lo = i; break; } }
+    acc = 0; for (i = 255; i >= 0; i--) { acc += hist[i]; if (acc > n * 0.02) { hi = i; break; } }
+    var span = Math.max(40, hi - lo);
+    for (i = 0; i < p.length; i += 4) { g = Math.max(0, Math.min(255, (p[i] - lo) * 255 / span)); p[i] = p[i + 1] = p[i + 2] = g; }
+    x.putImageData(d, 0, 0); return c;
+  }
   var JP = /[぀-ヿ㐀-鿿]/;
+  var MOB = /^(hp|h\/p|h\.p|handphone|hand ?phone|mobile|mob|cell|cp|m|c|携帯)$/i;
+  var FAX = /^(fax|f|facsimile)$/i;
+  function digits(s) { return s.replace(/\D/g, ''); }
+  /* letters that the reader often produces in place of digits, fixed only inside number-like runs */
+  function fixnum(s) {
+    return s.replace(/[0-9OoQlI|SsBZ][0-9OoQlI|SsBZ\s().+\-–]{5,}/g, function (run) {
+      if (digits(run).length < run.replace(/[\s().+\-–]/g, '').length * 0.6) { return run; }
+      return run.replace(/[OoQ]/g, '0').replace(/[lI|]/g, '1').replace(/[Ss]/g, '5').replace(/B/g, '8').replace(/Z/g, '2');
+    });
+  }
+  function phones_in(text) {
+    var out = [];
+    text.split(/\n/).forEach(function (raw) {
+      if (/@/.test(raw) || /(https?:|www\.)/i.test(raw)) { return; }
+      var line = fixnum(raw), re = /(\+?\(?\d[\d\s().\-–]{5,}\d)/g, m, last = 0;
+      while ((m = re.exec(line))) {
+        var num = m[1].trim(), dg = digits(num);
+        if (dg.length < 7 || dg.length > 15) { continue; }
+        var before = line.slice(last, m.index), lab = (before.match(/([A-Za-z携帯][A-Za-z\/. 携帯]{0,11})\s*[:.\-)]*\s*$/) || [])[1] || '';
+        lab = lab.replace(/[. ]+$/, '').trim(); last = m.index + m[1].length;
+        var kind = MOB.test(lab) ? 'mobile' : FAX.test(lab) ? 'fax' : 'other';
+        if (kind === 'other' && /^(\+?63\s?9|09\d|\+?65\s?[89]|[89]\d{3}[\s-]?\d{4}$|\+?60\s?1|01\d|\+?81\s?[789]0|0[789]0)/.test(num.replace(/[()]/g, ''))) { kind = 'mobile'; }
+        if (!out.some(function (o) { return digits(o.n) === dg; })) { out.push({ n: num.replace(/\s+/g, ' '), kind: kind, label: lab }); }
+      }
+    });
+    var rank = { mobile: 0, other: 1, fax: 2 };
+    return out.sort(function (a, b) { return rank[a.kind] - rank[b.kind]; });
+  }
   function parse(text) {
+    text = text.replace(/[ \t]*[©]\s*/g, '@').replace(/\(at\)|\[at\]/gi, '@');
     var lines = text.split(/\n/).map(function (l) { return l.replace(/\s+/g, ' ').trim(); }).filter(function (l) { return l.length > 1; });
-    var out = { name: '', company: '', title: '', email: '', phone: '', website: '', address: '' };
+    var out = { name: '', company: '', title: '', email: '', phone: '', website: '', address: '', phones: [] };
     var used = {};
-    var m = text.match(/[A-Za-z0-9._%+-]+ ?@ ?[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
+    var m = text.match(/[A-Za-z0-9._%+-]+ ?@ ?[A-Za-z0-9-]+(?: ?\. ?[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/);
     if (m) { out.email = m[0].replace(/ /g, '').toLowerCase(); }
-    var phones = [];
+    out.phones = phones_in(text);
+    var pick = out.phones.filter(function (p) { return p.kind !== 'fax'; })[0];
+    if (pick) { out.phone = pick.n; }
     lines.forEach(function (l, i) {
-      var p = l.match(/(\+?\d[\d\s().-]{7,}\d)/g);
-      if (p && !/@/.test(l)) { p.forEach(function (x) { if (x.replace(/\D/g, '').length >= 8) { phones.push({ n: x.trim(), mobile: /mob|cell|携帯|m[:.]|\+?63\s?9|09\d\d|0[789]0/i.test(l) }); } }); used[i] = 1; }
       if (/@/.test(l)) { used[i] = 1; }
+      if (digits(fixnum(l)).length >= 7 && digits(fixnum(l)).length > l.replace(/\s/g, '').length * 0.45) { used[i] = 1; }
       var w = l.match(/(https?:\/\/|www\.)[^\s]+/i);
       if (w) { out.website = w[0]; used[i] = 1; }
     });
-    phones.sort(function (a, b) { return (b.mobile ? 1 : 0) - (a.mobile ? 1 : 0); });
-    if (phones.length) { out.phone = phones[0].n; }
-    var CO = /(inc\.?|corp\.?|corporation|co\.,? ?ltd\.?|ltd\.?|limited|company|k\.k\.|llc|pte|gmbh|holdings|enterprise|lines|shipping|logistics|株式会社|有限会社|商事|海運|会社)/i;
-    var TI = /(manager|director|president|officer|chief|head|supervisor|engineer|captain|consultant|executive|specialist|coordinator|analyst|partner|founder|sales|部長|課長|取締役|社長|主任|係長|代表|担当|マネージャー)/i;
-    var AD = /(street|st\.|avenue|ave\.?|road|rd\.|floor|bldg|building|tower|city|brgy|〒|丁目|番地|都|県|市|区)/i;
+    var CO = /(inc\.?|corp\.?|corporation|co\.,? ?ltd\.?|ltd\.?|limited|company|k\.k\.|llc|pte|sdn|bhd|gmbh|holdings|enterprise|lines|shipping|logistics|株式会社|有限会社|商事|海運|会社)/i;
+    var TI = /(manager|director|president|officer|chief|head|supervisor|engineer|captain|consultant|executive|specialist|coordinator|analyst|partner|founder|sales|lead|ceo|cto|cfo|coo|部長|課長|取締役|社長|主任|係長|代表|担当|マネージャー)/i;
+    var AD = /(street|st\.|avenue|ave\.?|road|rd\.|floor|bldg|building|tower|city|brgy|singapore \d|#\d|〒|丁目|番地|都|県|市|区)/i;
     lines.forEach(function (l, i) {
       if (used[i]) { return; }
       if (!out.company && CO.test(l)) { out.company = l; used[i] = 1; return; }
@@ -77,25 +120,64 @@
       var jp = JP.test(l) && l.replace(/\s/g, '').length <= 8 && !/\d/.test(l);
       if (latin || jp) { out.name = l; used[i] = 1; }
     }
-    if (!out.name) { for (var j = 0; j < lines.length; j++) { if (!used[j] && !/\d/.test(lines[j]) && lines[j].length < 40) { out.name = lines[j]; break; } } }
+    if (!out.name) { for (var j = 0; j < lines.length; j++) { if (!used[j] && !/\d/.test(lines[j]) && lines[j].length > 3 && lines[j].length < 40) { out.name = lines[j]; break; } } }
     if (!out.company && out.email) { var d = out.email.split('@')[1].split('.')[0]; if (!/gmail|yahoo|outlook|hotmail|icloud/.test(d)) { out.company = d.charAt(0).toUpperCase() + d.slice(1); } }
     return out;
   }
+  /* how much usable text a pass found: real words, plus a bonus for an email or a phone number */
+  function score(text) {
+    var words = (text.match(/[A-Za-z]{3,}/g) || []).length, f = parse(text);
+    return words + (f.email ? 12 : 0) + (f.phones.length ? 12 : 0) + (text.match(JP) ? 3 : 0);
+  }
+  function merge(a, b) {
+    var seen = {}, out = [];
+    (a + '\n' + b).split(/\n/).forEach(function (l) { var k = l.replace(/\W/g, '').toLowerCase(); if (l.trim().length > 1 && !seen[k]) { seen[k] = 1; out.push(l.trim()); } });
+    return out.join('\n');
+  }
+  var W = {};
+  function worker(lang) {
+    if (!W[lang]) { W[lang] = window.Tesseract.createWorker(lang, 1, { logger: function (m) { if (m.progress && m.status) { $('prog').textContent = state.step + ' · ' + m.status + ' ' + Math.round(m.progress * 100) + '%'; } } }); }
+    return W[lang];
+  }
+  function pass(lang, canvas, psm, label) {
+    state.step = label; $('prog').textContent = label;
+    return worker(lang).then(function (w) { return w.setParameters({ tessedit_pageseg_mode: psm, preserve_interword_spaces: '1' }).then(function () { return w.recognize(canvas); }); })
+      .then(function (r) { return r.data.text || ''; });
+  }
   function scan(file) {
     show('work'); $('prog').textContent = 'Preparing photo...';
-    shrink(file).then(function (c) {
-      state.img = c.toDataURL('image/jpeg', 0.85);
-      $('shot').src = state.img;
+    var img, best = '', turn = 0;
+    load_img(file).then(function (i) {
+      img = i; state.img = draw(img, 1800, 0).toDataURL('image/jpeg', 0.85); $('shot').src = state.img;
       if (!window.Tesseract) { throw new Error('The text reader did not load. Check the connection and try again.'); }
-      return window.Tesseract.recognize(c, 'eng+jpn', { logger: function (m) {
-        $('prog').textContent = (m.status || 'Reading') + (m.progress ? ' ' + Math.round(m.progress * 100) + '%' : '');
-      } });
-    }).then(function (r) {
-      var text = r.data.text || '';
-      var f = parse(text);
+      var c = clean(draw(img, 2600, 0));
+      return pass('eng', c, '3', 'Reading, pass 1 of 3').then(function (a) {
+        return pass('eng', c, '11', 'Reading, pass 2 of 3').then(function (b) { best = score(b) > score(a) ? merge(b, a) : merge(a, b); });
+      });
+    }).then(function () {
+      if (score(best) >= 14) { return; }
+      /* little was found: the card is probably sideways in the photo */
+      var chain = Promise.resolve();
+      [90, 270, 180].forEach(function (t) {
+        chain = chain.then(function () {
+          if (score(best) >= 14) { return; }
+          return pass('eng', clean(draw(img, 2600, t)), '11', 'Trying the photo turned ' + t + '°').then(function (x) { if (score(x) > score(best)) { best = x; turn = t; } });
+        });
+      });
+      return chain;
+    }).then(function () {
+      if (S.jpn === false) { return; }
+      return pass('jpn', clean(draw(img, 2600, turn)), '11', 'Reading Japanese, pass 3 of 3').then(function (j) {
+        var jl = j.split(/\n/).filter(function (l) { return JP.test(l); }).map(function (l) { return l.replace(/\s+/g, ' ').trim(); });
+        if (jl.length) { best = best + '\n' + jl.join('\n'); }
+      }).catch(function () {});
+    }).then(function () {
+      var f = parse(best);
       ['name', 'company', 'title', 'email', 'phone', 'website', 'address'].forEach(function (k) { $('f_' + k).value = f[k]; });
-      $('raw').value = text.trim();
+      $('alts').innerHTML = f.phones.length > 1 ? f.phones.map(function (p) { return '<button type="button" class="chip" data-n="' + esc(p.n) + '">' + esc((p.label ? p.label + ' ' : '') + p.n) + (p.kind === 'fax' ? ' (fax)' : '') + '</button>'; }).join('') : '';
+      $('raw').value = best.trim();
       $('shot2').src = state.img;
+      $('weak').style.display = (f.phone || f.email) ? 'none' : '';
       show('review');
     }).catch(function (e) { toast(e.message, true); show('home'); });
   }
@@ -140,11 +222,12 @@
 
   /* ---------- after saving ---------- */
   function intl(p) {
-    var d = p.replace(/[^\d+]/g, '');
+    var d = p.replace(/[^\d+]/g, ''), cc = S.cc || '63';
     if (d.charAt(0) === '+') { return d.slice(1); }
     if (d.indexOf('00') === 0) { return d.slice(2); }
-    if (d.charAt(0) === '0') { return (S.cc || '63') + d.slice(1); }
-    return d;
+    if (d.charAt(0) === '0') { return cc + d.slice(1); }
+    if (d.indexOf(cc) === 0 && d.length > 9) { return d; }
+    return d.length <= 10 ? cc + d : d;
   }
   function greeting() { return GREETING.replace('{name}', state.saved.v.name.replace(/\s*\(.*\)\s*/, '')); }
   function whatsapp() {
@@ -191,7 +274,8 @@
     '<h2>Recently scanned</h2><div id="recent"></div></section>' +
     '<section id="work" style="display:none"><img id="shot" alt=""><div class="scanline"></div><p id="prog" class="prog">Reading...</p><p class="hint">The first scan downloads the English and Japanese reading data, about 15 MB. Later scans are faster.</p></section>' +
     '<section id="review" style="display:none"><h1>Check the details</h1><img id="shot2" class="thumb" alt="">' +
-    field('name', 'Name') + field('company', 'Company') + field('title', 'Job title') + field('phone', 'Mobile or phone', 'tel') + field('email', 'Email', 'email') + field('website', 'Website') + field('address', 'Address') +
+    '<p id="weak" class="warn" style="display:none">I could not find a phone number or an email on this photo. Fill the card with the frame, hold it flat in good light, and try again, or type the details below.</p>' +
+    field('name', 'Name') + field('company', 'Company') + field('title', 'Job title') + field('phone', 'Mobile or phone', 'tel') + '<div id="alts" class="chips"></div>' + field('email', 'Email', 'email') + field('website', 'Website') + field('address', 'Address') +
     '<details><summary>Text read from the card</summary><textarea id="raw" rows="6" readonly></textarea></details>' +
     '<button id="saveBtn" class="big">Save to Odoo</button><button id="again" class="ghost">Scan again</button></section>' +
     '<section id="done" style="display:none"><div class="tick">&#10003;</div><h1 id="doneName"></h1><p id="doneSub" class="lead"></p>' +
@@ -202,6 +286,7 @@
     '<label>Odoo user<input id="s_user" autocomplete="off" autocapitalize="off"></label><label>Odoo API key<input id="s_key" type="password" autocomplete="off"></label>' +
     '<label>Your name, shown in the Odoo note<input id="s_me"></label><label>Country code for numbers that start with 0<input id="s_cc" inputmode="numeric"></label>' +
     '<label class="check"><input id="s_auto" type="checkbox"> Open the WhatsApp greeting automatically after saving</label>' +
+    '<label class="check"><input id="s_jpn" type="checkbox"> Also read Japanese (slower)</label>' +
     '<label class="ghost">Photo of your own business card<input id="s_card" type="file" accept="image/*"></label><img id="s_cardimg" class="thumb" alt="">' +
     '<button id="s_save" class="big">Save settings</button><button id="s_back" class="ghost">Back</button>' +
     '<p class="hint">The API key stays in this browser on this phone. It is sent only to this Odoo site.</p></section>' +
@@ -209,15 +294,16 @@
 
   $('cam').onchange = $('pick').onchange = function (e) { if (e.target.files[0]) { scan(e.target.files[0]); } e.target.value = ''; };
   $('saveBtn').onclick = save;
+  $('alts').onclick = function (e) { var n = e.target && e.target.getAttribute('data-n'); if (n) { $('f_phone').value = n; } };
   $('again').onclick = $('next').onclick = function () { show('home'); };
   $('waBtn').onclick = whatsapp; $('shareBtn').onclick = shareCard; $('vcfBtn').onclick = vcard;
   $('mailBtn').onclick = function () { this.href = 'mailto:' + state.saved.v.email + '?subject=' + encodeURIComponent('Nice to meet you') + '&body=' + encodeURIComponent(greeting()); };
   $('gear').onclick = function () {
-    $('s_user').value = S.user || 'admin'; $('s_key').value = S.key || ''; $('s_me').value = S.me || ''; $('s_cc').value = S.cc || '63'; $('s_auto').checked = S.auto !== false; $('s_cardimg').src = S.card || ''; show('settings');
+    $('s_user').value = S.user || 'admin'; $('s_key').value = S.key || ''; $('s_me').value = S.me || ''; $('s_cc').value = S.cc || '63'; $('s_auto').checked = S.auto !== false; $('s_jpn').checked = S.jpn !== false; $('s_cardimg').src = S.card || ''; show('settings');
   };
   $('s_card').onchange = function (e) { if (e.target.files[0]) { shrink(e.target.files[0]).then(function (c) { S.card = c.toDataURL('image/jpeg', 0.8); $('s_cardimg').src = S.card; }); } };
   $('s_save').onclick = function () {
-    S.user = $('s_user').value.trim() || 'admin'; S.key = $('s_key').value.trim(); S.me = $('s_me').value.trim(); S.cc = $('s_cc').value.replace(/\D/g, '') || '63'; S.auto = $('s_auto').checked; S.uid = null;
+    S.user = $('s_user').value.trim() || 'admin'; S.key = $('s_key').value.trim(); S.me = $('s_me').value.trim(); S.cc = $('s_cc').value.replace(/\D/g, '') || '63'; S.auto = $('s_auto').checked; S.jpn = $('s_jpn').checked; S.uid = null;
     try { store(); } catch (err) { S.card = null; store(); toast('The card photo was too large to keep. Settings saved without it.', true); }
     show('home'); recent();
   };
