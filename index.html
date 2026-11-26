@@ -204,6 +204,42 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
 @media(max-width:1180px){.nav-links{display:none}}
 @media(max-width:900px){.pri,.sol,.next{grid-template-columns:1fr}.sol{gap:26px}.pri{gap:34px}}
 @media(max-width:520px){.next{grid-template-columns:1fr}.by{display:none}}
+
+.doc-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:30px;font-size:.85rem;color:#9DB8D1}
+.doc-meta b{color:#fff;font-weight:700}
+.exec{max-width:900px;margin:0 auto;text-align:left}
+.exec .lead{font-family:'Roboto Slab',serif;font-size:1.35rem;line-height:1.5;color:var(--ink);border-left:5px solid var(--mint);padding-left:24px;margin-bottom:26px}
+.exec p{margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:left}
+.two .fact ul{padding-left:18px;margin-top:8px}.two .fact li{font-size:.96rem;margin:6px 0;line-height:1.55}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;text-align:left}
+.kpi .fact b.big{display:block;font-size:1.5rem;font-weight:900;color:var(--purple);line-height:1.2;margin-bottom:8px}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px;text-align:left}
+.day{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.day h3{background:var(--navy);color:#fff;font-size:1.02rem;padding:16px 22px;letter-spacing:0}
+.day h3 small{display:block;font-weight:400;font-size:.8rem;color:#9DB8D1;margin-top:2px}
+.day ol{list-style:none;padding:8px 22px 18px;counter-reset:d}
+.day li{position:relative;padding:12px 0 12px 34px;font-size:.95rem;line-height:1.5;border-bottom:1px dashed var(--line)}
+.day li:last-child{border-bottom:0}
+.day li::before{counter-increment:d;content:counter(d);position:absolute;left:0;top:13px;width:22px;height:22px;border-radius:50%;background:var(--purple-light);color:var(--purple);font-size:.75rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.gal figure.gif figcaption{font-size:.88rem}
+.plan{margin-top:40px;text-align:left}
+.ph-row{display:grid;grid-template-columns:150px 1fr 1.2fr;gap:22px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.ph-row:last-child{border-bottom:1px solid var(--line)}
+.ph-row .wk{font-weight:900;color:var(--purple);font-size:.95rem}
+.ph-row .wk small{display:block;font-weight:500;color:var(--muted);font-size:.8rem;margin-top:2px}
+.ph-row h3{font-size:1.08rem;letter-spacing:0;margin-bottom:4px}
+.ph-row p{font-size:.95rem;line-height:1.55}
+.ph-row .gate{font-size:.9rem;background:var(--purple-light);border-radius:6px;padding:10px 14px}
+.ph-row .gate b{color:var(--purple);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:left}
+.team table{width:100%;border-collapse:collapse;font-size:.95rem}
+.team td{padding:10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.team td:first-child{font-weight:700;color:var(--ink);width:42%;padding-right:12px}
+.team tr:last-child td{border-bottom:0}
+@media(max-width:900px){.two,.kpi,.days,.gal,.team{grid-template-columns:1fr}.ph-row{grid-template-columns:1fr;gap:8px}}
+@media(min-width:901px) and (max-width:1100px){.kpi{grid-template-columns:1fr 1fr}.gal{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -213,13 +249,14 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
     <a href="#top" class="brand"><img src="img/mol_logo.svg" alt="MOL Mitsui O.S.K. Lines"/></a>
     <div class="tabs"><a class="on" href="index.html">Proposal</a><a href="research.html">Research &amp; preparation</a></div>
     <div class="nav-links">
-      <a href="#cards">Business cards</a>
-      <a href="#attendance">Attendance</a>
+      <a href="#summary">Summary</a>
+      <a href="#solution">Solution</a>
       <a href="#fleet">Fleet</a>
-      <a href="#monitoring">Monitoring</a>
-      <a href="#training">Training</a>
+      <a href="#plan">Plan</a>
+      <a href="#team">Team</a>
       <a href="#investment">Investment</a>
       <a href="#compliance">Compliance</a>
+      <a href="#next">Next steps</a>
     </div>
     <div class="by"><small>Proposal by</small><img src="img/odoo_logo.png" alt="Odoo"/><i>×</i><img class="tn" src="img/technext_logo.png" alt="TechNext"/></div>
   </div>
@@ -228,33 +265,80 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
 <header class="page-hero" id="top">
   <div class="container">
     <img class="hero-logo" src="img/mol_logo_white.svg" alt="MOL Mitsui O.S.K. Lines"/>
-    <p class="prepared">Proposal for <b>MOL Enterprise (Philippines) Inc.</b> · following the discovery session of 26 November 2026</p>
-    <h1>Business cards, driver attendance and the company fleet, <span class="ink-purple">on one system</span>.</h1>
-    <p class="section-sub">You asked for three tools first, from one vendor, in one environment. This proposal sets out how TechNext would deliver them on Odoo, how your team takes on asset management next, and what Tokyo headquarters will need for its vendor assessment.</p>
+    <p class="prepared">Proposal to <b>MOL Enterprise (Philippines) Inc.</b></p>
+    <h1>One system for MOL's contacts, drivers and vehicles in <span class="ink-purple">the Philippines</span>.</h1>
+    <p class="section-sub">A MOL-branded business card app for your leadership, attendance for your agency drivers, and management of your ten company vehicles — delivered on Odoo by one partner, and built to pass the Tokyo headquarters assessment.</p>
+    <div class="doc-meta">
+      <span><b>Prepared for</b> IT Administration, MOL Enterprise (Philippines) Inc., Makati</span>
+      <span><b>Prepared by</b> TechNext Philippines, Inc.</span>
+      <span><b>Date</b> 26 November 2026</span>
+      <span><b>Follows</b> discovery session of 26 November 2026</span>
+    </div>
   </div>
   <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50 C 240 10, 480 90, 720 50 S 1200 10, 1440 50 V90 H0Z" fill="#00A0DC" opacity=".35"/><path d="M0 62 C 260 28, 520 96, 760 60 S 1220 30, 1440 64 V90 H0Z" fill="#fff"/></svg>
 </header>
 
 <div class="stats">
-  <div class="stat"><b>3</b><span>priority tools delivered by TechNext: MOL card app, attendance, fleet</span></div>
+  <div class="stat"><b>3</b><span>priority tools delivered by TechNext: MOL card app, driver attendance, fleet</span></div>
   <div class="stat"><b>10</b><span>company vehicles: Alphard, Innova, Zenix, mu-X and Montero</span></div>
-  <div class="stat"><b>1</b><span>licence per user covers every Odoo app, with no per-app fee</span></div>
-  <div class="stat"><b>Phase 2</b><span>asset management, configured by your own team with our training</span></div>
+  <div class="stat"><b>1</b><span>vendor and one environment, in place of several separate tools</span></div>
+  <div class="stat"><b>Phase 2</b><span>asset management, configured by MOL's own IT team with our training</span></div>
 </div>
 
-<section id="heard">
-  <div class="container center">
-    <span class="eyebrow">What we heard</span>
-    <h2 class="section-h">Three priorities, <span class="w-teal">one environment</span>.</h2>
-    <p class="section-sub">You told us you would rather centralise tools than manage several vendors, and that the current fleet provider has been slow to respond. These are the three items you ranked first.</p>
-    <div class="pri">
-      <div class="fact"><span class="n">1</span><h3>Business card management</h3><p>The president meets many partners and vendors. Cards should be scanned on a phone and saved straight to a central contact database, with no manual typing by the executive assistant.</p></div>
-      <div class="fact"><span class="n">2</span><h3>Driver attendance</h3><p>Drivers come through an agency and do not report to the office. They need a fixed device that works like a biometric clock for time in and out, plus a way to file status changes such as leave.</p></div>
-      <div class="fact"><span class="n">3</span><h3>Fleet management</h3><p>Track how each vehicle is used, what fuel it consumes, and how long the engine runs while standing still — without recording the routes of executive trips.</p></div>
+<section id="summary">
+  <div class="container">
+    <div class="center"><span class="eyebrow">Executive summary</span>
+    <h2 class="section-h">What we recommend.</h2></div>
+    <div class="exec">
+      <p class="lead">We recommend that MOL Enterprise Philippines run business contacts, driver attendance and its company vehicles on a single Odoo system, implemented by TechNext, with a dedicated MOL-branded app for scanning business cards.</p>
+      <p>This answers the three priorities you set in our discovery session, in your order. It replaces a fleet provider that has been slow to respond, removes manual work from the executive office, and gives IT Administration one environment to govern instead of several vendors.</p>
+      <p>It also answers the question you raised most often: how vehicle time and fuel are really being used. Daily odometer photos at clock-in and clock-out, your existing Shell fuel data, and an optional engine-data pilot show where hours and litres go — without recording where executives travel.</p>
+      <p>Asset management follows as a second phase that your own team configures. Because one Odoo user licence covers every app, that phase adds no licence cost, and our training prepares your team to build it.</p>
     </div>
   </div>
 </section>
 
+<section id="heard" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Our understanding</span>
+    <h2 class="section-h">Where MOL Philippines is <span class="w-teal">today</span>.</h2>
+    <p class="section-sub">MOL Enterprise (Philippines) Inc. is the strategic control centre for MOL's wholly owned operations in the country. Its people manage data for hundreds of vessels. The office tools behind them have not kept pace.</p>
+    <div class="two">
+      <div class="fact"><span class="tag" style="color:var(--coral)">Today</span><h3>What you told us</h3><ul>
+        <li>The president's business cards are typed up by hand by the executive assistant.</li>
+        <li>Drivers are supplied by an agency and never report to the office, so their hours are hard to verify.</li>
+        <li>Fuel use is worked out from Shell fleet card exports and a Power BI report built by IT.</li>
+        <li>High fuel figures cannot be explained: traffic, long idling, or misuse all look the same.</li>
+        <li>The driver policy forbids waiting in a running vehicle, but there is no data to enforce it.</li>
+        <li>The current fleet provider does not respond to requests.</li>
+      </ul></div>
+      <div class="fact"><span class="tag" style="color:var(--teal)">With this proposal</span><h3>What changes</h3><ul>
+        <li>A card is photographed in a MOL app and is in the shared contact database in under a minute.</li>
+        <li>Each driver clocks in and out at the vehicle, with the place recorded and the odometer photographed.</li>
+        <li>Fuel, kilometres and hours per vehicle sit in one report, updated daily.</li>
+        <li>Days with many hours and few kilometres stand out, and an engine-data pilot can measure idling directly.</li>
+        <li>Renewals for insurance, lease and registration raise a warning before they lapse.</li>
+        <li>One partner, one system, one service agreement.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="objectives">
+  <div class="container center">
+    <span class="eyebrow">Objectives</span>
+    <h2 class="section-h">How we will <span class="w-teal">know it worked</span>.</h2>
+    <p class="section-sub">Proposed measures of success, to be agreed with you at design sign-off.</p>
+    <div class="kpi">
+      <div class="fact"><b class="big">Under 1 minute</b><h3>Card to contact</h3><p>From photographing a business card to the contact being saved and shared in Odoo.</p></div>
+      <div class="fact"><b class="big">Every driver, every day</b><h3>Verified attendance</h3><p>Clock-in and clock-out with location and an odometer photo, for all agency drivers.</p></div>
+      <div class="fact"><b class="big">10 of 10</b><h3>Vehicles on record</h3><p>Each vehicle with driver, documents, contracts, services and daily kilometres.</p></div>
+      <div class="fact"><b class="big">Zero lapses</b><h3>Renewals</h3><p>No vehicle on the road with expired insurance or registration, in the spirit of MOL's safety targets.</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="solution"></div>
 <section id="cards" class="alt">
   <div class="container">
     <div class="sol">
@@ -291,7 +375,6 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
     </div>
   </div>
 </section>
-
 <section id="attendance">
   <div class="container">
     <div class="sol">
@@ -326,134 +409,21 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
 <section id="fleet" class="alt">
   <div class="container center">
     <span class="tag2">Priority 3 · Odoo Fleet</span>
-    <h2 class="section-h">The fleet, from registration <span class="hl-teal">to cost report</span>.</h2>
-    <p class="section-sub">Out of the box, Odoo Fleet records each vehicle, its driver, documents, contracts, services, odometer and costs. The clips below follow one vehicle through the system. Click any clip to enlarge it.</p>
-    <div class="journey">
-      <div class="j-col"><h3>Create &amp; track</h3>
-        <a href="#register"><span>1</span>Register vehicles</a>
-        <a href="#drivers"><span>2</span>Manage drivers &amp; documents</a>
-        <a href="#equipment"><span>3</span>Track equipment on board</a>
-      </div>
-      <div class="j-col"><h3>Track costs</h3>
-        <a href="#contracts"><span>4</span>Manage contracts</a>
-        <a href="#services"><span>5</span>Log services &amp; vendor bills</a>
-      </div>
-      <div class="j-col"><h3>Analyse</h3>
-        <a href="#reports"><span>6</span>Understand costs</a>
-        <a href="#usage"><span>7</span>Analyse vehicle usage</a>
-      </div>
+    <h2 class="section-h">Ten vehicles, <span class="hl-teal">one record each</span>.</h2>
+    <p class="section-sub">Odoo Fleet keeps each vehicle's driver, documents, contracts, services, odometer and costs together. TechNext configures it for MOL, loads your ten vehicles, and connects it to driver attendance and your Shell fuel data. Click any clip to enlarge it.</p>
+    <div class="gal">
+      <figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Register</span></div><img loading="lazy" src="gif/02-register.gif" alt="Creating a vehicle record"/><figcaption><b>Register each vehicle.</b> Plate, model, driver and registration date. Your ten vehicles are loaded for you.</figcaption></figure>
+      <figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Drivers</span></div><img loading="lazy" src="gif/03-drivers.gif" alt="Driver history and next driver"/><figcaption><b>Who has the keys.</b> Current, past and next driver, with dates, for each Alphard, Innova, Zenix, mu-X and Montero.</figcaption></figure>
+      <figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Documents</span></div><img loading="lazy" src="gif/05-documents.gif" alt="Vehicle documents"/><figcaption><b>Papers on the vehicle.</b> LTO registration, official receipt and insurance policy, findable in seconds.</figcaption></figure>
+      <figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Renewals</span></div><img loading="lazy" src="gif/08-renewal.gif" alt="Contract renewal warning"/><figcaption><b>Renewals flagged early.</b> Insurance, lease and registration dates raise a warning before they lapse.</figcaption></figure>
+      <figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Costs</span></div><img loading="lazy" src="gif/12-cost-report.gif" alt="Fleet cost report"/><figcaption><b>Cost per vehicle.</b> Contracts, services and fuel per month and per vehicle, in place of a manual Power BI build.</figcaption></figure>
+      <figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Usage</span></div><img loading="lazy" src="gif/13-odometer.gif" alt="Odometer report"/><figcaption><b>Usage per vehicle.</b> Kilometres from the drivers' daily odometer photos, compared across the fleet.</figcaption></figure>
     </div>
+    <p class="fine" style="text-align:center">Clips show Odoo's standard Fleet app with Odoo's demonstration data. Your own vehicles, drivers and documents replace it at set-up.</p>
   </div>
 </section>
 
-<!-- 1 -->
-<section id="register">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">1</div>
-      <h2>Register a vehicle in <span class="w-teal">under a minute</span></h2>
-      <p>The Fleet app opens on a board of every vehicle, grouped by stage — new request, to order, registered, downgraded. The stages are yours to rename. Cars, vans, motorbikes and bicycles all live on the same board, and filters and tags narrow it down to, say, service vehicles only.</p>
-    </div>
-    <div class="duo">
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Vehicles board</span></div><img loading="lazy" src="gif/01-pipeline.gif" alt="The Odoo Fleet board with vehicles grouped by stage"/><figcaption><b>The board.</b> Every vehicle as a card, with its plate, model, driver and tags.</figcaption></figure></div>
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Filters</span></div><img loading="lazy" src="gif/01b-filters.gif" alt="Filtering the fleet board by vehicle type"/><figcaption><b>Filters.</b> Show only one vehicle type, or group the board another way.</figcaption></figure></div>
-    </div>
-    <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · New vehicle</span></div><img loading="lazy" src="gif/02-register.gif" alt="Creating a new vehicle: licence plate, model, tag, driver and registration date"/><figcaption><b>New vehicle.</b> Type the licence plate, pick the model, a tag and the driver from your employee list, set the registration date. Chassis number, location and tax details can be added later.</figcaption></figure></div>
-    <div class="mol-note"><span class="lbl">For MOL</span><p>Odoo Fleet is built for <b>road vehicles</b> — company cars, service vans, shuttles and motorbikes. Vessels stay in your ship-management systems. Your ten vehicles — Alphard, Innova, Zenix, mu-X and Montero — would each get a record, with tags such as "Executive car" or "Pool vehicle" to group them.</p></div>
-  </div>
-</section>
-
-<!-- 2 -->
-<section id="drivers" class="alt">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">2</div>
-      <h2>Always know <span class="ink-purple">who has the keys</span></h2>
-      <p>Because Fleet is connected to Employees and Contacts, the driver on a vehicle is a real employee record. Odoo keeps the full history of who drove what and when, and lets you name the next driver in advance so the vehicle is not double-booked.</p>
-    </div>
-    <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Drivers history</span></div><img loading="lazy" src="gif/03-drivers.gif" alt="Driver history on a vehicle and assigning a future driver"/><figcaption><b>Drivers history and future driver.</b> Correct the start date, then line up the person who takes over next.</figcaption></figure></div>
-    <div class="script-line">…and the paperwork travels with it.</div>
-    <div class="duo">
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Employees · Cars history</span></div><img loading="lazy" src="gif/04-employee-history.gif" alt="An employee's car history with a signed car policy attached to the assignment"/><figcaption><b>From the employee's side.</b> Every vehicle the person has used, with the signed car policy attached to the right assignment.</figcaption></figure></div>
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Documents</span></div><img loading="lazy" src="gif/05-documents.gif" alt="Uploading insurance and registration documents to a vehicle"/><figcaption><b>From the vehicle's side.</b> Insurance and registration papers uploaded on the vehicle, and findable for the whole fleet in Documents.</figcaption></figure></div>
-    </div>
-    <div class="mol-note"><span class="lbl">For MOL</span><p>The same pattern fits the papers each Philippine vehicle carries — LTO certificate of registration and official receipt, insurance policy, and a signed vehicle-use policy per driver. <b>One driver per vehicle at a time</b> is how Odoo works; pool vehicles are handled by changing the driver as they are handed over.</p></div>
-  </div>
-</section>
-
-<!-- 3 -->
-<section id="equipment">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">3</div>
-      <h2>Track what's <span class="w-coral">inside</span> the vehicle</h2>
-      <p>A service vehicle rarely drives around empty. Tools and equipment recorded in the Maintenance app can be linked to the vehicle that carries them, and the vehicle then shows an "Equipment assigned" button listing everything on board. New items can be added straight from there.</p>
-    </div>
-    <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Maintenance → Fleet · Equipment assigned</span></div><img loading="lazy" src="gif/06-equipment.gif" alt="Linking maintenance equipment to a vehicle and creating a new item from the vehicle"/><figcaption><b>Equipment on board.</b> Link existing equipment to the van, then add a forgotten generator from the vehicle itself — it appears in Maintenance too.</figcaption></figure></div>
-    <div class="mol-note"><span class="lbl">For MOL</span><p>This also ties Fleet to the <b>Asset Management</b> phase your team plans to build: laptops, safety gear or tools kept in a vehicle are listed against it, so an audit of the vehicle is an audit of what is inside.</p></div>
-  </div>
-</section>
-
-<!-- 4 -->
-<section id="contracts" class="alt">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">4</div>
-      <h2>Contracts that <span class="u-blue">remind you</span> before they lapse</h2>
-      <p>Leasing and insurance contracts are created on the vehicle with a vendor, start and end dates, an activation cost and a recurring cost. The board then flags any contract that is about to expire, and the Contracts list can be filtered by expiry date to plan a whole year of renewals.</p>
-    </div>
-    <div class="duo">
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · New contract</span></div><img loading="lazy" src="gif/07-contract.gif" alt="Creating an insurance contract on a vehicle with vendor, dates and costs"/><figcaption><b>New contract.</b> Vendor, dates, a one-off activation cost and the monthly recurring cost.</figcaption></figure></div>
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Renewals</span></div><img loading="lazy" src="gif/08-renewal.gif" alt="Renewal warning on the board and the contracts list filtered by expiration date"/><figcaption><b>Renewal warning.</b> A warning icon on the card, and one list of every contract ending this year.</figcaption></figure></div>
-    </div>
-    <div class="mol-note"><span class="lbl">For MOL</span><p>Leases, comprehensive insurance and yearly registration renewals each become a dated contract, so nothing depends on <b>someone remembering</b> a date in a spreadsheet.</p></div>
-  </div>
-</section>
-
-<!-- 5 -->
-<section id="services">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">5</div>
-      <h2>Repairs and bills, <span class="w-teal">entered once</span></h2>
-      <p>A service — an oil change, new brake pads, a yearly check — can be logged on the vehicle with its date, cost and odometer reading. Better still, when the workshop's bill is entered in Accounting, each bill line can be pointed at a vehicle and Odoo creates the service records in Fleet by itself.</p>
-    </div>
-    <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Services</span></div><img loading="lazy" src="gif/09-services.gif" alt="Logging a maintenance service on a vehicle with cost and odometer"/><figcaption><b>Log a service.</b> Date, type, cost and the odometer value at the time.</figcaption></figure></div>
-    <div class="script-line">Or let the vendor bill do it for you.</div>
-    <div class="duo">
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Accounting · Vendor bill</span></div><img loading="lazy" src="gif/10-vendor-bill.gif" alt="Entering a vendor bill in Accounting and choosing the vehicle on each line"/><figcaption><b>In Accounting.</b> Upload the bill, enter the two lines and pick the vehicle on each one.</figcaption></figure></div>
-      <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Bills &amp; services</span></div><img loading="lazy" src="gif/11-bill-linked.gif" alt="The vehicle now shows the bill and the services created from it"/><figcaption><b>Back in Fleet.</b> The vehicle shows the bill and two new services, ready to be checked and marked done.</figcaption></figure></div>
-    </div>
-    <div class="mol-note"><span class="lbl">For MOL</span><p>This is the main gain of running Fleet and Accounting on one system: the finance team keeps entering supplier bills as usual, and the vehicle's cost history <b>builds itself</b> from those entries.</p></div>
-  </div>
-</section>
-
-<!-- 6 -->
-<section id="reports" class="alt">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">6</div>
-      <h2>"How much did that vehicle <span class="ink-purple">actually cost us</span>?"</h2>
-      <p>The Costs report answers it. It shows spending month by month, split between contracts and services, and switches between bar chart, line chart and a pivot table that lists the total per vehicle — so the most expensive ones stand out.</p>
-    </div>
-    <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Reporting · Costs</span></div><img loading="lazy" src="gif/12-cost-report.gif" alt="Fleet cost report as a bar chart and as a pivot table per vehicle"/><figcaption><b>Costs analysis.</b> Monthly contract and service costs, then the same figures per vehicle in a table.</figcaption></figure></div>
-  </div>
-</section>
-
-<!-- 7 -->
-<section id="usage">
-  <div class="container">
-    <div class="step-head">
-      <div class="step-num sm">7</div>
-      <h2>See which vehicles <span class="w-coral">work the hardest</span></h2>
-      <p>Cost is only half the picture. Odometer readings — typed on the vehicle or captured with each service — build a mileage history. The Odometer report then shows kilometres driven per vehicle per period, or the total on the clock, which is what you need when deciding which vehicle to replace first.</p>
-    </div>
-    <div class="shot"><figure class="gif"><div class="gif-bar"><i></i><i></i><i></i><span>Fleet · Reporting · Odometers</span></div><img loading="lazy" src="gif/13-odometer.gif" alt="Entering an odometer value and viewing the odometer report per vehicle"/><figcaption><b>Odometer analysis.</b> Add today's reading, then compare distance driven and total mileage across the fleet.</figcaption></figure></div>
-  </div>
-</section>
-
-
-<section id="monitoring" class="alt">
+<section id="monitoring">
   <div class="container">
     <div class="sol">
       <div>
@@ -473,6 +443,72 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
         <p class="fine">Device options, risks and the pilot plan are on the <a href="research.html#obd" style="text-decoration:underline">Research &amp; preparation</a> tab. Custom device development is quoted separately.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="day" class="alt">
+  <div class="container center">
+    <span class="eyebrow">In practice</span>
+    <h2 class="section-h">A working day, <span class="w-teal">three views</span>.</h2>
+    <div class="days">
+      <div class="day"><h3>The president<small>and the executive assistant</small></h3><ol>
+        <li>Receives a card at a partner meeting.</li>
+        <li>Opens the MOL app and photographs it, or hands it to the assistant to scan later.</li>
+        <li>Checks the name, company and title on one screen and taps save.</li>
+        <li>The contact is in MOL's database, with the card image, ready to call or email.</li>
+      </ol></div>
+      <div class="day"><h3>A driver<small>assigned to the Alphard</small></h3><ol>
+        <li>Arrives at the vehicle and clocks in on the phone; the place is recorded.</li>
+        <li>Photographs the odometer and types the reading.</li>
+        <li>Drives. Nothing is tracked on the road.</li>
+        <li>At day's end, clocks out the same way. Hours and kilometres are filed.</li>
+      </ol></div>
+      <div class="day"><h3>IT Administration<small>reviewing the week</small></h3><ol>
+        <li>Opens one report: hours, kilometres and fuel per vehicle and per driver.</li>
+        <li>Sees a day with nine hours on duty and twelve kilometres driven, and asks why.</li>
+        <li>Notes the mu-X insurance warning and starts the renewal.</li>
+        <li>Sends the agency its drivers' verified hours for billing.</li>
+      </ol></div>
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="container center">
+    <span class="eyebrow">Delivery plan</span>
+    <h2 class="section-h">Five milestones, each with <span class="w-teal">a sign-off</span>.</h2>
+    <p class="section-sub">An indicative nine-week plan from contract signing. Dates are fixed in the agreement once the start date is known. Each milestone ends only when MOL's sponsor and TechNext's project manager sign it off.</p>
+    <div class="plan">
+      <div class="ph-row"><div class="wk">Week 1<small>Milestone 1</small></div><div><h3>Mobilisation</h3><p>Kick-off, project plan, access to the Odoo database, and collection of the vehicle list, driver list, Shell exports and ZKTeco device models.</p></div><div class="gate"><b>Signed off when</b>Agreement signed, kick-off held, plan agreed</div></div>
+      <div class="ph-row"><div class="wk">Weeks 2–3<small>Milestone 2</small></div><div><h3>Design</h3><p>Screen designs for the MOL card app, the driver clock-in flow, and the fleet set-up: stages, tags, contract types and reports.</p></div><div class="gate"><b>Signed off when</b>Designs approved by MOL, including use of the MOL name and logo</div></div>
+      <div class="ph-row"><div class="wk">Weeks 4–7<small>Milestone 3</small></div><div><h3>Build and configure</h3><p>Fleet, attendance and contacts configured; ZKTeco connector installed; card app test build on your phones; vehicles and trial data loaded.</p></div><div class="gate"><b>Signed off when</b>Configured system and app test build demonstrated</div></div>
+      <div class="ph-row"><div class="wk">Week 8<small>Milestone 4</small></div><div><h3>User acceptance testing</h3><p>Your users test real cases: scanning cards, driver clock-ins with odometer photos, and the fleet reports. We fix what you find.</p></div><div class="gate"><b>Signed off when</b>Test scripts passed and signed</div></div>
+      <div class="ph-row"><div class="wk">Week 9<small>Milestone 5</small></div><div><h3>Go-live and handover</h3><p>Drivers start clocking in, vehicles are live, the card app is submitted to the stores, and documentation and training are handed over. Two weeks of daily support follow.</p></div><div class="gate"><b>Signed off when</b>First live records in Odoo; app submitted for store review</div></div>
+    </div>
+    <p class="fine">Running alongside: the Tokyo headquarters vendor assessment, and Apple and Google store review. Both are outside TechNext's control and can move the go-live date.</p>
+  </div>
+</section>
+
+<section id="team" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Team and governance</span>
+    <h2 class="section-h">Who does <span class="w-teal">what</span>.</h2>
+    <div class="team">
+      <div class="fact"><h3>TechNext</h3><table>
+        <tr><td>Executive sponsor and solution lead</td><td>Our CEO, who leads operations and IoT work and joined the discovery session</td></tr>
+        <tr><td>Solution architect</td><td>Designs the Odoo set-up, the attendance flow and the integrations</td></tr>
+        <tr><td>Account manager</td><td>Your day-to-day contact for commercial matters</td></tr>
+        <tr><td>Mobile developer</td><td>Builds and publishes the MOL card app</td></tr>
+        <tr><td>Odoo consultant</td><td>Configures Fleet, Attendances and Contacts, and delivers training</td></tr>
+      </table></div>
+      <div class="fact"><h3>MOL Enterprise Philippines</h3><table>
+        <tr><td>Sponsor</td><td>Approves each milestone and escalates decisions</td></tr>
+        <tr><td>Project manager</td><td>IT Administration; coordinates users, data and the headquarters assessment</td></tr>
+        <tr><td>Key users</td><td>Executive office for the card app; general affairs for drivers and vehicles</td></tr>
+        <tr><td>IT team</td><td>Takes over administration and builds asset management in phase 2</td></tr>
+      </table></div>
+    </div>
+    <p class="fine" style="text-align:center">A status report every Friday. Issues go to the two project managers first, then to the sponsors.</p>
   </div>
 </section>
 
@@ -496,7 +532,6 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
     </div>
   </div>
 </section>
-
 <section id="training" class="alt">
   <div class="container center">
     <span class="eyebrow">Training</span>
@@ -509,7 +544,6 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
     </div>
   </div>
 </section>
-
 <section id="investment">
   <div class="container center">
     <span class="eyebrow">Investment</span>
@@ -530,7 +564,6 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
     <p class="fine">The ZKTeco connector is subject to confirming your device models. Asset management configuration is by MOL's team and carries no implementation fee.</p>
   </div>
 </section>
-
 <section id="compliance" class="alt">
   <div class="container">
     <div class="sol">
@@ -559,7 +592,19 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
   </div>
 </section>
 
-<section id="next">
+<section id="why">
+  <div class="container center">
+    <span class="eyebrow">Why TechNext</span>
+    <h2 class="section-h">One partner for the <span class="w-teal">whole of it</span>.</h2>
+    <div class="facts">
+      <div class="fact"><span class="tag">Software and devices</span><h3>Odoo and IoT under one roof</h3><p>We implement Odoo and also build the things around it: mobile apps, device connectors and sensor integrations. The card app, ZKTeco link and engine pilot do not need three suppliers.</p></div>
+      <div class="fact"><span class="tag">Local</span><h3>A Philippine company</h3><p>TechNext Philippines, Inc. contracts, invoices and supports you locally, under Philippine law and the Data Privacy Act.</p></div>
+      <div class="fact"><span class="tag">Your team first</span><h3>Built to be handed over</h3><p>You said your team will build asset management itself. We document what we configure and train your IT team, so you are never dependent on us.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="next" class="alt">
   <div class="container center">
     <span class="eyebrow">Next steps</span>
     <h2 class="section-h">From proposal to <span class="w-teal">go-ahead</span>.</h2>
