@@ -113,6 +113,8 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
 @media(max-width:860px){.tabs{order:2;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs a{font-size:11.5px;padding:7px 8px;flex:none;text-align:center}}
 @media(max-width:900px){.next.n3{grid-template-columns:1fr!important}}
 @media(max-width:520px){.phones{gap:10px}.phone{width:156px;padding:7px;border-radius:24px}.scr{border-radius:18px;height:340px;font-size:9.5px}.scr .top{padding:9px 10px;font-size:10.5px}.scr .top img{display:none}.scr .bd{padding:9px 9px}.bcard{height:84px;padding:9px}.bcard b{font-size:10.5px}.bcard i:nth-of-type(n+2){display:none}.bcard .co{font-size:8.5px;right:9px;bottom:7px}.acts{gap:3px}.act{font-size:7.5px;padding:7px 0 5px;border-radius:7px}.act svg{width:13px;height:13px}.who .av{width:32px;height:32px;font-size:11px}.who b{font-size:11px}.savebtn,.tophone{font-size:9.5px;padding:7px}}
+.nav-inner{justify-content:flex-start}.tabs{margin-left:8px}.by{margin-left:auto}
+.cite a{font-size:.72em;font-weight:700;color:var(--blue);padding:0 1px;text-decoration:none}.refs{font-size:.88rem;line-height:1.55;columns:2;column-gap:36px;padding-left:18px}.refs li{margin:0 0 8px;break-inside:avoid}.refs a{color:var(--blue);text-decoration:underline;word-break:break-word}:target{scroll-margin-top:90px}.refs li:target{background:var(--blue-light)}@media(max-width:900px){.refs{columns:1}}
 </style>
 </head>
 <body>
@@ -120,16 +122,6 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   <div class="nav-inner">
     <a class="brand" href="index.html"><img src="img/mol_logo.svg" alt="MOL Mitsui O.S.K. Lines"/></a>
     <div class="tabs"><a href="index.html">Proposal</a><a href="quote.html">Quotation</a><a class="on" href="research.html">Research</a><a href="ai.html">AI &amp; security</a><a href="demo.html">Demo guide</a></div>
-    <div class="nav-links">
-      <a href="#asks">Key asks</a>
-      <a href="#account">Account</a>
-      <a href="#cardapp">Card app</a>
-      <a href="#obd">Vehicle monitoring</a>
-      <a href="#attendance">Attendance</a>
-      <a href="#zk">ZKTeco</a>
-      <a href="#e5">Microsoft E5</a>
-      <a href="#open">Open items</a>
-    </div>
   </div>
 </nav>
 
@@ -150,7 +142,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <div class="box"><span class="pill p-fact">Priority 1</span><h3>Business card management</h3><p>Scan physical cards on a smartphone into a central contact database, mainly for the president and the executive assistant. Integrations asked about: Microsoft, email, WhatsApp, Viber, Apple contacts.</p><q>"Having scanned the business cards and then save it to the database quickly — that is the main feature we are looking for."</q></div>
       <div class="box"><span class="pill p-fact">Priority 2</span><h3>Driver attendance</h3><p>For drivers only. They are agency-hired and do not report to the office. A fixed tablet acts as the clock; the phone is for status changes such as leave.</p><q>"We want to fix the device, like a biometric for the drivers, since the drivers need not report to our office."</q></div>
       <div class="box"><span class="pill p-fact">Priority 3</span><h3>Fleet management with usage monitoring</h3><p>Track vehicle usage and fuel, and above all how long the engine idles while the vehicle stands. Fuel data today comes from Shell fleet card exports, reported in Power BI.</p><q>"How we are going to detect the time spent with the engine idle or moving, so we can minimise the cost."</q></div>
-      <div class="box"><span class="pill p-fact">Constraint</span><h3>No route tracking</h3><p>Vehicles carry executives, so trips are confidential. They want driver behaviour, not passenger routes.</p><q>"We don't want to track the route of each passenger… there are a lot of confidential business trips."</q></div>
+      <div class="box"><span class="pill p-check">Set aside</span><h3>No route tracking</h3><p>MOL said executive trips are confidential and asked for driver behaviour, not routes. TechNext has decided not to carry this as a design constraint: the proposal uses GPS data from the vehicle tablet. To be confirmed with MOL.</p><q>"We don't want to track the route of each passenger… there are a lot of confidential business trips."</q></div>
       <div class="box"><span class="pill p-fact">Ask</span><h3>One vendor, one environment</h3><p>The current fleet vendor is not responsive. They want to centralise tools instead of managing many vendors.</p><q>"I would like to centralise the tools that we are going to use, instead of having a lot of vendors."</q></div>
       <div class="box"><span class="pill p-fact">Ask</span><h3>Proposal fast, training itemised</h3><p>Proposal and pricing by the next morning, for the accounting budget review that week. Training shown as its own line so it can be isolated.</p></div>
       <div class="box"><span class="pill p-fact">Ask</span><h3>Compliance pack for Tokyo</h3><p>Headquarters runs a vendor assessment covering cybersecurity, safety and compliance. They asked for an SLA, NDA and a draft Master Service Agreement with the proposal.</p></div>
@@ -210,13 +202,13 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
     <h3 style="font-size:1.2rem;margin-bottom:14px">Existing projects and code</h3>
     <div class="tw"><table>
       <tr><th>Project</th><th>What it is</th><th>Use for MOL</th><th>Watch for</th></tr>
-      <tr><td><a href="https://pub.dev/packages/advanced_business_card_reader" target="_blank" rel="noopener">advanced_business_card_reader</a></td><td>Open-source Flutter package (MIT). Reads a card with ML Kit and parses name, company, phone, email and website.</td><td>Starting point for the OCR and parsing layer</td><td>Latin script only as shipped; Japanese needs ML Kit's Japanese recogniser added</td></tr>
-      <tr><td><a href="https://pub.dev/packages/business_card_scanner" target="_blank" rel="noopener">business_card_scanner</a></td><td>Open-source Flutter package (MIT). Offline extraction of emails, phone numbers and URLs with ML Kit.</td><td>Reference for offline extraction</td><td>New and lightly used; fewer fields</td></tr>
-      <tr><td><a href="https://github.com/crewcircle/CardSnap" target="_blank" rel="noopener">CardSnap</a></td><td>Native Android app. ML Kit OCR, parses details and saves to device contacts.</td><td>Reference for the "save to phone contacts" flow</td><td>Android only; licence to check</td></tr>
-      <tr><td><a href="https://pub.dev/packages/odoo_rpc" target="_blank" rel="noopener">odoo_rpc</a></td><td>Dart client library for Odoo. Its own example creates a contact record.</td><td>The link between the app and Odoo</td><td>Uses JSON-RPC, which Odoo plans to remove in Odoo 22; build on the newer JSON-2 API or plan the switch</td></tr>
-      <tr><td><a href="https://pub.dev/packages/odoo_rest_ov" target="_blank" rel="noopener">odoo_rest_ov</a></td><td>Higher-level Dart wrapper with one-line create and search calls; states it is tested on Odoo 14 to 19.</td><td>Alternative Odoo link</td><td>Small project; review the code before relying on it</td></tr>
+      <tr><td><a href="https://pub.dev/packages/advanced_business_card_reader" target="_blank" rel="noopener">advanced_business_card_reader</a><sup class="cite"><a href="#ref-1">[1]</a></sup></td><td>Open-source Flutter package (MIT). Reads a card with ML Kit and parses name, company, phone, email and website.</td><td>Starting point for the OCR and parsing layer</td><td>Latin script only as shipped; Japanese needs ML Kit's Japanese recogniser added</td></tr>
+      <tr><td><a href="https://pub.dev/packages/business_card_scanner" target="_blank" rel="noopener">business_card_scanner</a><sup class="cite"><a href="#ref-2">[2]</a></sup></td><td>Open-source Flutter package (MIT). Offline extraction of emails, phone numbers and URLs with ML Kit.</td><td>Reference for offline extraction</td><td>New and lightly used; fewer fields</td></tr>
+      <tr><td><a href="https://github.com/crewcircle/CardSnap" target="_blank" rel="noopener">CardSnap</a><sup class="cite"><a href="#ref-3">[3]</a></sup></td><td>Native Android app. ML Kit OCR, parses details and saves to device contacts.</td><td>Reference for the "save to phone contacts" flow</td><td>Android only; licence to check</td></tr>
+      <tr><td><a href="https://pub.dev/packages/odoo_rpc" target="_blank" rel="noopener">odoo_rpc</a><sup class="cite"><a href="#ref-4">[4]</a></sup></td><td>Dart client library for Odoo. Its own example creates a contact record.</td><td>The link between the app and Odoo</td><td>Uses JSON-RPC, which Odoo plans to remove in Odoo 22; build on the newer JSON-2 API or plan the switch</td></tr>
+      <tr><td><a href="https://pub.dev/packages/odoo_rest_ov" target="_blank" rel="noopener">odoo_rest_ov</a><sup class="cite"><a href="#ref-5">[5]</a></sup></td><td>Higher-level Dart wrapper with one-line create and search calls; states it is tested on Odoo 14 to 19.</td><td>Alternative Odoo link</td><td>Small project; review the code before relying on it</td></tr>
       <tr><td>Odoo's own mobile app</td><td>Forum answers describe a camera option in the Odoo mobile app that reads a card into a lead or contact. We found no official documentation for it, and no dedicated card-scanning module in the Odoo 20 module list on the demo database.</td><td>Option A in the proposal; to be tested on MOL's version before it is relied on</td><td>Unverified; Odoo branding and menus</td></tr>
-      <tr><td>Scanner add-ons on the Odoo Apps Store</td><td>Third-party modules such as <a href="https://apps.odoo.com/apps/modules/19.0/business_card_scanner" target="_blank" rel="noopener">business_card_scanner</a>, <a href="https://apps.odoo.com/apps/modules/19.0/odoo_ai_business_card_scan_app" target="_blank" rel="noopener">odoo_ai_business_card_scan_app</a> and <a href="https://apps.odoo.com/apps/modules/19.0/setu_vision_ocr" target="_blank" rel="noopener">setu_vision_ocr</a>.</td><td>A way to add scanning to Option A without a custom app</td><td>Several send card images to an outside AI or vision service, which would need MOL's security assessment</td></tr>
+      <tr><td>Scanner add-ons on the Odoo Apps Store</td><td>Third-party modules such as <a href="https://apps.odoo.com/apps/modules/19.0/business_card_scanner" target="_blank" rel="noopener">business_card_scanner</a><sup class="cite"><a href="#ref-6">[6]</a></sup>, <a href="https://apps.odoo.com/apps/modules/19.0/odoo_ai_business_card_scan_app" target="_blank" rel="noopener">odoo_ai_business_card_scan_app</a><sup class="cite"><a href="#ref-7">[7]</a></sup> and <a href="https://apps.odoo.com/apps/modules/19.0/setu_vision_ocr" target="_blank" rel="noopener">setu_vision_ocr</a><sup class="cite"><a href="#ref-8">[8]</a></sup>.</td><td>A way to add scanning to Option A without a custom app</td><td>Several send card images to an outside AI or vision service, which would need MOL's security assessment</td></tr>
     </table></div>
 
     <div class="grid g3" style="margin-top:28px">
@@ -231,6 +223,23 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <li>Adding to phone contacts uses the standard vCard format, which Odoo already exports from any contact</li>
       </ul></div>
     </div>
+    <h3 style="font-size:1.2rem;margin:30px 0 14px">Automatic WhatsApp greeting after a scan</h3>
+    <div class="grid g3" style="margin-bottom:8px">
+      <div class="box"><h3>What happens</h3><p>When a scanned card is saved, the new contact receives: "Hello {name}, nice to meet you today. This is an automated message from my AI agent." then "Here is my business card." with an image of the sender's card attached.</p></div>
+      <div class="box"><h3>How it is built</h3><p>Saving the contact triggers an Odoo automation rule ("after creation") that sends an approved WhatsApp template with the card image as its attachment. Odoo's automation rules include a "Send WhatsApp" action, which needs a template to exist.</p></div>
+      <div class="box"><span class="pill p-warn">Conditions</span><h3>What Meta requires</h3><ul>
+        <li>A WhatsApp Business account and number for MOL; the message comes from that number, not a personal WhatsApp.</li>
+        <li>A business may only start a conversation with a message template approved in advance.</li>
+        <li>The person must have opted in to be messaged; the app should record that at the scan.</li>
+        <li>Templates are charged per message by Meta.</li>
+      </ul></div>
+    </div>
+    <p class="src">Sources: <a href="https://developers.facebook.com/docs/whatsapp/overview/getting-opt-in" target="_blank" rel="noopener">Meta: Get opt-in for WhatsApp</a><sup class="cite"><a href="#ref-9">[9]</a></sup> · <a href="https://whatsappbusiness.com/policy/" target="_blank" rel="noopener">WhatsApp Business messaging policy</a><sup class="cite"><a href="#ref-10">[10]</a></sup> · <a href="https://www.odoo.com/documentation/17.0/applications/studio/automated_actions.html" target="_blank" rel="noopener">Odoo: automation rules</a><sup class="cite"><a href="#ref-11">[11]</a></sup> · <a href="https://www.odoo.com/forum/help-1/automate-the-sending-of-a-whatsapp-template-257224" target="_blank" rel="noopener">Odoo forum: automating a WhatsApp template</a><sup class="cite"><a href="#ref-12">[12]</a></sup>. The original wording asked for was "nice to meet you on today. This an automated message by my AI agent"; grammar is corrected above and can be set to any approved wording.</p>
+
+    <h3 style="font-size:1.2rem;margin:30px 0 14px">Japanese character recognition</h3>
+    <p class="sub" style="margin-bottom:10px">Google's ML Kit Text Recognition v2 has a separate on-device recogniser for Japanese, covering kanji, hiragana and katakana, alongside the Latin one. The app bundles both and runs them on each card, so bilingual cards are read in one pass. The open-source card reader listed above ships with the Latin recogniser only, so the Japanese one is an addition we make. Accuracy on vertical text and decorative fonts must be tested on real MOL cards.</p>
+    <p class="src">Source: <a href="https://developers.google.com/ml-kit/vision/text-recognition/v2" target="_blank" rel="noopener">Google ML Kit Text Recognition v2</a><sup class="cite"><a href="#ref-13">[13]</a></sup>.</p>
+
     <h3 style="font-size:1.2rem;margin:30px 0 14px">Reaching a contact: what Odoo 20 includes</h3>
     <div class="tw"><table>
       <tr><th>Channel</th><th>Odoo 20 app (as named in the demo database)</th><th>What MOL must provide</th></tr>
@@ -241,7 +250,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <tr><td>Phone address book</td><td>Contact action "Download (vCard)"</td><td>Nothing</td></tr>
       <tr><td>Viber</td><td>No Odoo app found</td><td>Use from the phone once the contact is saved</td></tr>
     </table></div>
-    <p class="src">Read from the module list of the Odoo 20 demo database on 26 November 2026. Requirements in the last column follow Odoo's documentation for <a href="https://www.odoo.com/documentation/19.0/applications/productivity/whatsapp.html" target="_blank" rel="noopener">WhatsApp</a>, <a href="https://www.odoo.com/documentation/19.0/applications/productivity/voip.html" target="_blank" rel="noopener">VoIP</a> and <a href="https://www.odoo.com/documentation/19.0/applications/marketing/sms_marketing.html" target="_blank" rel="noopener">SMS</a> (version 19) and our own knowledge. Package details above are as listed on pub.dev, GitHub and the Odoo Apps Store at the time of research; none has been tested by us yet. Community answers on Odoo's card scanning: <a href="https://www.odoo.com/forum/help-1/does-odoo-have-a-business-card-scanner-app-166569" target="_blank" rel="noopener">Odoo forum</a>.</p>
+    <p class="src">Read from the module list of the Odoo 20 demo database on 26 November 2026. Requirements in the last column follow Odoo's documentation for <a href="https://www.odoo.com/documentation/19.0/applications/productivity/whatsapp.html" target="_blank" rel="noopener">WhatsApp</a><sup class="cite"><a href="#ref-14">[14]</a></sup>, <a href="https://www.odoo.com/documentation/19.0/applications/productivity/voip.html" target="_blank" rel="noopener">VoIP</a><sup class="cite"><a href="#ref-15">[15]</a></sup> and <a href="https://www.odoo.com/documentation/19.0/applications/marketing/sms_marketing.html" target="_blank" rel="noopener">SMS</a><sup class="cite"><a href="#ref-16">[16]</a></sup> (version 19) and our own knowledge. Package details above are as listed on pub.dev, GitHub and the Odoo Apps Store at the time of research; none has been tested by us yet. Community answers on Odoo's card scanning: <a href="https://www.odoo.com/forum/help-1/does-odoo-have-a-business-card-scanner-app-166569" target="_blank" rel="noopener">Odoo forum</a><sup class="cite"><a href="#ref-17">[17]</a></sup>.</p>
   </div>
 </section>
 
@@ -249,12 +258,12 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   <div class="container">
     <span class="eyebrow">Research · vehicle monitoring</span>
     <h2>ESP32-based OBD devices that send data to the cloud</h2>
-    <p class="sub">The question: can a small device in each vehicle's diagnostic port tell Odoo how long the engine was moving, idling or off — without recording where the vehicle went?</p>
+    <p class="sub">The question: can a small device in each vehicle's diagnostic port tell Odoo how long the engine was moving, idling or off?</p>
 
     <div class="grid g3" style="margin-bottom:28px">
       <div class="box"><h3>What the device must read</h3><p>Two standard OBD-II values are enough: <b>engine speed (RPM)</b> and <b>vehicle speed</b>. Engine running with speed at zero is idling. Engine run time, fuel level and odometer are useful extras where the vehicle provides them.</p></div>
       <div class="box"><h3>Why ESP32</h3><p>The ESP32 is a low-cost microcontroller with Wi-Fi and Bluetooth built in and a CAN interface for talking to the vehicle. It is programmable, so the firmware can be written to send only what MOL allows.</p></div>
-      <div class="box"><h3>Why it suits the privacy rule</h3><p>Commercial trackers are built around GPS. A programmable device can leave GPS out entirely and report engine state and minutes only, which matches the "no routes" requirement.</p></div>
+      <div class="box"><h3>Why add it to the tablet</h3><p>The tablet estimates engine state from vibration. An OBD device reads engine speed directly, so idling is measured, not inferred. The two can run together: GPS from the tablet, engine data from the port.</p></div>
     </div>
 
     <div class="diagram">
@@ -272,10 +281,10 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
     </div>
 
     <h3 id="tablet" style="font-size:1.2rem;margin:6px 0 8px">First step: use the vehicle tablet as the sensor</h3>
-    <p class="sub" style="margin-bottom:18px">A tablet fixed in each vehicle was already suggested for attendance. The same tablet carries a motion sensor and GPS, which is enough to approximate moving, idling and parked time with no device in the car's diagnostic port.</p>
+    <p class="sub" style="margin-bottom:18px">A tablet fixed in each vehicle was already suggested for attendance. The same tablet carries a motion sensor and GPS, which give GPS position, trips, and moving, idling and parked time with no device in the car's diagnostic port.</p>
     <div class="tw"><table>
       <tr><th>Signal from the tablet</th><th>What it tells us</th><th>Limit</th></tr>
-      <tr><td>GPS speed</td><td>Above walking pace, the vehicle is moving. At zero, it is standing.</td><td>Weak signal in basement car parks and between tall buildings</td></tr>
+      <tr><td>GPS speed</td><td>Position and speed. Above walking pace, the vehicle is moving; at zero, it is standing. Positions over time give each trip.</td><td>Weak signal in basement car parks and between tall buildings</td></tr>
       <tr><td>Vibration (accelerometer)</td><td>A running engine shakes the cabin in a steady pattern. Standing with that pattern is idling; standing without it is parked.</td><td>Needs tuning per vehicle model and a rigid mount; a quiet engine is harder to detect</td></tr>
       <tr><td>Charging state</td><td>If the tablet is powered from a socket that is live only with the ignition on, "charging" means the ignition is on.</td><td>Depends on how each vehicle's socket is wired</td></tr>
     </table></div>
@@ -285,7 +294,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <li><b>Idling:</b> speed zero, with engine vibration or ignition power.</li>
         <li><b>Parked:</b> speed zero, no vibration, no ignition power.</li>
       </ul></div>
-      <div class="box"><span class="pill p-fact">Privacy by design</span><h3>GPS used, routes not kept</h3><p>The app works out the state on the tablet and sends only the state and its duration to Odoo, for example "idling, 14 minutes". Coordinates are not transmitted or stored, so executive routes stay confidential.</p></div>
+      <div class="box"><span class="pill p-fact">What is sent</span><h3>GPS, movement and state</h3><p>The tablet sends GPS position, speed and vibration readings to Odoo at intervals. Odoo keeps the trips and the time spent in each state, for example "idling, 14 minutes, Ayala Avenue".</p></div>
       <div class="box"><span class="pill p-warn">Honest limits</span><h3>An approximation</h3><ul>
         <li>It estimates engine state; it does not read it.</li>
         <li>Hybrid vehicles stop their engine at standstill, so "on but silent" looks like parked unless ignition power is used.</li>
@@ -293,15 +302,15 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <li>Accuracy should be checked against a manual log during a trial.</li>
       </ul></div>
     </div>
-    <p class="src" style="margin:-18px 0 30px">Basis: a 2014 journal paper describes separating moving, idling and engine-off states from accelerometer vibration alone, and several patents describe combining accelerometer and GPS on a handheld device for the same purpose (<a href="https://core.ac.uk/download/26505603.pdf" target="_blank" rel="noopener">paper</a>, <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/9646427" target="_blank" rel="noopener">patent US 9,646,427</a>, <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/10019762" target="_blank" rel="noopener">patent US 10,019,762</a>). We found no published accuracy figures for tablets in these vehicle models. If the trial shows the estimate is not accurate enough, the OBD devices below read the engine directly.</p>
+    <p class="src" style="margin:-18px 0 30px">Basis: a 2014 journal paper describes separating moving, idling and engine-off states from accelerometer vibration alone, and several patents describe combining accelerometer and GPS on a handheld device for the same purpose (<a href="https://core.ac.uk/download/26505603.pdf" target="_blank" rel="noopener">paper</a><sup class="cite"><a href="#ref-18">[18]</a></sup>, <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/9646427" target="_blank" rel="noopener">patent US 9,646,427</a><sup class="cite"><a href="#ref-19">[19]</a></sup>, <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/10019762" target="_blank" rel="noopener">patent US 10,019,762</a><sup class="cite"><a href="#ref-20">[20]</a></sup>). We found no published accuracy figures for tablets in these vehicle models. If the trial shows the estimate is not accurate enough, the OBD devices below read the engine directly.</p>
 
     <h3 style="font-size:1.2rem;margin-bottom:14px">OBD device options compared</h3>
     <div class="tw"><table>
       <tr><th>Option</th><th>What it is</th><th>Cloud link</th><th>Strengths</th><th>Watch for</th></tr>
-      <tr><td>Freematics ONE+ (Model B)</td><td>ESP32 unit that plugs into the OBD port, with motion sensor, optional GNSS and a socket for a cellular module</td><td>Wi-Fi, or 4G with a SIM7600 module; open-source firmware sends to a server of your choice</td><td>Purpose-built telematics device; open firmware; local storage when offline</td><td>GNSS would be disabled for MOL; price and stock to confirm with the maker</td></tr>
-      <tr><td>MeatPi WiCAN Pro</td><td>ESP32-S3 OBD adapter with open-source firmware and wide protocol support</td><td>Wi-Fi with MQTT and HTTPS; 4G through a separate add-on module</td><td>About US$89 per unit; no GPS on board; actively developed</td><td>Needs Wi-Fi from the vehicle tablet's hotspot, or the 4G add-on at about US$89 more</td></tr>
-      <tr><td>Custom ESP32 build</td><td>ESP32 board, CAN transceiver and a 4G modem (SIM7600 or A7670 class), with firmware written for MOL</td><td>4G with encrypted MQTT to our own receiver</td><td>Sends exactly the agreed fields and nothing else; lowest parts cost</td><td>Most engineering and testing; enclosure, power and reliability are our responsibility</td></tr>
-      <tr><td>Commercial OBD tracker (not ESP32)</td><td>Ready-made 4G fleet tracker such as Teltonika's OBD range</td><td>4G to a tracking server</td><td>Proven hardware; built-in idling detection</td><td>Built around GPS, which conflicts with the route-confidentiality rule unless switched off; one model in the range is already end-of-life</td></tr>
+      <tr><td>Freematics ONE+ (Model B)</td><td>ESP32 unit that plugs into the OBD port, with motion sensor, optional GNSS and a socket for a cellular module</td><td>Wi-Fi, or 4G with a SIM7600 module; open-source firmware sends to a server of your choice</td><td>Purpose-built telematics device; open firmware; local storage when offline</td><td>Price and stock to confirm with the maker</td></tr>
+      <tr><td>MeatPi WiCAN Pro</td><td>ESP32-S3 OBD adapter with open-source firmware and wide protocol support</td><td>Wi-Fi with MQTT and HTTPS; 4G through a separate add-on module</td><td>About US$89 per unit; actively developed</td><td>Needs Wi-Fi from the vehicle tablet's hotspot, or the 4G add-on at about US$89 more</td></tr>
+      <tr><td>Custom ESP32 build</td><td>ESP32 board, CAN transceiver and a 4G modem (SIM7600 or A7670 class), with firmware written for MOL</td><td>4G with encrypted MQTT to our own receiver</td><td>Sends exactly the agreed fields; lowest parts cost</td><td>Most engineering and testing; enclosure, power and reliability are our responsibility</td></tr>
+      <tr><td>Commercial OBD tracker (not ESP32)</td><td>Ready-made 4G fleet tracker such as Teltonika's OBD range</td><td>4G to a tracking server</td><td>Proven hardware; built-in idling detection</td><td>One model in the range is already end-of-life; data goes to the vendor's tracking format first</td></tr>
     </table></div>
 
     <h3 id="compat" style="font-size:1.2rem;margin:34px 0 8px">Compatibility with MOL's vehicles</h3>
@@ -338,7 +347,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <div class="box"><span class="pill p-check">Cheapest check</span><h3>A ten-minute test per vehicle</h3><p>Before buying either device, plug a basic OBD reader into each vehicle with a phone app and note whether engine speed and road speed appear. If they do, both devices should read them too.</p></div>
       <div class="box"><span class="pill p-check">Need from MOL</span><h3>Model year and engine</h3><p>The year and engine of each vehicle decide the answer, especially for the Alphard and Zenix. Philippine-market vehicles are not bound by the US and EU rules that guarantee these values, which is why testing matters.</p></div>
     </div>
-    <p class="src">Sources: <a href="https://meatpihq.github.io/wican-fw/config/automate/supported_vehicles" target="_blank" rel="noopener">WiCAN supported vehicles</a> · <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">WiCAN Pro specifications</a> · <a href="https://hn.jakechampion.name/reader/https://freematics.com/pages/products/freematics-one-plus" target="_blank" rel="noopener">Freematics ONE+ product page (mirror)</a> · <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">Traccar: Freematics Model B</a> · <a href="https://gist.github.com/soshial/d07919e0fac67f5501a38fe3c39be416" target="_blank" rel="noopener">Freematics user notes</a> · <a href="https://www.team-bhp.com/forum/technical-stuff/97809-standards-based-can-obd-communication-etios-ecu-2.html" target="_blank" rel="noopener">Team-BHP on Toyota OBD</a> · <a href="https://www.4x4community.co.za/forum/showthread.php/250860-Pajero-OBD-Readings" target="_blank" rel="noopener">4x4 Community on Pajero OBD</a> · <a href="https://www.klavkarr.com/vehicle-list-compatible-obd2/isuzu" target="_blank" rel="noopener">Isuzu OBD compatibility list</a>. "Likely" and "uncertain" are our judgement from these sources, not test results.</p>
+    <p class="src">Sources: <a href="https://meatpihq.github.io/wican-fw/config/automate/supported_vehicles" target="_blank" rel="noopener">WiCAN supported vehicles</a><sup class="cite"><a href="#ref-21">[21]</a></sup> · <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">WiCAN Pro specifications</a><sup class="cite"><a href="#ref-22">[22]</a></sup> · <a href="https://hn.jakechampion.name/reader/https://freematics.com/pages/products/freematics-one-plus" target="_blank" rel="noopener">Freematics ONE+ product page (mirror)</a><sup class="cite"><a href="#ref-23">[23]</a></sup> · <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">Traccar: Freematics Model B</a><sup class="cite"><a href="#ref-24">[24]</a></sup> · <a href="https://gist.github.com/soshial/d07919e0fac67f5501a38fe3c39be416" target="_blank" rel="noopener">Freematics user notes</a><sup class="cite"><a href="#ref-25">[25]</a></sup> · <a href="https://www.team-bhp.com/forum/technical-stuff/97809-standards-based-can-obd-communication-etios-ecu-2.html" target="_blank" rel="noopener">Team-BHP on Toyota OBD</a><sup class="cite"><a href="#ref-26">[26]</a></sup> · <a href="https://www.4x4community.co.za/forum/showthread.php/250860-Pajero-OBD-Readings" target="_blank" rel="noopener">4x4 Community on Pajero OBD</a><sup class="cite"><a href="#ref-27">[27]</a></sup> · <a href="https://www.klavkarr.com/vehicle-list-compatible-obd2/isuzu" target="_blank" rel="noopener">Isuzu OBD compatibility list</a><sup class="cite"><a href="#ref-28">[28]</a></sup>. "Likely" and "uncertain" are our judgement from these sources, not test results.</p>
 
     <div class="grid g2" style="margin-top:28px">
       <div class="box"><span class="pill p-warn">Risks</span><h3>What could stop it working</h3><ul>
@@ -353,12 +362,12 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <li>In parallel, buy two off-the-shelf ESP32 units (WiCAN Pro and Freematics ONE+).</li>
         <li>Test on one vehicle of each model for two weeks.</li>
         <li>Record which values each vehicle exposes and whether idle minutes match a manual log.</li>
-        <li>Send engine state only; no location.</li>
+        <li>Send engine state alongside the tablet's GPS data.</li>
         <li>Decide then between an off-the-shelf unit and a custom build.</li>
         <li><b>Fallback</b> if a model blocks the port: the tablet estimate plus daily odometer photos and Shell fuel data.</li>
       </ul></div>
     </div>
-    <p class="src">Sources: <a href="https://www.hackster.io/news/freematics-one-aims-to-set-your-odb-ii-port-free-with-wi-fi-bluetooth-cellular-data-logging-d4cd2aa78a73" target="_blank" rel="noopener">Hackster on Freematics ONE+</a> · <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">Traccar: Freematics hardware</a> · <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">Crowd Supply: WiCAN Pro</a> · <a href="https://github.com/meatpiHQ/wican-fw" target="_blank" rel="noopener">WiCAN firmware</a> · <a href="https://www.crowdsupply.com/meatpi-electronics/espnetlink" target="_blank" rel="noopener">ESPNetLink 4G add-on</a> · <a href="https://osrtos.com/projects/obd2-to-mqtt-for-home-assistant" target="_blank" rel="noopener">OBD2-to-MQTT project</a> · <a href="https://www.teltonika-gps.com/products/trackers/obd-data/fmc003" target="_blank" rel="noopener">Teltonika FMC003</a> · <a href="https://wiki.teltonika-gps.com/view/FMC003_OBD_II_settings" target="_blank" rel="noopener">Teltonika OBD settings</a>. Prices are list prices at the time of research and exclude shipping and duties.</p>
+    <p class="src">Sources: <a href="https://www.hackster.io/news/freematics-one-aims-to-set-your-odb-ii-port-free-with-wi-fi-bluetooth-cellular-data-logging-d4cd2aa78a73" target="_blank" rel="noopener">Hackster on Freematics ONE+</a><sup class="cite"><a href="#ref-29">[29]</a></sup> · <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">Traccar: Freematics hardware</a><sup class="cite"><a href="#ref-24">[24]</a></sup> · <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">Crowd Supply: WiCAN Pro</a><sup class="cite"><a href="#ref-22">[22]</a></sup> · <a href="https://github.com/meatpiHQ/wican-fw" target="_blank" rel="noopener">WiCAN firmware</a><sup class="cite"><a href="#ref-30">[30]</a></sup> · <a href="https://www.crowdsupply.com/meatpi-electronics/espnetlink" target="_blank" rel="noopener">ESPNetLink 4G add-on</a><sup class="cite"><a href="#ref-31">[31]</a></sup> · <a href="https://osrtos.com/projects/obd2-to-mqtt-for-home-assistant" target="_blank" rel="noopener">OBD2-to-MQTT project</a><sup class="cite"><a href="#ref-32">[32]</a></sup> · <a href="https://www.teltonika-gps.com/products/trackers/obd-data/fmc003" target="_blank" rel="noopener">Teltonika FMC003</a><sup class="cite"><a href="#ref-33">[33]</a></sup> · <a href="https://wiki.teltonika-gps.com/view/FMC003_OBD_II_settings" target="_blank" rel="noopener">Teltonika OBD settings</a><sup class="cite"><a href="#ref-34">[34]</a></sup>. Prices are list prices at the time of research and exclude shipping and duties.</p>
   </div>
 </section>
 
@@ -370,13 +379,13 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <div class="box"><h3>The flow</h3><p>Start and end of day, in the Odoo app: clock in or out with location on, photograph the odometer, type the reading. The reading posts to the vehicle's odometer log in Fleet; the photo is kept as evidence.</p></div>
       <div class="box"><h3>What is standard, what is added</h3><p>Odoo Attendances already supports mobile check-in and can record the location of each one. The odometer photo and reading, and the link from the attendance to the driver's vehicle, are additions we would build.</p></div>
       <div class="box"><h3>Points to settle</h3><ul>
-        <li>Location at clock-in and clock-out only, never continuous — to state in the driver policy</li>
+        <li>Location at clock-in and clock-out from the phone; continuous GPS where a tablet is fitted — to state in the driver policy</li>
         <li>Personal or company phones for agency drivers</li>
         <li>What happens with no signal: allow a late sync</li>
         <li>Typed reading is checked against the last one; the photo settles disputes</li>
       </ul></div>
     </div>
-    <p class="src">Third-party examples of location-stamped attendance: <a href="https://apps.odoo.com/apps/modules/19.0/v3c_hr_attendance" target="_blank" rel="noopener">v3c_hr_attendance</a>, <a href="https://apps.odoo.com/apps/modules/19.0/ps_geofencing_attendance" target="_blank" rel="noopener">ps_geofencing_attendance</a>. One Odoo forum user reported inaccurate mobile locations on Odoo 17, so accuracy should be tested on the drivers' phones.</p>
+    <p class="src">Third-party examples of location-stamped attendance: <a href="https://apps.odoo.com/apps/modules/19.0/v3c_hr_attendance" target="_blank" rel="noopener">v3c_hr_attendance</a><sup class="cite"><a href="#ref-35">[35]</a></sup>, <a href="https://apps.odoo.com/apps/modules/19.0/ps_geofencing_attendance" target="_blank" rel="noopener">ps_geofencing_attendance</a><sup class="cite"><a href="#ref-36">[36]</a></sup>. One Odoo forum user reported inaccurate mobile locations on Odoo 17, so accuracy should be tested on the drivers' phones.</p>
   </div>
 </section>
 
@@ -391,10 +400,10 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
     </div>
     <div class="tw"><table>
       <tr><th>Module</th><th>Odoo versions listed</th><th>Connection</th><th>Notes</th></tr>
-      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/mindscript_zkteco_integration" target="_blank" rel="noopener">Mindscript ZKTeco Biometric Attendance Suite</a></td><td>18, 19</td><td>Push (ADMS) and pull (pyzk)</td><td>Multiple devices, anomaly detection, reports. Proprietary licence (OPL-1).</td></tr>
-      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/odoo_zkteco_biometric_attendance" target="_blank" rel="noopener">ZKTeco Biometric Attendance</a></td><td>18, 19</td><td>Push (ADMS) and pull (pyzk)</td><td>Pull mode needs the same network or port forwarding.</td></tr>
-      <tr><td><a href="https://apps.odoo.com/apps/modules/15.0/dps_zkteco_biometric_integration" target="_blank" rel="noopener">DPS ZKTeco Biometric Integration</a></td><td>15 to 19</td><td>Push (HTTP/ADMS), plus scheduled sync</td><td>Open-source licence (AGPL-3), so the code can be reviewed and adapted.</td></tr>
-      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/azk_zkteco_attendance" target="_blank" rel="noopener">Azk ZKTeco Attendance Machine Integration</a></td><td>16, 19</td><td>See listing</td><td>Paid, about US$117. Tested by its vendor on one device model; compatibility check advised.</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/mindscript_zkteco_integration" target="_blank" rel="noopener">Mindscript ZKTeco Biometric Attendance Suite</a><sup class="cite"><a href="#ref-37">[37]</a></sup></td><td>18, 19</td><td>Push (ADMS) and pull (pyzk)</td><td>Multiple devices, anomaly detection, reports. Proprietary licence (OPL-1).</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/odoo_zkteco_biometric_attendance" target="_blank" rel="noopener">ZKTeco Biometric Attendance</a><sup class="cite"><a href="#ref-38">[38]</a></sup></td><td>18, 19</td><td>Push (ADMS) and pull (pyzk)</td><td>Pull mode needs the same network or port forwarding.</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/15.0/dps_zkteco_biometric_integration" target="_blank" rel="noopener">DPS ZKTeco Biometric Integration</a><sup class="cite"><a href="#ref-39">[39]</a></sup></td><td>15 to 19</td><td>Push (HTTP/ADMS), plus scheduled sync</td><td>Open-source licence (AGPL-3), so the code can be reviewed and adapted.</td></tr>
+      <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/azk_zkteco_attendance" target="_blank" rel="noopener">Azk ZKTeco Attendance Machine Integration</a><sup class="cite"><a href="#ref-40">[40]</a></sup></td><td>16, 19</td><td>See listing</td><td>Paid, about US$117. Tested by its vendor on one device model; compatibility check advised.</td></tr>
     </table></div>
     <h3 style="font-size:1.2rem;margin:30px 0 8px">Manual route: email the attendance file to an AI mailbox</h3>
     <p class="sub" style="margin-bottom:18px">A fallback that works with any ZKTeco model and needs no network changes. It suits the period before a connector is approved, or terminals that cannot push.</p>
@@ -487,7 +496,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       </ul></div>
       <div class="box"><span class="pill p-check">Implication for AI</span><h3>Prefer AI that is already inside</h3><p>MOL requires a separate security assessment for AI tools outside its approved environment. Where this project needs AI, such as the attendance email parser, the simplest path is a model already inside MOL's Microsoft tenant or inside Odoo. Any other AI tool goes through MOL's assessment first.</p></div>
     </div>
-    <p class="src">Sources: <a href="https://www.microsoft.com/en-us/microsoft-365/enterprise/microsoft365-plans-and-pricing" target="_blank" rel="noopener">Microsoft 365 enterprise plans</a> · <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/12/04/advancing-microsoft-365-new-capabilities-and-pricing-update" target="_blank" rel="noopener">Microsoft pricing update, December 2025</a> · <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/09/24/expanding-model-choice-in-microsoft-365-copilot/" target="_blank" rel="noopener">Microsoft on model choice</a> · <a href="https://techcommunity.microsoft.com/blog/microsoft365insiderblog/choosing-the-right-ai-model-in-microsoft-365-flexibility-control-and-confidence/4530762" target="_blank" rel="noopener">Choosing the right AI model in Microsoft 365</a> · <a href="https://openai.com/index/gpt-5-6-preferred-model-microsoft-365-copilot" target="_blank" rel="noopener">OpenAI on GPT-5.6 in Copilot</a> · <a href="https://techcommunity.microsoft.com/blog/Microsoft365CopilotBlog/available-today-anthropic-claude-opus-5-in-microsoft-365-copilot/4540524" target="_blank" rel="noopener">Claude Opus 5 in Microsoft 365 Copilot</a> · <a href="https://www.techradar.com/pro/you-can-now-choose-between-chatgpt-and-claude-for-your-ai-needs-in-microsoft-365" target="_blank" rel="noopener">TechRadar on model choice</a>. The Power Platform connector limits and the Odoo sign-in and Outlook points are from our own working knowledge and should be confirmed against MOL's tenant and current Microsoft licensing terms.</p>
+    <p class="src">Sources: <a href="https://www.microsoft.com/en-us/microsoft-365/enterprise/microsoft365-plans-and-pricing" target="_blank" rel="noopener">Microsoft 365 enterprise plans</a><sup class="cite"><a href="#ref-41">[41]</a></sup> · <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/12/04/advancing-microsoft-365-new-capabilities-and-pricing-update" target="_blank" rel="noopener">Microsoft pricing update, December 2025</a><sup class="cite"><a href="#ref-42">[42]</a></sup> · <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/09/24/expanding-model-choice-in-microsoft-365-copilot/" target="_blank" rel="noopener">Microsoft on model choice</a><sup class="cite"><a href="#ref-43">[43]</a></sup> · <a href="https://techcommunity.microsoft.com/blog/microsoft365insiderblog/choosing-the-right-ai-model-in-microsoft-365-flexibility-control-and-confidence/4530762" target="_blank" rel="noopener">Choosing the right AI model in Microsoft 365</a><sup class="cite"><a href="#ref-44">[44]</a></sup> · <a href="https://openai.com/index/gpt-5-6-preferred-model-microsoft-365-copilot" target="_blank" rel="noopener">OpenAI on GPT-5.6 in Copilot</a><sup class="cite"><a href="#ref-45">[45]</a></sup> · <a href="https://techcommunity.microsoft.com/blog/Microsoft365CopilotBlog/available-today-anthropic-claude-opus-5-in-microsoft-365-copilot/4540524" target="_blank" rel="noopener">Claude Opus 5 in Microsoft 365 Copilot</a><sup class="cite"><a href="#ref-46">[46]</a></sup> · <a href="https://www.techradar.com/pro/you-can-now-choose-between-chatgpt-and-claude-for-your-ai-needs-in-microsoft-365" target="_blank" rel="noopener">TechRadar on model choice</a><sup class="cite"><a href="#ref-47">[47]</a></sup>. The Power Platform connector limits and the Odoo sign-in and Outlook points are from our own working knowledge and should be confirmed against MOL's tenant and current Microsoft licensing terms.</p>
   </div>
 </section>
 
@@ -508,6 +517,63 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   </div>
 </section>
 
+
+<section id="sources" class="alt">
+  <div class="container">
+    <span class="eyebrow">Sources</span>
+    <h2>References</h2>
+    <p class="sub">Numbers in square brackets through this page point here. Statements from the discovery session cite TechNext's meeting notes of 26 November 2026, which are not public.</p>
+    <ol class="refs">
+      <li id="ref-1">Advanced_business_card_reader. <a href="https://pub.dev/packages/advanced_business_card_reader" target="_blank" rel="noopener">pub.dev</a></li>
+      <li id="ref-2">Business_card_scanner. <a href="https://pub.dev/packages/business_card_scanner" target="_blank" rel="noopener">pub.dev</a></li>
+      <li id="ref-3">CardSnap. <a href="https://github.com/crewcircle/CardSnap" target="_blank" rel="noopener">github.com</a></li>
+      <li id="ref-4">Odoo_rpc. <a href="https://pub.dev/packages/odoo_rpc" target="_blank" rel="noopener">pub.dev</a></li>
+      <li id="ref-5">Odoo_rest_ov. <a href="https://pub.dev/packages/odoo_rest_ov" target="_blank" rel="noopener">pub.dev</a></li>
+      <li id="ref-6">Business_card_scanner. <a href="https://apps.odoo.com/apps/modules/19.0/business_card_scanner" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-7">Odoo_ai_business_card_scan_app. <a href="https://apps.odoo.com/apps/modules/19.0/odoo_ai_business_card_scan_app" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-8">Setu_vision_ocr. <a href="https://apps.odoo.com/apps/modules/19.0/setu_vision_ocr" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-9">Meta: Get opt-in for WhatsApp. <a href="https://developers.facebook.com/docs/whatsapp/overview/getting-opt-in" target="_blank" rel="noopener">developers.facebook.com</a></li>
+      <li id="ref-10">WhatsApp Business messaging policy. <a href="https://whatsappbusiness.com/policy/" target="_blank" rel="noopener">whatsappbusiness.com</a></li>
+      <li id="ref-11">Odoo: automation rules. <a href="https://www.odoo.com/documentation/17.0/applications/studio/automated_actions.html" target="_blank" rel="noopener">odoo.com</a></li>
+      <li id="ref-12">Odoo forum: automating a WhatsApp template. <a href="https://www.odoo.com/forum/help-1/automate-the-sending-of-a-whatsapp-template-257224" target="_blank" rel="noopener">odoo.com</a></li>
+      <li id="ref-13">Google ML Kit Text Recognition v2. <a href="https://developers.google.com/ml-kit/vision/text-recognition/v2" target="_blank" rel="noopener">developers.google.com</a></li>
+      <li id="ref-14">WhatsApp. <a href="https://www.odoo.com/documentation/19.0/applications/productivity/whatsapp.html" target="_blank" rel="noopener">odoo.com</a></li>
+      <li id="ref-15">VoIP. <a href="https://www.odoo.com/documentation/19.0/applications/productivity/voip.html" target="_blank" rel="noopener">odoo.com</a></li>
+      <li id="ref-16">SMS. <a href="https://www.odoo.com/documentation/19.0/applications/marketing/sms_marketing.html" target="_blank" rel="noopener">odoo.com</a></li>
+      <li id="ref-17">Odoo forum. <a href="https://www.odoo.com/forum/help-1/does-odoo-have-a-business-card-scanner-app-166569" target="_blank" rel="noopener">odoo.com</a></li>
+      <li id="ref-18">Paper. <a href="https://core.ac.uk/download/26505603.pdf" target="_blank" rel="noopener">core.ac.uk</a></li>
+      <li id="ref-19">Patent US 9,646,427. <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/9646427" target="_blank" rel="noopener">image-ppubs.uspto.gov</a></li>
+      <li id="ref-20">Patent US 10,019,762. <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/10019762" target="_blank" rel="noopener">image-ppubs.uspto.gov</a></li>
+      <li id="ref-21">WiCAN supported vehicles. <a href="https://meatpihq.github.io/wican-fw/config/automate/supported_vehicles" target="_blank" rel="noopener">meatpihq.github.io</a></li>
+      <li id="ref-22">WiCAN Pro specifications. <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">crowdsupply.com</a></li>
+      <li id="ref-23">Freematics ONE+ product page (mirror). <a href="https://hn.jakechampion.name/reader/https://freematics.com/pages/products/freematics-one-plus" target="_blank" rel="noopener">hn.jakechampion.name</a></li>
+      <li id="ref-24">Traccar: Freematics Model B. <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">traccar.org</a></li>
+      <li id="ref-25">Freematics user notes. <a href="https://gist.github.com/soshial/d07919e0fac67f5501a38fe3c39be416" target="_blank" rel="noopener">gist.github.com</a></li>
+      <li id="ref-26">Team-BHP on Toyota OBD. <a href="https://www.team-bhp.com/forum/technical-stuff/97809-standards-based-can-obd-communication-etios-ecu-2.html" target="_blank" rel="noopener">team-bhp.com</a></li>
+      <li id="ref-27">4x4 Community on Pajero OBD. <a href="https://www.4x4community.co.za/forum/showthread.php/250860-Pajero-OBD-Readings" target="_blank" rel="noopener">4x4community.co.za</a></li>
+      <li id="ref-28">Isuzu OBD compatibility list. <a href="https://www.klavkarr.com/vehicle-list-compatible-obd2/isuzu" target="_blank" rel="noopener">klavkarr.com</a></li>
+      <li id="ref-29">Hackster on Freematics ONE+. <a href="https://www.hackster.io/news/freematics-one-aims-to-set-your-odb-ii-port-free-with-wi-fi-bluetooth-cellular-data-logging-d4cd2aa78a73" target="_blank" rel="noopener">hackster.io</a></li>
+      <li id="ref-30">WiCAN firmware. <a href="https://github.com/meatpiHQ/wican-fw" target="_blank" rel="noopener">github.com</a></li>
+      <li id="ref-31">ESPNetLink 4G add-on. <a href="https://www.crowdsupply.com/meatpi-electronics/espnetlink" target="_blank" rel="noopener">crowdsupply.com</a></li>
+      <li id="ref-32">OBD2-to-MQTT project. <a href="https://osrtos.com/projects/obd2-to-mqtt-for-home-assistant" target="_blank" rel="noopener">osrtos.com</a></li>
+      <li id="ref-33">Teltonika FMC003. <a href="https://www.teltonika-gps.com/products/trackers/obd-data/fmc003" target="_blank" rel="noopener">teltonika-gps.com</a></li>
+      <li id="ref-34">Teltonika OBD settings. <a href="https://wiki.teltonika-gps.com/view/FMC003_OBD_II_settings" target="_blank" rel="noopener">wiki.teltonika-gps.com</a></li>
+      <li id="ref-35">V3c_hr_attendance. <a href="https://apps.odoo.com/apps/modules/19.0/v3c_hr_attendance" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-36">Ps_geofencing_attendance. <a href="https://apps.odoo.com/apps/modules/19.0/ps_geofencing_attendance" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-37">Mindscript ZKTeco Biometric Attendance Suite. <a href="https://apps.odoo.com/apps/modules/19.0/mindscript_zkteco_integration" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-38">ZKTeco Biometric Attendance. <a href="https://apps.odoo.com/apps/modules/19.0/odoo_zkteco_biometric_attendance" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-39">DPS ZKTeco Biometric Integration. <a href="https://apps.odoo.com/apps/modules/15.0/dps_zkteco_biometric_integration" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-40">Azk ZKTeco Attendance Machine Integration. <a href="https://apps.odoo.com/apps/modules/19.0/azk_zkteco_attendance" target="_blank" rel="noopener">apps.odoo.com</a></li>
+      <li id="ref-41">Microsoft 365 enterprise plans. <a href="https://www.microsoft.com/en-us/microsoft-365/enterprise/microsoft365-plans-and-pricing" target="_blank" rel="noopener">microsoft.com</a></li>
+      <li id="ref-42">Microsoft pricing update, December 2025. <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/12/04/advancing-microsoft-365-new-capabilities-and-pricing-update" target="_blank" rel="noopener">microsoft.com</a></li>
+      <li id="ref-43">Microsoft on model choice. <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/09/24/expanding-model-choice-in-microsoft-365-copilot/" target="_blank" rel="noopener">microsoft.com</a></li>
+      <li id="ref-44">Choosing the right AI model in Microsoft 365. <a href="https://techcommunity.microsoft.com/blog/microsoft365insiderblog/choosing-the-right-ai-model-in-microsoft-365-flexibility-control-and-confidence/4530762" target="_blank" rel="noopener">techcommunity.microsoft.com</a></li>
+      <li id="ref-45">OpenAI on GPT-5.6 in Copilot. <a href="https://openai.com/index/gpt-5-6-preferred-model-microsoft-365-copilot" target="_blank" rel="noopener">openai.com</a></li>
+      <li id="ref-46">Claude Opus 5 in Microsoft 365 Copilot. <a href="https://techcommunity.microsoft.com/blog/Microsoft365CopilotBlog/available-today-anthropic-claude-opus-5-in-microsoft-365-copilot/4540524" target="_blank" rel="noopener">techcommunity.microsoft.com</a></li>
+      <li id="ref-47">TechRadar on model choice. <a href="https://www.techradar.com/pro/you-can-now-choose-between-chatgpt-and-claude-for-your-ai-needs-in-microsoft-365" target="_blank" rel="noopener">techradar.com</a></li>
+    </ol>
+  </div>
+</section>
 
 <footer>
   <div class="container">
