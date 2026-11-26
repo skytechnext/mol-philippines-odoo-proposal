@@ -122,6 +122,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <a href="#obd">Vehicle monitoring</a>
       <a href="#attendance">Attendance</a>
       <a href="#zk">ZKTeco</a>
+      <a href="#e5">Microsoft E5</a>
       <a href="#open">Open items</a>
       <a href="#phrases">Shipping terms</a>
     </div>
@@ -254,7 +255,31 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       </svg>
     </div>
 
-    <h3 style="font-size:1.2rem;margin-bottom:14px">Device options compared</h3>
+    <h3 id="tablet" style="font-size:1.2rem;margin:6px 0 8px">First step: use the vehicle tablet as the sensor</h3>
+    <p class="sub" style="margin-bottom:18px">A tablet fixed in each vehicle was already suggested for attendance. The same tablet carries a motion sensor and GPS, which is enough to approximate moving, idling and parked time with no device in the car's diagnostic port.</p>
+    <div class="tw"><table>
+      <tr><th>Signal from the tablet</th><th>What it tells us</th><th>Limit</th></tr>
+      <tr><td>GPS speed</td><td>Above walking pace, the vehicle is moving. At zero, it is standing.</td><td>Weak signal in basement car parks and between tall buildings</td></tr>
+      <tr><td>Vibration (accelerometer)</td><td>A running engine shakes the cabin in a steady pattern. Standing with that pattern is idling; standing without it is parked.</td><td>Needs tuning per vehicle model and a rigid mount; a quiet engine is harder to detect</td></tr>
+      <tr><td>Charging state</td><td>If the tablet is powered from a socket that is live only with the ignition on, "charging" means the ignition is on.</td><td>Depends on how each vehicle's socket is wired</td></tr>
+    </table></div>
+    <div class="grid g3" style="margin:24px 0 34px">
+      <div class="box"><span class="pill p-ok">How it classifies</span><h3>Three states</h3><ul>
+        <li><b>Moving:</b> GPS speed above a threshold.</li>
+        <li><b>Idling:</b> speed zero, with engine vibration or ignition power.</li>
+        <li><b>Parked:</b> speed zero, no vibration, no ignition power.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-fact">Privacy by design</span><h3>GPS used, routes not kept</h3><p>The app works out the state on the tablet and sends only the state and its duration to Odoo, for example "idling, 14 minutes". Coordinates are not transmitted or stored, so executive routes stay confidential.</p></div>
+      <div class="box"><span class="pill p-warn">Honest limits</span><h3>An approximation</h3><ul>
+        <li>It estimates engine state; it does not read it.</li>
+        <li>Hybrid vehicles stop their engine at standstill, so "on but silent" looks like parked unless ignition power is used.</li>
+        <li>It needs a small Android app, which TechNext would build.</li>
+        <li>Accuracy should be checked against a manual log during a trial.</li>
+      </ul></div>
+    </div>
+    <p class="src" style="margin:-18px 0 30px">Basis: a 2014 journal paper describes separating moving, idling and engine-off states from accelerometer vibration alone, and several patents describe combining accelerometer and GPS on a handheld device for the same purpose (<a href="https://core.ac.uk/download/26505603.pdf" target="_blank" rel="noopener">paper</a>, <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/9646427" target="_blank" rel="noopener">patent US 9,646,427</a>, <a href="https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/10019762" target="_blank" rel="noopener">patent US 10,019,762</a>). We found no published accuracy figures for tablets in these vehicle models. If the trial shows the estimate is not accurate enough, the OBD devices below read the engine directly.</p>
+
+    <h3 style="font-size:1.2rem;margin-bottom:14px">OBD device options compared</h3>
     <div class="tw"><table>
       <tr><th>Option</th><th>What it is</th><th>Cloud link</th><th>Strengths</th><th>Watch for</th></tr>
       <tr><td>Freematics ONE+ (Model B)</td><td>ESP32 unit that plugs into the OBD port, with motion sensor, optional GNSS and a socket for a cellular module</td><td>Wi-Fi, or 4G with a SIM7600 module; open-source firmware sends to a server of your choice</td><td>Purpose-built telematics device; open firmware; local storage when offline</td><td>GNSS would be disabled for MOL; price and stock to confirm with the maker</td></tr>
@@ -308,12 +333,13 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <li><b>Security review.</b> The device, its firmware and the cloud receiver are a new system for the Tokyo assessment.</li>
       </ul></div>
       <div class="box"><span class="pill p-ok">Recommendation</span><h3>Pilot before purchase</h3><ul>
-        <li>Buy two off-the-shelf ESP32 units (WiCAN Pro and Freematics ONE+).</li>
+        <li>Start with the tablet method above; it needs no vehicle hardware.</li>
+        <li>In parallel, buy two off-the-shelf ESP32 units (WiCAN Pro and Freematics ONE+).</li>
         <li>Test on one vehicle of each model for two weeks.</li>
         <li>Record which values each vehicle exposes and whether idle minutes match a manual log.</li>
         <li>Send engine state only; no location.</li>
         <li>Decide then between an off-the-shelf unit and a custom build.</li>
-        <li><b>Fallback</b> if a model blocks the port: tablet duty records plus Shell fuel data, which need no vehicle hardware.</li>
+        <li><b>Fallback</b> if a model blocks the port: the tablet estimate plus daily odometer photos and Shell fuel data.</li>
       </ul></div>
     </div>
     <p class="src">Sources: <a href="https://www.hackster.io/news/freematics-one-aims-to-set-your-odb-ii-port-free-with-wi-fi-bluetooth-cellular-data-logging-d4cd2aa78a73" target="_blank" rel="noopener">Hackster on Freematics ONE+</a> · <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">Traccar: Freematics hardware</a> · <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">Crowd Supply: WiCAN Pro</a> · <a href="https://github.com/meatpiHQ/wican-fw" target="_blank" rel="noopener">WiCAN firmware</a> · <a href="https://www.crowdsupply.com/meatpi-electronics/espnetlink" target="_blank" rel="noopener">ESPNetLink 4G add-on</a> · <a href="https://osrtos.com/projects/obd2-to-mqtt-for-home-assistant" target="_blank" rel="noopener">OBD2-to-MQTT project</a> · <a href="https://www.teltonika-gps.com/products/trackers/obd-data/fmc003" target="_blank" rel="noopener">Teltonika FMC003</a> · <a href="https://wiki.teltonika-gps.com/view/FMC003_OBD_II_settings" target="_blank" rel="noopener">Teltonika OBD settings</a>. Prices are list prices at the time of research and exclude shipping and duties.</p>
@@ -354,13 +380,100 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <tr><td><a href="https://apps.odoo.com/apps/modules/15.0/dps_zkteco_biometric_integration" target="_blank" rel="noopener">DPS ZKTeco Biometric Integration</a></td><td>15 to 19</td><td>Push (HTTP/ADMS), plus scheduled sync</td><td>Open-source licence (AGPL-3), so the code can be reviewed and adapted.</td></tr>
       <tr><td><a href="https://apps.odoo.com/apps/modules/19.0/azk_zkteco_attendance" target="_blank" rel="noopener">Azk ZKTeco Attendance Machine Integration</a></td><td>16, 19</td><td>See listing</td><td>Paid, about US$117. Tested by its vendor on one device model; compatibility check advised.</td></tr>
     </table></div>
+    <h3 style="font-size:1.2rem;margin:30px 0 8px">Manual route: email the attendance file to an AI mailbox</h3>
+    <p class="sub" style="margin-bottom:18px">A fallback that works with any ZKTeco model and needs no network changes. It suits the period before a connector is approved, or terminals that cannot push.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 1000 150" role="img" aria-label="An administrator exports the attendance file from the ZKTeco terminal and emails it to a dedicated mailbox; an AI parser reads it and creates attendance records in Odoo, then replies with a summary">
+        <g font-size="14" text-anchor="middle">
+          <rect x="10" y="35" width="170" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="95" y="68" font-weight="700" fill="#001B33">ZKTeco terminal</text><text x="95" y="90" fill="#3F4C5C" font-size="12.5">export log to USB or PC</text>
+          <rect x="215" y="35" width="170" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="300" y="68" font-weight="700" fill="#001B33">Email the file</text><text x="300" y="90" fill="#3F4C5C" font-size="12.5">to a dedicated mailbox</text>
+          <rect x="420" y="35" width="170" height="80" rx="8" fill="#005396"/><text x="505" y="68" font-weight="700" fill="#fff">AI parser</text><text x="505" y="90" fill="#D5E4F1" font-size="12.5">reads rows, matches staff</text>
+          <rect x="625" y="35" width="170" height="80" rx="8" fill="#001B33"/><text x="710" y="68" font-weight="700" fill="#fff">Odoo Attendances</text><text x="710" y="90" fill="#D5E4F1" font-size="12.5">check-in and check-out pairs</text>
+          <rect x="830" y="35" width="160" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="910" y="68" font-weight="700" fill="#001B33">Reply email</text><text x="910" y="90" fill="#3F4C5C" font-size="12.5">summary and exceptions</text>
+        </g>
+        <g stroke="#005396" stroke-width="2" marker-end="url(#ar)"><path d="M180 75H211"/><path d="M385 75H416"/><path d="M590 75H621"/><path d="M795 75H826"/></g>
+      </svg>
+    </div>
+    <div class="grid g3" style="margin-bottom:8px">
+      <div class="box"><h3>What the administrator does</h3><ul>
+        <li>Exports the attendance log from the terminal or its desktop software, as it does today.</li>
+        <li>Emails the file to a dedicated address, for example once a day or once a week.</li>
+        <li>Reads the reply and fixes the few rows it flags.</li>
+      </ul></div>
+      <div class="box"><h3>What the parser does</h3><ul>
+        <li>Accepts the file as exported: text, CSV or Excel, whatever the column layout.</li>
+        <li>Matches each device user ID to an Odoo employee.</li>
+        <li>Pairs punches into check-in and check-out, skips rows already imported, and creates the attendance records.</li>
+        <li>Flags what it cannot resolve: unknown IDs, a missing clock-out, duplicate punches.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-check">To settle</span><h3>Before it is used</h3><ul>
+        <li>Attendance data is personal data, so the AI service is part of MOL's security assessment. It can run inside MOL's Microsoft tenant or inside Odoo to keep data in an already-assessed boundary.</li>
+        <li>Only approved sender addresses are accepted.</li>
+        <li>It is not real time: records arrive when the file is sent.</li>
+      </ul></div>
+    </div>
+
     <div class="grid g2" style="margin-top:28px">
-      <div class="box"><span class="pill p-ok">Recommendation</span><h3>Push connector, tested on MOL's devices</h3><p>Shortlist a push-capable module with reviewable code (DPS or Mindscript), then test it against MOL's actual terminal models before committing. Vendor claims above are unverified.</p></div>
-      <div class="box"><span class="pill p-warn">Hosting matters</span><h3>Needs Odoo.sh or on-premise</h3><p>Third-party modules such as these cannot be installed on Odoo Online. The connector requires Odoo.sh or a self-hosted server, which affects the hosting line in the quotation.</p></div>
+      <div class="box"><span class="pill p-ok">Recommendation</span><h3>Email route first, push connector next</h3><p>Start with the manual email route, which works on day one with any model. Then shortlist a push-capable module with reviewable code (DPS or Mindscript) and test it against MOL's actual terminals before committing. Vendor claims above are unverified.</p></div>
+      <div class="box"><span class="pill p-ok">Hosting decided</span><h3>Odoo.sh</h3><p>The project will be hosted on Odoo.sh. Unlike Odoo Online, it allows third-party and custom modules, so the ZKTeco connector, the email parser and the attendance additions can all be installed. Odoo.sh is billed by Odoo in addition to user licences.</p></div>
     </div>
   </div>
 </section>
 
+
+<section id="e5">
+  <div class="container">
+    <span class="eyebrow">Research · Microsoft environment</span>
+    <h2>Microsoft 365 E5: what MOL already has</h2>
+    <p class="sub">MOL told us it uses Microsoft E5 licences and builds its custom apps on the Power Platform. This is what that licence gives, which AI is available in it, and how it bears on this project.</p>
+    <div class="grid g3">
+      <div class="box"><span class="pill p-fact">Included in E5</span><h3>The main parts</h3><ul>
+        <li>Office apps, Exchange email, SharePoint, OneDrive and Teams</li>
+        <li>Power BI Pro, which MOL already uses for its fuel reports</li>
+        <li>Power Apps and Power Automate "for Microsoft 365"</li>
+        <li>The advanced security and compliance tools: Defender, Purview and Entra ID identity protection</li>
+        <li>Microsoft 365 Copilot Chat, the secure AI chat for work</li>
+      </ul></div>
+      <div class="box"><span class="pill p-warn">Not included</span><h3>Paid separately</h3><ul>
+        <li><b>Microsoft 365 Copilot</b>, the assistant inside Word, Excel, Outlook and Teams that works on your own files and email. Listed at about US$30 per user per month, paid yearly.</li>
+        <li><b>Premium Power Platform connectors.</b> The included Power Apps and Power Automate rights cover standard connectors. Calling an outside system such as Odoo normally needs a premium licence.</li>
+        <li><b>Copilot Studio</b> usage for building custom agents, which is metered.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-check">Changing</span><h3>Dates to watch</h3><ul>
+        <li>Microsoft announced new commercial prices for Microsoft 365 suites from 1 July 2026.</li>
+        <li>Microsoft has said Security Copilot is coming to all E5 customers.</li>
+        <li>A higher "E7" tier now appears on Microsoft's plan pages.</li>
+      </ul></div>
+    </div>
+
+    <h3 style="font-size:1.2rem;margin:34px 0 14px">AI models available in the Microsoft environment</h3>
+    <div class="tw"><table>
+      <tr><th>Product</th><th>Models behind it</th><th>Licence</th><th>Note for MOL</th></tr>
+      <tr><td>Microsoft 365 Copilot Chat</td><td>OpenAI GPT models</td><td>Included with Microsoft 365</td><td>Web-grounded chat with enterprise data protection; does not read MOL's files unless they are pasted or uploaded</td></tr>
+      <tr><td>Microsoft 365 Copilot</td><td>OpenAI GPT models by default; Anthropic Claude models selectable in several apps and agents</td><td>Add-on per user</td><td>Works across MOL's email, files and meetings inside the tenant</td></tr>
+      <tr><td>Researcher agent</td><td>OpenAI or Anthropic Claude, chosen by the user where enabled</td><td>Part of Microsoft 365 Copilot</td><td>Long research tasks</td></tr>
+      <tr><td>Copilot Studio</td><td>OpenAI and Anthropic Claude models for custom agents</td><td>Metered</td><td>The route for a MOL-built agent, in the same family as the Power Platform</td></tr>
+      <tr><td>Azure AI services</td><td>OpenAI and other models hosted in MOL's own Azure subscription</td><td>Pay per use</td><td>An option for the attendance email parser, keeping data inside MOL's tenant</td></tr>
+    </table></div>
+    <p class="src">Model line-ups change often. Reports in 2026 name GPT-5.6 as the preferred model in Microsoft 365 Copilot and Claude Opus 5 as available alongside it, but sources disagree on the latest versions, so check Microsoft's release notes. Administrators control which outside models are allowed; Claude is reported as on by default for commercial tenants outside the EU, EFTA and UK.</p>
+
+    <div class="grid g3" style="margin-top:24px">
+      <div class="box"><span class="pill p-ok">Fits this project</span><h3>Where E5 helps</h3><ul>
+        <li>Staff can sign in to Odoo and the card app with their Microsoft account.</li>
+        <li>Odoo syncs with Outlook email and calendar.</li>
+        <li>Power BI can keep reporting, reading from Odoo instead of spreadsheets.</li>
+        <li>MOL's security tools already cover the devices and identities that will use the system.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-warn">Limits</span><h3>What E5 does not solve</h3><ul>
+        <li>Power Automate flows that call Odoo need the premium connector licence.</li>
+        <li>Copilot does not read Odoo data unless a connector or agent is built for it.</li>
+        <li>WhatsApp and Viber are outside the Microsoft environment.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-check">Implication for AI</span><h3>Prefer AI that is already inside</h3><p>MOL requires a separate security assessment for AI tools outside its approved environment. Where this project needs AI, such as the attendance email parser, the simplest path is a model already inside MOL's Microsoft tenant or inside Odoo. Any other AI tool goes through MOL's assessment first.</p></div>
+    </div>
+    <p class="src">Sources: <a href="https://www.microsoft.com/en-us/microsoft-365/enterprise/microsoft365-plans-and-pricing" target="_blank" rel="noopener">Microsoft 365 enterprise plans</a> · <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/12/04/advancing-microsoft-365-new-capabilities-and-pricing-update" target="_blank" rel="noopener">Microsoft pricing update, December 2025</a> · <a href="https://microsoft.com/en-us/microsoft-365/blog/2025/09/24/expanding-model-choice-in-microsoft-365-copilot/" target="_blank" rel="noopener">Microsoft on model choice</a> · <a href="https://techcommunity.microsoft.com/blog/microsoft365insiderblog/choosing-the-right-ai-model-in-microsoft-365-flexibility-control-and-confidence/4530762" target="_blank" rel="noopener">Choosing the right AI model in Microsoft 365</a> · <a href="https://openai.com/index/gpt-5-6-preferred-model-microsoft-365-copilot" target="_blank" rel="noopener">OpenAI on GPT-5.6 in Copilot</a> · <a href="https://techcommunity.microsoft.com/blog/Microsoft365CopilotBlog/available-today-anthropic-claude-opus-5-in-microsoft-365-copilot/4540524" target="_blank" rel="noopener">Claude Opus 5 in Microsoft 365 Copilot</a> · <a href="https://www.techradar.com/pro/you-can-now-choose-between-chatgpt-and-claude-for-your-ai-needs-in-microsoft-365" target="_blank" rel="noopener">TechRadar on model choice</a>. The Power Platform connector limits and the Odoo sign-in and Outlook points are from our own working knowledge and should be confirmed against MOL's tenant and current Microsoft licensing terms.</p>
+  </div>
+</section>
 
 <section id="open" class="alt">
   <div class="container">
@@ -368,8 +481,8 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
     <h2>Open items</h2>
     <div class="grid g3">
       <div class="box"><span class="pill p-check">MOL</span><h3>ZKTeco device models</h3><p>Model and firmware of each terminal, to confirm push (ADMS) support.</p></div>
-      <div class="box"><span class="pill p-check">TechNext</span><h3>Hosting choice</h3><p>Odoo Online or Odoo.sh. The ZKTeco connector and custom attendance fields point to Odoo.sh.</p></div>
-      <div class="box"><span class="pill p-check">TechNext</span><h3>Microsoft E5 fit</h3><p>What the E5 licence allows for integrations with Outlook, Teams and Power Platform.</p></div>
+      <div class="box"><span class="pill p-ok">Decided</span><h3>Hosting: Odoo.sh</h3><p>Chosen because it allows the connector and custom modules. Sizing (workers, storage) to be set for the quotation.</p></div>
+      <div class="box"><span class="pill p-check">MOL</span><h3>Microsoft tenant settings</h3><p>Whether Microsoft 365 Copilot is licensed, which AI models the administrators allow, and whether premium Power Platform connectors are available. See the <a href="#e5" style="text-decoration:underline">Microsoft E5 section</a>.</p></div>
       <div class="box"><span class="pill p-check">Both</span><h3>Card app publication</h3><p>MOL developer accounts, brand approval, and public or staff-only distribution.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>AI and security policy</h3><p>Policy documents and vendor assessment forms to be shared.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>User and driver counts</h3><p>Number of Odoo users and number of drivers, to size licences.</p></div>

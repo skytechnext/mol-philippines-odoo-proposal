@@ -393,7 +393,7 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
           <li>Who is on duty, on leave or not yet clocked in</li>
         </ul>
         <h3>Office staff: ZKTeco terminals</h3>
-        <p style="font-size:.96rem">Your existing ZKTeco devices can keep serving the office. A connector sends each punch to the same attendance records in Odoo, so drivers and office staff appear in one report. We will match the connector to your device models.</p>
+        <p style="font-size:.96rem">Your existing ZKTeco devices can keep serving the office. A connector sends each punch to the same attendance records in Odoo, so drivers and office staff appear in one report. We will match the connector to your device models. Until it is approved, the exported attendance file can simply be emailed to a dedicated mailbox, where it is read and filed into Odoo automatically.</p>
       </div>
       <div>
         <span class="tag2">Priority 2 · Odoo Attendances + Fleet</span>
@@ -430,7 +430,7 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
         <span class="tag2">Fleet · beyond the standard app</span>
         <h2>Moving, idling <span class="w-teal">or parked</span>?</h2>
         <p>Your main question is not where a vehicle went but how its engine hours were spent: driving, stuck in traffic, or idling while the driver waits. That tells you whether high fuel use comes from traffic or from behaviour, and supports your driver policy.</p>
-        <p style="margin-top:14px">Odoo Fleet does not read the engine by itself, so we propose three layers, starting with the one that needs no hardware.</p>
+        <p style="margin-top:14px">Odoo Fleet does not read the engine by itself, so we propose four layers, starting with the ones that need no vehicle hardware.</p>
         <div class="mol-note" style="margin-left:0"><span class="lbl">Privacy</span><p>Executive trips stay confidential. The monitoring records <b>engine state and duration only</b>. Location is not collected.</p></div>
       </div>
       <div class="panel">
@@ -438,9 +438,11 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
         <p style="font-size:.96rem">Import your Shell fleet card exports into Odoo. Fuel and odometer per fill-up appear on each vehicle, with gaps and empty fields flagged for correction.</p>
         <h3>Layer 2 · Daily odometer from the driver</h3>
         <p style="font-size:.96rem">Each clock-in and clock-out carries an odometer reading and photo. Comparing hours on duty with kilometres driven shows days with long stationary periods, and checks the Shell figures.</p>
-        <h3>Layer 3 · Engine data from the vehicle</h3>
+        <h3>Layer 3 · The vehicle tablet as a sensor</h3>
+        <p style="font-size:.96rem">Where a tablet is fitted in the vehicle, its motion sensor and GPS can estimate moving, idling and parked time. The tablet works this out itself and sends only the state and duration, never the position.</p>
+        <h3>Layer 4 · Engine data from the vehicle</h3>
         <p style="font-size:.96rem">A small device in the diagnostic (OBD) port reads engine speed and road speed and reports minutes moving, minutes idling and engine hours to Odoo. Because vehicle makers differ in what the port exposes, we propose a <b>pilot on one vehicle of each model</b> before any fleet-wide purchase.</p>
-        <p class="fine">Device options, risks and the pilot plan are on the <a href="research.html#obd" style="text-decoration:underline">Research &amp; preparation</a> tab. Custom device development is quoted separately.</p>
+        <p class="fine">The tablet method, device options, risks and the pilot plan are on the <a href="research.html#obd" style="text-decoration:underline">Research &amp; preparation</a> tab. Custom device development is quoted separately.</p>
       </div>
     </div>
   </div>
@@ -551,12 +553,13 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
     <p class="section-sub">Software subscriptions are billed by Odoo directly. Implementation, training and support are billed by TechNext. Amounts are in the quotation that accompanies this proposal.</p>
     <div class="tw"><table class="inv">
       <tr><th>Item</th><th>What it covers</th><th>Billed by</th><th>Amount</th></tr>
-      <tr><td>Odoo user licences</td><td>Custom plan: every Odoo app for each named user, cloud hosting included, storage that scales with use</td><td>Odoo</td><td>See quotation</td></tr>
+      <tr><td>Odoo user licences</td><td>Custom plan: every Odoo app for each named user</td><td>Odoo</td><td>See quotation</td></tr>
+      <tr><td>Odoo.sh hosting</td><td>Odoo's own cloud platform, chosen because it allows the ZKTeco connector and the custom attendance and monitoring additions</td><td>Odoo</td><td>See quotation</td></tr>
       <tr><td>MOL business card app</td><td>Design, build and store publication of the MOL-branded iPhone and Android app; on-device OCR; Odoo Contacts set-up</td><td>TechNext · Apple and Google for store accounts</td><td>Separate quotation</td></tr>
       <tr><td>Driver attendance</td><td>Mobile clock-in with location, odometer photo and reading; link to Fleet; attendance reports</td><td>TechNext</td><td>See quotation</td></tr>
-      <tr><td>ZKTeco connector</td><td>Connector for office terminals, set-up and testing against your device models</td><td>TechNext · module vendor</td><td>See quotation</td></tr>
+      <tr><td>ZKTeco integration</td><td>Email-in import of exported attendance files from day one; connector for office terminals, tested against your device models</td><td>TechNext · module vendor</td><td>See quotation</td></tr>
       <tr><td>Fleet management</td><td>Fleet configuration, loading of 10 vehicles, Shell fuel data import, cost and usage reports</td><td>TechNext</td><td>See quotation</td></tr>
-      <tr><td>Vehicle tablets (optional)</td><td>Alternative to drivers' phones: one 4G tablet per vehicle with mount and data plan</td><td>Hardware supplier · telco</td><td>Optional</td></tr>
+      <tr><td>Vehicle tablets (optional)</td><td>One 4G tablet per vehicle with mount and data plan: a fixed clock-in point, and the sensor for estimating moving, idling and parked time</td><td>Hardware supplier · telco</td><td>Optional</td></tr>
       <tr><td>Engine monitoring pilot</td><td>OBD device trial on one vehicle per model, findings report, recommendation</td><td>TechNext</td><td>Separate estimate</td></tr>
       <tr><td>Training</td><td>Hands-on Odoo and Studio sessions; optional AI and IoT workshops</td><td>TechNext</td><td>Itemised in quotation</td></tr>
       <tr><td>Support</td><td>Service levels as set out in the SLA</td><td>TechNext</td><td>See quotation</td></tr>
@@ -583,7 +586,9 @@ table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
         </ul>
         <h3>About the platform</h3>
         <ul>
+          <li>Hosted on Odoo.sh, Odoo's own cloud platform</li>
           <li>Odoo publishes ISO 27001 and SOC 2 attestations for its cloud service; we will include the current certificates in the assessment pack</li>
+          <li>Sign-in with staff Microsoft accounts, in line with your Microsoft 365 E5 environment</li>
           <li>Every record keeps a log of who changed what and when</li>
           <li>Access is set per user and per app</li>
         </ul>
