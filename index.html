@@ -422,7 +422,7 @@ table.cmp tr:last-child td{border-bottom:0}
       <div class="fact"><span class="tag" style="color:var(--coral)">Today</span><h3>What you told us<sup class="cite"><a href="#ref-1">[1]</a></sup></h3><ul>
         <li>The president's business cards are typed up by hand by the executive assistant.</li>
         <li>Drivers are supplied by an agency and never report to the office, so their hours are hard to verify.</li>
-        <li>Fuel use is worked out from Shell fleet card exports and a Power BI report built by IT.</li>
+        <li>Fuel use is worked out from Shell fleet card exports and a Power BI report built by IT, and some fields in the export arrive empty.</li>
         <li>High fuel figures cannot be explained: traffic, long idling, or misuse all look the same.</li>
         <li>The driver policy forbids waiting in a running vehicle, but there is no data to enforce it.</li>
         <li>The current fleet provider does not respond to requests.</li>
@@ -430,6 +430,7 @@ table.cmp tr:last-child td{border-bottom:0}
       <div class="fact"><span class="tag" style="color:var(--teal)">With this proposal</span><h3>What changes</h3><ul>
         <li>A card is photographed in a MOL app and is in the shared contact database in under a minute.</li>
         <li>Each driver clocks in and out at the vehicle, with the place recorded and the odometer photographed.</li>
+        <li>The Shell statement is forwarded to an AI agent, which files fuel per vehicle in Odoo and marks any value it had to estimate.</li>
         <li>Fuel, kilometres and hours per vehicle sit in one report, updated daily.</li>
         <li>Days with many hours and few kilometres stand out, and an engine-data pilot can measure idling directly.</li>
         <li>Renewals for insurance, lease and registration raise a warning before they lapse.</li>
@@ -461,6 +462,7 @@ table.cmp tr:last-child td{border-bottom:0}
       <tr><th>The challenge</th><th>What we recommend</th><th>The result for MOL</th></tr>
       <tr><td>Cards typed by hand</td><td>MOL card app, or Odoo Contacts on the phone</td><td>A contact saved and shared in under a minute</td></tr>
       <tr><td>Drivers never come to the office</td><td>Clock in and out at the vehicle, with location and odometer photo</td><td>Verified hours per driver, ready for the agency's billing</td></tr>
+      <tr><td>Fuel data is worked out by hand</td><td>Forward the Shell statement to an AI agent that reads it, fills gaps and files it in Odoo</td><td>Fuel per vehicle without manual computation, with estimates clearly marked</td></tr>
       <tr><td>Fuel use cannot be explained</td><td>Daily kilometres, Shell fuel data and time-state estimates in one report</td><td>Traffic, idling and misuse can be told apart</td></tr>
       <tr><td>Renewals rely on memory</td><td>Dated contracts with automatic warnings</td><td>No vehicle on the road with lapsed papers</td></tr>
       <tr><td>Office and driver attendance are separate</td><td>ZKTeco punches imported into the same records</td><td>One attendance report for everyone</td></tr>
@@ -662,7 +664,7 @@ table.cmp tr:last-child td{border-bottom:0}
       </div>
       <div class="panel">
         <h3>Layer 1 · Fuel data you already have</h3>
-        <p style="font-size:.96rem">Import your Shell fleet card exports into Odoo. Fuel and odometer per fill-up appear on each vehicle, with gaps and empty fields flagged for correction.</p>
+        <p style="font-size:.96rem">Staff forward the Shell fleet card statement to a dedicated email address. An AI agent reads it, fills the gaps, replies with what it understood, and files each fill-up on the right vehicle in Odoo. <a href="#fuel" style="text-decoration:underline">See how it works</a>.</p>
         <h3>Layer 2 · Daily odometer from the driver</h3>
         <p style="font-size:.96rem">Each clock-in and clock-out carries an odometer reading and photo. Comparing hours on duty with kilometres driven shows days with long stationary periods, and checks the Shell figures.</p>
         <h3>Layer 3 · The vehicle tablet as a sensor</h3>
@@ -675,7 +677,51 @@ table.cmp tr:last-child td{border-bottom:0}
   </div>
 </section>
 
-<section id="day" class="alt">
+<section id="fuel" class="alt">
+  <div class="container center">
+    <span class="tag2">Fleet · fuel tracking</span>
+    <h2 class="section-h">Shell fuel data, <span class="w-teal">by forwarding an email</span>.</h2>
+    <p class="section-sub">Today the Shell fleet card data is downloaded and worked on by hand, and some fields arrive empty. In this design, staff only forward the file. An AI agent does the reading, the estimating and the filing, and reports back what it did.</p>
+    <div class="wfs" style="max-width:1080px;margin:36px auto 0">
+      <div class="wf rv"><h3>From Shell statement to Odoo</h3><p>One email in, one reply back, records on every vehicle</p><div class="lane"><div class="nd"><b>Staff</b>Download the Shell fleet card statement, or forward Shell's email</div><span class="ar"></span><div class="nd"><b>Send</b>To a dedicated address read by the AI agent</div><span class="ar"></span><div class="nd bl"><b>Extract</b>Each fill-up: date, card, vehicle, litres, pesos, station, odometer</div><span class="ar"></span><div class="nd bl"><b>Interpret</b>Fills gaps with estimates and flags what looks wrong</div><span class="ar"></span><div class="nd bl"><b>Reply</b>Emails back the interpreted data for a quick check</div><span class="ar"></span><div class="nd dk"><b>Odoo Fleet</b>Fuel and odometer records on each vehicle</div></div></div>
+    </div>
+    <div class="sol" style="margin-top:40px">
+      <div class="panel">
+        <h3>What the agent does with gaps</h3>
+        <ul>
+          <li><b>Missing odometer.</b> Estimates it from the fills before and after, and from the driver's daily odometer photos.</li>
+          <li><b>Card not matched to a vehicle.</b> Proposes the vehicle from the card's history and the driver on duty that day.</li>
+          <li><b>Unlikely values.</b> Flags a fill larger than the tank, two fills minutes apart, or a fuel type that does not match the vehicle.</li>
+          <li><b>Consumption.</b> Works out kilometres per litre between fills and marks vehicles that drift from their norm.</li>
+        </ul>
+        <h3>How guesses are kept honest</h3>
+        <ul>
+          <li>Every estimated value is labelled as an estimate in the reply and in Odoo, with the reason.</li>
+          <li>Estimates never overwrite a confirmed reading.</li>
+          <li>Staff correct a line by replying to the email; the agent updates Odoo.</li>
+          <li>Only approved senders are accepted, and rows already filed are skipped.</li>
+        </ul>
+      </div>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div style="background:var(--navy);color:#fff;padding:14px 22px;font-size:.9rem"><b style="display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sky);margin-bottom:2px">Example reply from the agent</b>Re: Shell fleet card statement, 16 to 22 November</div>
+        <div style="padding:18px 22px 20px;font-size:.93rem;line-height:1.55">
+          <p>I read <b>31 fill-ups</b> for <b>10 vehicles</b> and filed them in Odoo Fleet.</p>
+          <table class="agenda" style="margin-top:10px">
+            <tr><td style="width:auto;color:var(--ink)">Filed as read</td><td style="text-align:right;font-weight:700">26</td></tr>
+            <tr><td style="width:auto;color:var(--ink)">Odometer estimated</td><td style="text-align:right;font-weight:700;color:#B7791F">3</td></tr>
+            <tr><td style="width:auto;color:var(--ink)">Vehicle guessed from card history</td><td style="text-align:right;font-weight:700;color:#B7791F">1</td></tr>
+            <tr><td style="width:auto;color:var(--ink)">Held for your check</td><td style="text-align:right;font-weight:700;color:#C0392B">1</td></tr>
+          </table>
+          <p style="margin-top:12px"><b>Please check:</b> NAH 6630 took 68 litres on 19 November after driving 14 km since its last fill. I have not filed this one.</p>
+          <p style="margin-top:8px;color:var(--muted);font-size:.85rem">Reply with a correction on any line and I will update Odoo.</p>
+        </div>
+      </div>
+    </div>
+    <p class="fine" style="text-align:center">The reply shown is an illustration with invented figures. The agent runs inside Odoo or MOL's Microsoft environment, or passes MOL's AI security assessment first.</p>
+  </div>
+</section>
+
+<section id="day">
   <div class="container center">
     <span class="eyebrow">In practice</span>
     <h2 class="section-h">A working day, <span class="w-teal">three views</span>.</h2>
@@ -705,7 +751,7 @@ table.cmp tr:last-child td{border-bottom:0}
 <section id="workflows">
   <div class="container center">
     <span class="eyebrow">How work will flow</span>
-    <h2 class="section-h">The six workflows <span class="w-teal">that matter</span>.</h2>
+    <h2 class="section-h">The seven workflows <span class="w-teal">that matter</span>.</h2>
     <p class="section-sub">Each row is one job from start to finish. Light boxes are people, blue boxes are the app or device, dark boxes are Odoo.</p>
     <div class="wfs">
       <div class="wf rv"><h3>1 · A business card becomes a shared contact</h3><p>Executive office</p><div class="lane"><div class="nd"><b>Meet</b>A card is handed over</div><span class="ar"></span><div class="nd bl"><b>Scan</b>Photographed in the MOL app or entered in Odoo</div><span class="ar"></span><div class="nd"><b>Confirm</b>Fields checked on one screen</div><span class="ar"></span><div class="nd dk"><b>Odoo Contacts</b>Saved once, visible to those allowed</div><span class="ar"></span><div class="nd bl"><b>Greet</b>WhatsApp greeting and your card sent automatically</div><span class="ar"></span><div class="nd"><b>Follow up</b>Call, SMS or email; saved to phone</div></div></div>
@@ -715,6 +761,7 @@ table.cmp tr:last-child td{border-bottom:0}
         <div class="states"><span class="st mv"><i></i>Moving</span><span class="st id"><i></i>Idling</span><span class="st pk"><i></i>Parked</span></div></div>
       <div class="wf rv"><h3>5 · A vehicle from registration to cost report</h3><p>General affairs</p><div class="lane"><div class="nd dk"><b>Register</b>Plate, model, driver, documents</div><span class="ar"></span><div class="nd dk"><b>Contracts</b>Insurance, lease, LTO registration</div><span class="ar"></span><div class="nd dk"><b>Alert</b>Renewal flagged before expiry</div><span class="ar"></span><div class="nd dk"><b>Service</b>Maintenance and fuel recorded</div><span class="ar"></span><div class="nd"><b>Report</b>Cost and usage per vehicle</div></div></div>
       <div class="wf rv"><h3>6 · Approval by headquarters</h3><p>Before go-live</p><div class="lane"><div class="nd"><b>TechNext</b>Completes MOL assessment forms; supplies SLA, NDA, MSA</div><span class="ar"></span><div class="nd"><b>MOL IT</b>Reviews against local policy</div><span class="ar"></span><div class="nd"><b>Tokyo HQ</b>Cybersecurity, safety and compliance assessment</div><span class="ar"></span><div class="nd"><b>Decision</b>Approved, or changes requested</div><span class="ar"></span><div class="nd dk"><b>Go-live</b>System opened to users</div></div></div>
+      <div class="wf rv"><h3>7 · Shell fuel data reaches Odoo by email</h3><p>General affairs</p><div class="lane"><div class="nd"><b>Staff</b>Download the Shell fleet card statement, or forward Shell's email</div><span class="ar"></span><div class="nd"><b>Send</b>To a dedicated address read by the AI agent</div><span class="ar"></span><div class="nd bl"><b>Extract</b>Each fill-up: date, card, vehicle, litres, pesos, station, odometer</div><span class="ar"></span><div class="nd bl"><b>Interpret</b>Fills gaps with estimates and flags what looks wrong</div><span class="ar"></span><div class="nd bl"><b>Reply</b>Emails back the interpreted data for a quick check</div><span class="ar"></span><div class="nd dk"><b>Odoo Fleet</b>Fuel and odometer records on each vehicle</div></div></div>
     </div>
   </div>
 </section>
@@ -804,7 +851,7 @@ table.cmp tr:last-child td{border-bottom:0}
       <tr><td>Business cards, Option B</td><td>Design, build and store publication of the MOL-branded iPhone and Android app; on-device OCR; Odoo Contacts set-up</td><td>TechNext · Apple and Google for store accounts</td><td>Separate quotation</td></tr>
       <tr><td>Driver attendance</td><td>Mobile clock-in with location, odometer photo and reading; link to Fleet; attendance reports</td><td>TechNext</td><td>See quotation</td></tr>
       <tr><td>ZKTeco integration</td><td>Email-in import of exported attendance files from day one; connector for office terminals, tested against your device models</td><td>TechNext · module vendor</td><td>See quotation</td></tr>
-      <tr><td>Fleet management</td><td>Fleet configuration, loading of 10 vehicles, Shell fuel data import, cost and usage reports</td><td>TechNext</td><td>See quotation</td></tr>
+      <tr><td>Fleet management</td><td>Fleet configuration, loading of 10 vehicles, the Shell fuel email agent, cost and usage reports</td><td>TechNext</td><td>See quotation</td></tr>
       <tr><td>Vehicle tablets (optional)</td><td>One 4G tablet per vehicle with mount and data plan: a fixed clock-in point, and the source of GPS trips and moving, idling and parked time</td><td>Hardware supplier · telco</td><td>Optional</td></tr>
       <tr><td>Engine monitoring pilot</td><td>OBD device trial on one vehicle per model, findings report, recommendation</td><td>TechNext</td><td>Separate estimate</td></tr>
       <tr><td>Training</td><td>Hands-on Odoo and Studio sessions; optional AI and IoT workshops</td><td>TechNext</td><td>Itemised in quotation</td></tr>
@@ -868,6 +915,7 @@ table.cmp tr:last-child td{border-bottom:0}
       <details><summary>Who owns the data?</summary><p>MOL does. Contacts, attendance and vehicle records sit in MOL's own Odoo database, and can be exported at any time.</p></details>
       <details><summary>What does Tokyo headquarters need from us?</summary><p>We complete your vendor assessment forms and supply the draft agreement, service levels and non-disclosure terms. Odoo's security documentation covers the platform.<sup class="cite"><a href="#ref-15">[15]</a></sup></p></details>
       <details><summary>Does this use AI on our data?</summary><p>Only where you approve it. Card reading happens on the phone, including Japanese characters. Any AI used for the attendance email import would run inside Odoo or your Microsoft tenant, or go through your security assessment first. See the AI training and security tab.</p></details>
+      <details><summary>How much can the fuel agent guess?</summary><p>Only where a value is missing or clearly wrong, and it says so each time. An estimate is labelled in the reply and in Odoo, never replaces a confirmed reading, and can be corrected by replying to the email.</p></details>
       <details><summary>What if a vehicle blocks the diagnostic port?</summary><p>Then that vehicle relies on the tablet estimate, odometer photos and fuel data, none of which need the port.</p></details>
     </div>
   </div>

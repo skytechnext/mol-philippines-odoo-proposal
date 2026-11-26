@@ -371,7 +371,50 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   </div>
 </section>
 
-<section id="attendance" class="alt">
+<section id="fuel" class="alt">
+  <div class="container">
+    <span class="eyebrow">Preparation · fuel tracking</span>
+    <h2>Shell fuel card data by email, read by an AI agent</h2>
+    <p class="sub">MOL computes fuel use from Shell fleet card data today, and told us the export has discrepancies and empty fields. This is the workflow we propose in place of the manual work.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 1000 150" role="img" aria-label="Staff forward the Shell fleet card statement to a mailbox; an AI agent extracts and interprets it, replies with the interpreted data, and files it in Odoo Fleet">
+        <g font-size="14" text-anchor="middle">
+          <rect x="10" y="35" width="170" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="95" y="68" font-weight="700" fill="#001B33">Staff</text><text x="95" y="90" fill="#3F4C5C" font-size="12.5">download or forward</text>
+          <rect x="215" y="35" width="170" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="300" y="68" font-weight="700" fill="#001B33">Dedicated mailbox</text><text x="300" y="90" fill="#3F4C5C" font-size="12.5">approved senders only</text>
+          <rect x="420" y="35" width="170" height="80" rx="8" fill="#005396"/><text x="505" y="68" font-weight="700" fill="#fff">AI agent</text><text x="505" y="90" fill="#D5E4F1" font-size="12.5">extract, estimate, flag</text>
+          <rect x="625" y="35" width="170" height="80" rx="8" fill="#E6F0F8" stroke="#005396"/><text x="710" y="68" font-weight="700" fill="#001B33">Reply email</text><text x="710" y="90" fill="#3F4C5C" font-size="12.5">interpreted data to check</text>
+          <rect x="830" y="35" width="160" height="80" rx="8" fill="#001B33"/><text x="910" y="68" font-weight="700" fill="#fff">Odoo Fleet</text><text x="910" y="90" fill="#D5E4F1" font-size="12.5">fuel and odometer logs</text>
+        </g>
+        <g stroke="#005396" stroke-width="2" marker-end="url(#ar)"><path d="M180 75H211"/><path d="M385 75H416"/><path d="M590 75H621"/><path d="M795 75H826"/></g>
+      </svg>
+    </div>
+    <div class="grid g3">
+      <div class="box"><h3>1 · Send</h3><p>Staff download the statement or transaction export from the Shell fleet card portal<sup class="cite"><a href="#ref-48">[48]</a></sup>, or forward the email Shell sends, to an address such as fuel@ on MOL's Odoo. Any format Shell provides is accepted: Excel, CSV or PDF.</p></div>
+      <div class="box"><h3>2 · Extract</h3><p>The agent reads each transaction: date and time, card number, vehicle or driver named on the card, product, litres, amount, station, and the odometer keyed in at the pump, where there is one.</p></div>
+      <div class="box"><h3>3 · Interpret</h3><p>It matches cards to vehicles, estimates missing odometer readings from neighbouring fills and the drivers' daily readings, computes kilometres per litre, and flags values that cannot be right.</p></div>
+      <div class="box"><h3>4 · Reply</h3><p>It answers the same email with a summary: what was filed as read, what was estimated and why, and what it held back for a person to decide.</p></div>
+      <div class="box"><h3>5 · File</h3><p>Each fill-up becomes a fuel service record on the vehicle in Odoo Fleet, with litres, cost and odometer. Estimated values carry an "estimated" mark.</p></div>
+      <div class="box"><h3>6 · Correct</h3><p>Staff reply to the email with a correction, or edit the record in Odoo. Confirmed values are never overwritten by a later estimate.</p></div>
+    </div>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="box"><span class="pill p-warn">Risks</span><h3>What needs care</h3><ul>
+        <li><b>Wrong guesses.</b> An estimate can be wrong. Marking every estimate, and holding back doubtful rows, keeps errors visible.</li>
+        <li><b>Data security.</b> The statement holds card numbers, plates and spending. The agent must run inside Odoo or MOL's Microsoft tenant, or pass MOL's AI assessment.</li>
+        <li><b>Format changes.</b> If Shell changes its export layout, the agent adapts better than a fixed import, but the first files should be checked by hand.</li>
+        <li><b>Not real time.</b> Data arrives when someone forwards it. A weekly routine is enough for cost reporting.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-check">To confirm with MOL</span><h3>Before it is built</h3><ul>
+        <li>A sample Shell export, to see its columns and the empty fields MOL mentioned.</li>
+        <li>How cards are assigned: one per vehicle, or one per driver.</li>
+        <li>Who forwards the file, and how often.</li>
+        <li>Whether MOL prefers the agent inside Odoo or in its Microsoft environment.</li>
+      </ul></div>
+    </div>
+    <p class="src">The Shell portal's export formats and fields are assumed from MOL's description in the discovery session; we have not seen a sample file. The agent itself is a custom build on Odoo's incoming-mail and automation features.</p>
+  </div>
+</section>
+
+<section id="attendance">
   <div class="container">
     <span class="eyebrow">Preparation · driver attendance</span>
     <h2>Clock-in with odometer photo and location</h2>
@@ -389,7 +432,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   </div>
 </section>
 
-<section id="zk">
+<section id="zk" class="alt">
   <div class="container">
     <span class="eyebrow">Research · office attendance</span>
     <h2>Connecting ZKTeco terminals to Odoo</h2>
@@ -571,6 +614,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <li id="ref-45">OpenAI on GPT-5.6 in Copilot. <a href="https://openai.com/index/gpt-5-6-preferred-model-microsoft-365-copilot" target="_blank" rel="noopener">openai.com</a></li>
       <li id="ref-46">Claude Opus 5 in Microsoft 365 Copilot. <a href="https://techcommunity.microsoft.com/blog/Microsoft365CopilotBlog/available-today-anthropic-claude-opus-5-in-microsoft-365-copilot/4540524" target="_blank" rel="noopener">techcommunity.microsoft.com</a></li>
       <li id="ref-47">TechRadar on model choice. <a href="https://www.techradar.com/pro/you-can-now-choose-between-chatgpt-and-claude-for-your-ai-needs-in-microsoft-365" target="_blank" rel="noopener">techradar.com</a></li>
+      <li id="ref-48">Shell Philippines, "Shell Fleet Card". <a href="https://www.shell.com.ph/business-customers/shell-fleet-card.html" target="_blank" rel="noopener">shell.com.ph</a></li>
     </ol>
   </div>
 </section>
