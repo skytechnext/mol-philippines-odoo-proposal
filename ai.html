@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Training &amp; Data Security — MOL Enterprise (Philippines) · TechNext</title>
+<meta name="description" content="AI training programme and AI data security approach proposed by TechNext for MOL Enterprise (Philippines) Inc."/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005396'/><text x='16' y='22' font-size='17' font-weight='700' font-family='sans-serif' fill='white' text-anchor='middle'>M</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Slab:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --purple:#005396;--purple-dark:#003E71;--purple-light:#E6F0F8;--navy:#001B33;--sky:#22C3FF;
+  --teal:#0086BD;--coral:#E8695D;--blue:#007CE1;--mint:#00A0DC;
+  --ink:#001B33;--body:#3F4C5C;--muted:#7C8A9A;--line:#DCE3EC;--bg-alt:#F0F2F8;
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:'Roboto',system-ui,-apple-system,sans-serif;color:var(--body);background:#fff;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{color:var(--ink);font-family:'Roboto',sans-serif;font-weight:700;line-height:1.15;letter-spacing:.01em}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.center{text-align:center}
+.ink-purple{color:var(--purple);text-decoration:underline wavy;text-decoration-color:rgba(0,160,220,.55);text-underline-offset:7px;text-decoration-thickness:2.5px}
+.w-teal{color:var(--mint)}.w-coral{color:var(--coral)}.w-blue{color:var(--blue)}
+.hl-teal{background:rgba(0,160,220,.22);padding:.02em .18em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.u-blue{background:linear-gradient(var(--blue),var(--blue)) 0 90%/100% 5px no-repeat;padding-bottom:3px}
+.eyebrow{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:20px}
+.section-h{font-size:clamp(2.3rem,4.8vw,3.6rem);margin:0 auto 18px;max-width:20em}
+.section-sub{font-size:1.13rem;max-width:44em;margin:0 auto;color:var(--body)}
+
+/* nav */
+#nav{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 10px 30px -18px rgba(0,27,51,.25)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{height:20px;width:auto}
+.by{display:flex;align-items:center;gap:8px;flex:none}.by img{height:17px;width:auto}.by img.tn{height:15px}.by i{font-style:normal;color:var(--muted);font-size:13px}.by small{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.brand i{font-style:normal;color:var(--muted);font-size:16px}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;flex:1}
+.nav-links a{font-size:13.5px;font-weight:600;white-space:nowrap;transition:color .18s}
+.nav-links a:hover,.nav-links a.active{color:var(--purple)}
+.nav-links a.active{font-weight:800}
+@media(max-width:1080px){.by small{display:none}}
+@media(max-width:860px){.nav-inner{flex-wrap:wrap;row-gap:8px;justify-content:space-between}.nav-links{order:3}.nav-links{width:100%;justify-content:center;gap:6px 14px}.nav-links a{font-size:12.5px}}
+
+/* hero */
+.page-hero{position:relative;padding:150px 0 130px;text-align:center;color:#D5E4F1;background:linear-gradient(160deg,#001B33 0%,#003E71 55%,#005396 100%);overflow:hidden}
+.page-hero h1{color:#fff}.page-hero .eyebrow{color:var(--sky)}.page-hero .section-sub{color:#D5E4F1}
+.page-hero .ink-purple{color:var(--sky);text-decoration-color:rgba(34,195,255,.6)}
+.hero-logo{height:34px;width:auto;margin:0 auto 34px}
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:90px;display:block}
+.prepared{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--muted);margin-bottom:22px;text-transform:uppercase}
+.prepared{color:#9DB8D1}.prepared b{color:#fff}
+.page-hero h1{font-size:clamp(2.5rem,5.6vw,4.1rem);margin:0 auto 18px;max-width:15em}
+@media(max-width:860px){.page-hero{padding-top:170px}}
+
+section{padding:84px 0}
+section.alt{background:var(--bg-alt)}
+
+/* context strip */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;text-align:left}
+.fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 28px;box-shadow:0 18px 44px -30px rgba(0,27,51,.25)}
+.fact h3{font-family:'Roboto',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:8px}
+.fact p{font-size:.97rem;line-height:1.6}
+.fact .tag{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.fact:nth-child(1) .tag{color:var(--coral)}.fact:nth-child(2) .tag{color:var(--teal)}.fact:nth-child(3) .tag{color:var(--purple)}
+
+/* journey map */
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;text-align:left}
+.j-col{background:var(--purple-light);border-radius:18px;padding:28px 30px}
+.j-col h3{font-size:2rem;margin-bottom:10px}
+.j-col a{display:flex;gap:10px;align-items:baseline;padding:7px 0;font-weight:600;font-size:1rem;color:var(--ink);transition:transform .2s,color .2s}
+.j-col a:hover{transform:translateX(5px);color:var(--purple)}
+.j-col a span{font-family:'Roboto',sans-serif;font-size:1.35rem;color:var(--purple);width:1.1em;flex:none}
+
+/* steps */
+.step-head{max-width:820px;margin:0 auto;text-align:center}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;background:var(--purple);color:#fff;font-family:'Roboto',sans-serif;font-size:2rem;font-weight:700;margin-bottom:16px}
+.step-head h2{font-size:clamp(2.2rem,4.4vw,3.3rem);margin-bottom:16px}
+.step-head p{font-size:1.08rem}
+.shot{position:relative;max-width:1000px;margin:44px auto 0}
+.shot::before{content:"";position:absolute;left:50%;top:52%;transform:translate(-50%,-50%) rotate(-5deg);width:106%;height:98%;background:rgba(0,83,150,.07);border-radius:48% 52% 56% 44%/56% 45% 55% 44%;z-index:0;pointer-events:none}
+figure.gif{position:relative;z-index:1;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 46px -26px rgba(0,27,51,.34);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;cursor:zoom-in}
+figure.gif:hover{transform:translateY(-5px);box-shadow:0 34px 70px -28px rgba(0,27,51,.45)}
+.gif-bar{display:flex;align-items:center;gap:6px;padding:9px 14px;background:#F0F2F8;border-bottom:1px solid var(--line)}
+.gif-bar i{width:9px;height:9px;border-radius:50%;background:#c5d0dd}
+.gif-bar span{margin-left:8px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+figure.gif img{width:100%;height:auto}
+figure.gif figcaption{padding:13px 18px;font-size:.93rem;line-height:1.5;border-top:1px solid var(--line);text-align:left;color:var(--body)}
+figure.gif figcaption b{color:var(--ink)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:1120px;margin:44px auto 0}
+.duo .shot{margin:0;max-width:none}
+.duo .shot::before{display:none}
+.script-line{font-family:'Roboto',sans-serif;font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:700;color:var(--ink);text-align:center;margin-top:40px}
+.mol-note{max-width:820px;margin:34px auto 0;display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:12px;padding:20px 24px;text-align:left;font-size:.99rem;line-height:1.6}
+.mol-note b{color:var(--ink)}
+.mol-note .lbl{flex:none;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);padding-top:4px;width:74px}
+
+/* cards */
+.cards{columns:2;column-gap:26px;margin-top:44px;text-align:left}
+.card{background:#fff;border-radius:14px;padding:28px 32px;box-shadow:0 18px 44px -26px rgba(0,27,51,.25);break-inside:avoid;margin-bottom:26px}
+.card h3{font-family:'Roboto',sans-serif;font-size:1.18rem;font-weight:800;margin-bottom:10px}
+.card p{font-size:1rem}
+.h-left{text-align:left;margin-left:0;max-width:13em}
+
+/* connected apps */
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px;text-align:left}
+.app{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;transition:transform .25s,box-shadow .25s}
+.app:hover{transform:translateY(-4px);box-shadow:0 24px 50px -30px rgba(0,27,51,.4)}
+.app .ico{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:#fff}
+.app .ico svg{width:26px;height:26px}
+.app h3{font-family:'Roboto',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:8px}
+.app p{font-size:.94rem;line-height:1.6}
+.app .scope{display:inline-block;margin-top:12px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+.app.now{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-light)}
+
+/* timeline */
+.cutover{max-width:900px;margin:44px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;text-align:center}
+.cutover::before{content:"";position:absolute;left:12.5%;right:12.5%;top:13px;height:3px;background:var(--line)}
+.cut{position:relative;padding:0 10px}
+.cut i{display:block;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid var(--purple);margin:0 auto 14px;position:relative}
+.cut.end i{border-color:var(--coral);background:var(--coral)}
+.cut b{display:block;color:var(--ink);font-size:.98rem}
+.cut span{font-size:.88rem;line-height:1.45;display:block;margin-top:4px}
+
+footer{padding:44px 0 60px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted);text-align:center}
+footer a{color:var(--purple);font-weight:600}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:200;background:rgba(0,27,51,.86);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+#lb.open{display:flex}
+#lb img{max-width:min(1500px,100%);max-height:100%;width:100%;height:auto;object-fit:contain;border-radius:10px;background:#fff}
+
+.section-h{font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:-.015em;line-height:1.2}
+.page-hero h1{font-size:clamp(2rem,4.6vw,3.3rem);letter-spacing:-.02em;line-height:1.15;max-width:17em}
+.step-head h2{font-size:clamp(1.7rem,3.1vw,2.35rem);letter-spacing:-.015em;line-height:1.2}
+.j-col h3{font-size:1.3rem;letter-spacing:0}
+.j-col a span{font-size:.95rem;font-weight:900}
+.step-num{font-size:1.35rem;font-weight:900;border-radius:6px;width:48px;height:48px}
+.script-line{font-family:'Roboto Slab',serif;font-weight:500;font-size:clamp(1.25rem,2.4vw,1.6rem);color:var(--purple)}
+.fact,.card,.app,figure.gif,.mol-note,.j-col{border-radius:8px}
+.stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1080px;margin:-72px auto 0;padding:0 28px}
+.stat{background:#fff;border-radius:8px;padding:22px 24px;box-shadow:0 24px 50px -28px rgba(0,27,51,.45);border-top:4px solid var(--mint);text-align:left}
+.stat b{display:block;font-size:2rem;font-weight:900;color:var(--purple);line-height:1.1}
+.stat span{display:block;font-size:.88rem;line-height:1.45;margin-top:6px}
+.stats-src{text-align:center;font-size:.8rem;color:var(--muted);margin-top:14px}
+.stats-src a{text-decoration:underline}
+.bridge{max-width:860px;margin:0 auto;border-left:5px solid var(--mint);padding:6px 0 6px 26px;text-align:left}
+.bridge q{display:block;font-family:'Roboto Slab',serif;font-size:1.3rem;line-height:1.5;color:var(--ink);quotes:none}
+.bridge p{margin-top:12px;font-size:1rem}
+footer .f-logo{height:22px;margin:0 auto 18px}
+@media(max-width:900px){
+  .stats{grid-template-columns:1fr 1fr}
+  section{padding:60px 0}
+  .facts,.journey,.duo{grid-template-columns:1fr}
+  .apps{grid-template-columns:1fr 1fr}
+  .cards{columns:1}
+  .shot::before{display:none}
+  .cutover{grid-template-columns:1fr;gap:22px;text-align:left}
+  .cutover::before{display:none}
+  .cut{display:grid;grid-template-columns:28px 1fr;column-gap:14px;padding:0}
+  .cut i{margin:0;grid-row:span 2}
+  .mol-note{flex-direction:column;gap:6px}
+}
+@media(max-width:520px){.apps{grid-template-columns:1fr}.container{padding:0 18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+.tabs{display:flex;gap:4px;background:var(--bg-alt);border-radius:8px;padding:4px;flex:none}
+.tabs a{font-size:13px;font-weight:700;padding:7px 14px;border-radius:6px;white-space:nowrap;color:var(--body)}
+.tabs a.on{background:var(--purple);color:#fff}
+.tabs a:not(.on):hover{color:var(--purple)}
+.nav-links{gap:13px;flex-wrap:nowrap}.nav-links a{font-size:13px}.by small{display:none}
+.pri{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;text-align:left}
+.pri .fact{position:relative;padding-top:30px}
+.pri .n{position:absolute;top:-18px;left:24px;width:40px;height:40px;border-radius:6px;background:var(--purple);color:#fff;font-weight:900;font-size:1.15rem;display:flex;align-items:center;justify-content:center}
+.pri ul,.sol ul{padding-left:18px;margin-top:10px}
+.pri li,.sol li{font-size:.96rem;margin:5px 0;line-height:1.55}
+.sol{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;max-width:1080px;margin:0 auto;text-align:left}
+.sol h2{font-size:clamp(1.7rem,3.1vw,2.35rem);margin-bottom:14px}
+.sol .panel{background:#fff;border:1px solid var(--line);border-radius:8px;padding:26px 28px;box-shadow:0 18px 44px -30px rgba(0,27,51,.25)}
+.sol .panel h3{font-size:1.02rem;margin-bottom:6px;letter-spacing:0}
+.sol .panel h3+ul{margin-top:4px}
+.sol .panel h3:not(:first-child){margin-top:18px}
+.flow{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin-top:8px}
+.flow div{flex:1;min-width:120px;background:var(--purple-light);padding:14px 16px;font-size:.9rem;line-height:1.45;position:relative;margin:0 14px 10px 0;border-radius:6px}
+.flow div b{display:block;color:var(--purple);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.tag2{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:3px 10px;margin-bottom:12px;background:var(--purple-light);color:var(--purple)}
+.tag2.p2{background:#FBF1DD;color:#B7791F}
+.step-num.sm{width:38px;height:38px;font-size:1.05rem;margin-bottom:12px}
+table.inv{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:.96rem;text-align:left;margin-top:36px}
+table.inv th,table.inv td{padding:13px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+table.inv th{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+table.inv tr:last-child td{border-bottom:0}
+table.inv td:first-child{font-weight:700;color:var(--ink);width:26%}
+table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
+.tw{overflow-x:auto}
+.fine{font-size:.86rem;color:var(--muted);margin-top:14px;text-align:left}
+.next{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;text-align:left}
+.next .fact b.who{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+@media(max-width:1180px){.nav-links{display:none}}
+@media(max-width:900px){.pri,.sol,.next{grid-template-columns:1fr}.sol{gap:26px}.pri{gap:34px}}
+@media(max-width:520px){.next{grid-template-columns:1fr}.by{display:none}}
+
+.doc-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:30px;font-size:.85rem;color:#9DB8D1}
+.doc-meta b{color:#fff;font-weight:700}
+.exec{max-width:900px;margin:0 auto;text-align:left}
+.exec .lead{font-family:'Roboto Slab',serif;font-size:1.35rem;line-height:1.5;color:var(--ink);border-left:5px solid var(--mint);padding-left:24px;margin-bottom:26px}
+.exec p{margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:left}
+.two .fact ul{padding-left:18px;margin-top:8px}.two .fact li{font-size:.96rem;margin:6px 0;line-height:1.55}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;text-align:left}
+.kpi .fact b.big{display:block;font-size:1.5rem;font-weight:900;color:var(--purple);line-height:1.2;margin-bottom:8px}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px;text-align:left}
+.day{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.day h3{background:var(--navy);color:#fff;font-size:1.02rem;padding:16px 22px;letter-spacing:0}
+.day h3 small{display:block;font-weight:400;font-size:.8rem;color:#9DB8D1;margin-top:2px}
+.day ol{list-style:none;padding:8px 22px 18px;counter-reset:d}
+.day li{position:relative;padding:12px 0 12px 34px;font-size:.95rem;line-height:1.5;border-bottom:1px dashed var(--line)}
+.day li:last-child{border-bottom:0}
+.day li::before{counter-increment:d;content:counter(d);position:absolute;left:0;top:13px;width:22px;height:22px;border-radius:50%;background:var(--purple-light);color:var(--purple);font-size:.75rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.gal figure.gif figcaption{font-size:.88rem}
+.plan{margin-top:40px;text-align:left}
+.ph-row{display:grid;grid-template-columns:150px 1fr 1.2fr;gap:22px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.ph-row:last-child{border-bottom:1px solid var(--line)}
+.ph-row .wk{font-weight:900;color:var(--purple);font-size:.95rem}
+.ph-row .wk small{display:block;font-weight:500;color:var(--muted);font-size:.8rem;margin-top:2px}
+.ph-row h3{font-size:1.08rem;letter-spacing:0;margin-bottom:4px}
+.ph-row p{font-size:.95rem;line-height:1.55}
+.ph-row .gate{font-size:.9rem;background:var(--purple-light);border-radius:6px;padding:10px 14px}
+.ph-row .gate b{color:var(--purple);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:left}
+.team table{width:100%;border-collapse:collapse;font-size:.95rem}
+.team td{padding:10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.team td:first-child{font-weight:700;color:var(--ink);width:42%;padding-right:12px}
+.team tr:last-child td{border-bottom:0}
+@media(max-width:900px){.two,.kpi,.days,.gal,.team{grid-template-columns:1fr}.ph-row{grid-template-columns:1fr;gap:8px}}
+@media(min-width:901px) and (max-width:1100px){.kpi{grid-template-columns:1fr 1fr}.gal{grid-template-columns:1fr 1fr}}
+
+/* ---- round 3: citations, motion, phones, workflows ---- */
+.cite a{font-size:.68em;font-weight:700;color:var(--teal);padding:0 1px;text-decoration:none}
+.cite a:hover{text-decoration:underline}
+html.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+html.js .rv.in{opacity:1;transform:none}
+.opt2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:40px;text-align:left}
+.opt{background:#fff;border:1px solid var(--line);border-radius:10px;padding:30px 30px 26px;position:relative;box-shadow:0 18px 44px -30px rgba(0,27,51,.25)}
+.opt.rec{border:2px solid var(--purple)}
+.opt .badge{position:absolute;top:-13px;left:26px;background:var(--purple);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:99px}
+.opt .badge.alt{background:var(--mint)}
+.opt h3{font-size:1.35rem;letter-spacing:-.01em;margin:6px 0 8px}
+.opt>p{font-size:.98rem}
+.opt ul{list-style:none;margin-top:14px}
+.opt li{position:relative;padding:7px 0 7px 28px;font-size:.95rem;line-height:1.5;border-top:1px dashed var(--line)}
+.opt li::before{content:"";position:absolute;left:2px;top:13px;width:14px;height:8px;border-left:2.5px solid var(--mint);border-bottom:2.5px solid var(--mint);transform:rotate(-45deg)}
+.opt li.no::before{border:0;width:12px;height:2.5px;background:var(--muted);transform:none;top:17px}
+.opt .when{margin-top:16px;background:var(--bg-alt);border-radius:6px;padding:12px 14px;font-size:.92rem}
+.opt .when b{color:var(--ink)}
+.showcase{display:grid;grid-template-columns:auto 1fr;gap:54px;align-items:center;max-width:1080px;margin:56px auto 0;text-align:left}
+.phones{display:flex;gap:22px;align-items:flex-end}
+.phone{width:218px;border-radius:30px;background:#0b1e33;padding:9px;box-shadow:0 40px 70px -30px rgba(0,27,51,.6);flex:none}
+.phone.b{transform:translateY(-22px)}
+.scr{background:#fff;border-radius:22px;overflow:hidden;height:420px;display:flex;flex-direction:column;font-size:11.5px;line-height:1.35;color:var(--body)}
+.scr .top{background:var(--purple);color:#fff;padding:12px 14px 11px;font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:8px}
+.scr .top img{height:11px;filter:brightness(0) invert(1)}
+.scr .bd{padding:13px 14px;flex:1}
+.bcard{position:relative;border-radius:8px;background:linear-gradient(135deg,#f7f9fc,#e6eef7);border:1px solid var(--line);height:112px;padding:13px 12px;overflow:hidden}
+.bcard b{display:block;color:var(--ink);font-size:12.5px}
+.bcard i{display:block;font-style:normal;font-size:10px;color:var(--muted)}
+.bcard .co{position:absolute;right:12px;bottom:10px;font-weight:900;color:var(--purple);font-size:10.5px;letter-spacing:.06em}
+.bcard::after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--sky);box-shadow:0 0 14px 4px rgba(34,195,255,.55);top:0;animation:scan 2.6s ease-in-out infinite}
+@keyframes scan{0%,100%{top:4%}50%{top:92%}}
+.fld{margin-top:9px;border-bottom:1px solid var(--line);padding-bottom:6px;opacity:0;animation:fin 7s infinite}
+.fld small{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fld span{color:var(--ink);font-weight:500}
+.fld:nth-of-type(2){animation-delay:.5s}.fld:nth-of-type(3){animation-delay:1s}.fld:nth-of-type(4){animation-delay:1.5s}.fld:nth-of-type(5){animation-delay:2s}
+@keyframes fin{0%,6%{opacity:0;transform:translateY(5px)}14%,92%{opacity:1;transform:none}100%{opacity:0}}
+.savebtn{margin-top:12px;background:var(--purple);color:#fff;text-align:center;border-radius:8px;padding:9px;font-weight:700;font-size:12px}
+.who{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.who .av{width:42px;height:42px;border-radius:50%;background:var(--purple-light);color:var(--purple);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:14px}
+.who b{display:block;color:var(--ink);font-size:13px}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.act{border-radius:10px;padding:9px 2px 7px;text-align:center;font-size:9.5px;font-weight:700;color:#fff;animation:pop 6s infinite}
+.act svg{width:17px;height:17px;display:block;margin:0 auto 4px}
+.act:nth-child(1){background:#1F8A5B}.act:nth-child(2){background:#25a366;animation-delay:.4s}.act:nth-child(3){background:#005396;animation-delay:.8s}.act:nth-child(4){background:#7C5CBF;animation-delay:1.2s}
+@keyframes pop{0%,8%{transform:scale(1)}4%{transform:scale(1.09)}}
+.row2{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line)}
+.row2 span:last-child{color:var(--ink);font-weight:500}
+.tophone{margin-top:10px;border:1.5px solid var(--purple);color:var(--purple);border-radius:8px;text-align:center;padding:8px;font-weight:700;font-size:11.5px}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px}
+.feat div{padding-left:44px;position:relative}
+.feat .ic{position:absolute;left:0;top:2px;width:32px;height:32px;border-radius:8px;background:var(--purple-light);color:var(--purple);display:flex;align-items:center;justify-content:center}
+.feat .ic svg{width:17px;height:17px}
+.feat b{display:block;color:var(--ink);font-size:.98rem}
+.feat span{font-size:.9rem;line-height:1.5;display:block}
+.bene{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;text-align:left}
+.bene .fact b.big{display:block;font-size:1.25rem;font-weight:900;color:var(--purple);margin-bottom:6px;line-height:1.2}
+.chan{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px;text-align:left}
+.chan .fact{padding:22px 20px}
+.chan .ico2{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:12px}
+.chan .ico2 svg{width:21px;height:21px}
+.chan small{display:block;margin-top:8px;font-size:.8rem;color:var(--muted);line-height:1.45}
+/* workflows */
+.wfs{display:grid;gap:22px;margin-top:40px;text-align:left}
+.wf{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 24px 20px}
+.wf h3{font-size:1.08rem;letter-spacing:0;margin-bottom:2px}
+.wf>p{font-size:.92rem;margin-bottom:16px;color:var(--body)}
+.lane{display:flex;align-items:stretch;gap:0}
+.nd{flex:1;min-width:0;background:var(--purple-light);border-radius:8px;padding:12px 12px 11px;font-size:.84rem;line-height:1.4;position:relative}
+.nd b{display:block;color:var(--purple);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.nd.dk{background:var(--navy);color:#D5E4F1}.nd.dk b{color:var(--sky)}
+.nd.bl{background:var(--purple);color:#E6F0F8}.nd.bl b{color:#fff}
+.ar{flex:none;width:34px;position:relative;align-self:center;height:2px;background:repeating-linear-gradient(90deg,var(--purple) 0 6px,transparent 6px 11px);background-size:22px 2px;animation:dash 1.1s linear infinite}
+.ar::after{content:"";position:absolute;right:-1px;top:-4px;border-left:7px solid var(--purple);border-top:5px solid transparent;border-bottom:5px solid transparent}
+@keyframes dash{to{background-position:22px 0}}
+.states{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.st{display:flex;align-items:center;gap:8px;border-radius:99px;padding:6px 14px 6px 10px;font-size:.84rem;font-weight:700;background:var(--bg-alt);color:var(--ink)}
+.st i{width:10px;height:10px;border-radius:50%;display:block}
+.st.mv i{background:#1F8A5B;animation:pulse 1s infinite}.st.id i{background:#E8A13D;animation:pulse 2.2s infinite}.st.pk i{background:#8A97A6}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,138,91,.5)}100%{box-shadow:0 0 0 9px rgba(31,138,91,0)}}
+table.cmp{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:.95rem;text-align:left;margin-top:34px}
+table.cmp th,table.cmp td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp th{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+table.cmp td:first-child{font-weight:700;color:var(--ink);width:22%}
+table.cmp tr:last-child td{border-bottom:0}
+.faq{max-width:880px;margin:36px auto 0;text-align:left}
+.faq details{border-top:1px solid var(--line);padding:16px 4px}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{font-weight:700;color:var(--ink);cursor:pointer;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--purple);font-weight:900;font-size:1.2rem;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin-top:10px;font-size:.97rem}
+.refs{max-width:920px;margin:28px auto 0;text-align:left;font-size:.88rem;line-height:1.55;columns:2;column-gap:36px}
+.refs li{margin:0 0 8px 18px;break-inside:avoid}
+.refs a{color:var(--purple);text-decoration:underline;word-break:break-word}
+:target{scroll-margin-top:100px}
+.refs li:target{background:var(--purple-light);border-radius:4px}
+@media(max-width:1000px){.showcase{grid-template-columns:1fr;gap:34px}.phones{justify-content:center}.chan{grid-template-columns:1fr 1fr}.bene{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.opt2,.feat{grid-template-columns:1fr}.lane{flex-direction:column}.ar{width:2px;height:22px;align-self:flex-start;margin-left:26px;background:repeating-linear-gradient(180deg,var(--purple) 0 6px,transparent 6px 11px)}.ar::after{right:-4px;top:auto;bottom:-2px;border-top:7px solid var(--purple);border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:0}.refs{columns:1}}
+@media(max-width:520px){.phone{width:150px}.scr{height:330px;font-size:9.5px}.phone.b{transform:none}.chan,.bene{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.bcard::after,.fld,.act,.ar,.st i{animation:none!important}.fld{opacity:1}html.js .rv{opacity:1;transform:none}}
+
+.page-hero.slim{padding:140px 0 110px}
+.agenda{width:100%;border-collapse:collapse;font-size:.93rem;margin-top:14px}
+.agenda td{padding:9px 0;border-top:1px dashed var(--line);vertical-align:top}
+.agenda td:first-child{width:92px;font-weight:700;color:var(--purple);white-space:nowrap}
+.tier{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:left}
+.tier .th{background:var(--navy);color:#fff;padding:20px 24px}
+.tier .th small{display:block;color:var(--sky);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.tier .th h3{color:#fff;font-size:1.25rem;letter-spacing:0}
+.tier .th p{font-size:.88rem;color:#B9CDE0;margin-top:4px}
+.tier .tb{padding:18px 24px 22px}
+.tier .tb h4{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
+.tier .tb ul{padding-left:18px}.tier .tb li{font-size:.93rem;margin:4px 0;line-height:1.5}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
+.shield{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;text-align:left}
+.shield .fact .n2{display:flex;width:34px;height:34px;border-radius:8px;background:var(--purple);color:#fff;font-weight:900;align-items:center;justify-content:center;margin-bottom:12px}
+.lights{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px;text-align:left}
+.light{border-radius:10px;padding:22px 24px;border:1px solid var(--line);background:#fff;border-top:6px solid}
+.light.g{border-top-color:#1F8A5B}.light.a{border-top-color:#E8A13D}.light.r{border-top-color:#D8483A}
+.light h3{font-size:1.05rem;letter-spacing:0;margin-bottom:8px}
+.light ul{padding-left:18px}.light li{font-size:.93rem;margin:5px 0;line-height:1.5}
+@media(max-width:1000px){.tiers,.shield,.lights{grid-template-columns:1fr}}
+
+/* ---- review round 2 fixes ---- */
+@media(max-width:860px){.tabs{order:2;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs a{font-size:11.5px;padding:7px 6px;flex:1;text-align:center}}
+@media(max-width:900px){.next.n3{grid-template-columns:1fr!important}}
+@media(max-width:520px){.phones{gap:10px}.phone{width:156px;padding:7px;border-radius:24px}.scr{border-radius:18px;height:340px;font-size:9.5px}.scr .top{padding:9px 10px;font-size:10.5px}.scr .top img{display:none}.scr .bd{padding:9px 9px}.bcard{height:84px;padding:9px}.bcard b{font-size:10.5px}.bcard i:nth-of-type(n+2){display:none}.bcard .co{font-size:8.5px;right:9px;bottom:7px}.acts{gap:3px}.act{font-size:7.5px;padding:7px 0 5px;border-radius:7px}.act svg{width:13px;height:13px}.who .av{width:32px;height:32px;font-size:11px}.who b{font-size:11px}.savebtn,.tophone{font-size:9.5px;padding:7px}}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><img src="img/mol_logo.svg" alt="MOL Mitsui O.S.K. Lines"/></a>
+    <div class="tabs"><a href="index.html">Proposal</a><a href="research.html">Research</a><a class="on" href="ai.html">AI &amp; security</a><a href="demo.html">Demo guide</a></div>
+    <div class="nav-links">
+      <a href="#partners">Certified partners</a>
+      <a href="#programme">MOL programme</a>
+      <a href="#security">AI data security</a>
+      <a href="#molplan">Plan for MOL</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero slim" id="top">
+  <div class="container">
+    <p class="prepared">AI training and data security · for <b>MOL Enterprise (Philippines) Inc.</b></p>
+    <h1>Use AI with confidence, <span class="ink-purple">without losing control of data</span>.</h1>
+    <p class="section-sub">A training programme modelled on certified courses and tailored to MOL, and a practical approach to keeping company data safe when people use AI.</p>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50 C 240 10, 480 90, 720 50 S 1200 10, 1440 50 V90 H0Z" fill="#00A0DC" opacity=".35"/><path d="M0 62 C 260 28, 520 96, 760 60 S 1220 30, 1440 64 V90 H0Z" fill="#fff"/></svg>
+</header>
+
+<section id="partners" style="padding-top:56px">
+  <div class="container center">
+    <span class="eyebrow">Research · who certifies AI skills</span>
+    <h2 class="section-h">Training partners with <span class="w-teal">recognised certificates</span>.</h2>
+    <p class="section-sub">We reviewed providers whose courses end in a recognised credential, and used their published outlines as the model for MOL's programme. MOL's Microsoft environment makes the Microsoft track the natural core.</p>
+    <div class="tw"><table class="cmp">
+      <tr><th>Provider and credential</th><th>Who it is for</th><th>What the course covers</th><th>Format</th></tr>
+      <tr><td>Microsoft · AB-900, AB-730, AB-731<sup class="cite"><a href="#ref-1">[1]</a><a href="#ref-2">[2]</a></sup></td><td>Business users and leaders in Microsoft 365 organisations</td><td>AB-730: using generative AI and Copilot to streamline business workflows without coding. AB-731: defining the business value of AI, integrating Copilot and related tools, and driving adoption across the company. AB-900 is the foundation.</td><td>Microsoft Learn paths, instructor-led by training partners, proctored exams</td></tr>
+      <tr><td>Microsoft · Azure AI Fundamentals<sup class="cite"><a href="#ref-3">[3]</a></sup></td><td>Anyone new to AI concepts</td><td>Core AI and machine-learning concepts and Azure AI services. The AI-900 exam is listed to retire on 30 June 2026 and be replaced by AI-901.</td><td>Self-paced or one-day class, exam</td></tr>
+      <tr><td>IAPP · AI Governance Professional (AIGP)<sup class="cite"><a href="#ref-4">[4]</a><a href="#ref-5">[5]</a></sup></td><td>Compliance, legal, risk, IT governance</td><td>Four domains: foundations of AI governance; how laws, standards and frameworks apply to AI; governing AI development; governing AI deployment and use. Version 2.1 took effect on 2 February 2026.</td><td>Self-paced or instructor-led; three-hour, 100-question exam</td></tr>
+      <tr><td>PECB · ISO/IEC 42001 Lead Implementer<sup class="cite"><a href="#ref-6">[6]</a><a href="#ref-7">[7]</a></sup></td><td>Those who will set up and run an AI management system</td><td>Introduction to ISO/IEC 42001 and starting the implementation; planning; implementation; monitoring and measurement; continual improvement and audit preparation.</td><td>Five days (some resellers list four), three-hour exam</td></tr>
+      <tr><td>University executive workshops<sup class="cite"><a href="#ref-8">[8]</a><a href="#ref-9">[9]</a><a href="#ref-10">[10]</a></sup></td><td>Executives and managers</td><td>Brown: a 90-minute hands-on executive workshop. UConn: a one-day, six-hour Generative AI for Business workshop with a micro-credential. London Business School: generative AI for leaders, from insight to implementation.</td><td>Short workshops with certificates of completion</td></tr>
+    </table></div>
+    <p class="fine">Course details are as published by each provider and can change. TechNext is not an accredited provider of these certifications; we deliver the tailored workshops below and can arrange the certified exams through authorised partners.</p>
+  </div>
+</section>
+
+<section id="programme" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Proposed programme</span>
+    <h2 class="section-h">Three tiers, <span class="w-teal">tailored to MOL</span>.</h2>
+    <p class="section-sub">The structure follows the certified courses above. The examples, exercises and rules are MOL's own: Microsoft 365 E5, Odoo, shipping operations data, and the requirement that outside AI tools pass a security assessment.</p>
+    <div class="tiers">
+      <div class="tier rv"><div class="th"><small>Tier 1 · half day</small><h3>Executives</h3><p>Modelled on Microsoft AB-731 and university executive workshops<sup class="cite"><a href="#ref-1">[1]</a><a href="#ref-8">[8]</a></sup></p></div><div class="tb">
+        <table class="agenda">
+          <tr><td>30 min</td><td>What generative AI can and cannot do, shown live on MOL-style documents</td></tr>
+          <tr><td>45 min</td><td>Where AI pays off in a shipping control centre: reporting, vessel performance summaries, correspondence, contracts</td></tr>
+          <tr><td>45 min</td><td>Risk and governance: data leakage, accuracy, accountability; what Tokyo headquarters will ask</td></tr>
+          <tr><td>45 min</td><td>Hands-on: Copilot Chat for a board brief and a partner email</td></tr>
+          <tr><td>30 min</td><td>Decide: MOL Philippines' AI priorities and guardrails</td></tr>
+        </table>
+        <h4>Leaves with</h4><ul><li>A one-page AI position for MOL Philippines</li><li>Optional route to AB-731</li></ul>
+      </div></div>
+      <div class="tier rv"><div class="th"><small>Tier 2 · one day</small><h3>Managers and IT</h3><p>Modelled on IAPP AIGP domains and ISO/IEC 42001 implementation<sup class="cite"><a href="#ref-4">[4]</a><a href="#ref-6">[6]</a></sup></p></div><div class="tb">
+        <table class="agenda">
+          <tr><td>Morning</td><td>How AI systems work; where they fail; the laws and standards that apply, including the Philippine privacy regulator's AI guidelines<sup class="cite"><a href="#ref-14">[14]</a></sup></td></tr>
+          <tr><td>Midday</td><td>Assessing an AI tool: a walk through MOL's own vendor assessment form with a sample tool</td></tr>
+          <tr><td>Afternoon</td><td>Building safely: Copilot Studio and Power Platform agents, access rights, data labels</td></tr>
+          <tr><td>Close</td><td>An AI use-case register for each department, with owner, data class and decision</td></tr>
+        </table>
+        <h4>Leaves with</h4><ul><li>A filled-in use-case register</li><li>An approval checklist aligned to headquarters' assessment</li><li>Optional route to AIGP or ISO/IEC 42001 Lead Implementer</li></ul>
+      </div></div>
+      <div class="tier rv"><div class="th"><small>Tier 3 · two half days</small><h3>Staff</h3><p>Modelled on Microsoft AB-730 and AB-900<sup class="cite"><a href="#ref-1">[1]</a><a href="#ref-2">[2]</a></sup></p></div><div class="tb">
+        <table class="agenda">
+          <tr><td>Session 1</td><td>Prompting that works: role, context, task, format. Practice on emails, minutes and summaries</td></tr>
+          <tr><td>Session 1</td><td>What never goes into an AI tool: the red, amber and green rules below</td></tr>
+          <tr><td>Session 2</td><td>Copilot in Outlook, Excel, Word and Teams, on each team's own work</td></tr>
+          <tr><td>Session 2</td><td>Checking AI output: sources, numbers, names; when to ask a person</td></tr>
+        </table>
+        <h4>Leaves with</h4><ul><li>A prompt sheet for their own job</li><li>A signed acknowledgement of the AI rules</li><li>Optional route to AB-730</li></ul>
+      </div></div>
+    </div>
+    <div class="wfs" style="max-width:1000px;margin:34px auto 0">
+      <div class="wf rv"><h3>How the programme runs</h3><p>From policy to practice</p><div class="lane"><div class="nd"><b>Review</b>MOL's AI and cybersecurity policy</div><span class="ar"></span><div class="nd"><b>Tailor</b>Examples and rules set with MOL IT</div><span class="ar"></span><div class="nd bl"><b>Tier 1</b>Executives set direction</div><span class="ar"></span><div class="nd bl"><b>Tier 2</b>Managers and IT build the register</div><span class="ar"></span><div class="nd bl"><b>Tier 3</b>Staff learn safe daily use</div><span class="ar"></span><div class="nd dk"><b>Measure</b>Usage, incidents and feedback after 60 days</div></div></div>
+    </div>
+    <p class="fine" style="text-align:center">Durations and content are our proposal and are fixed only after we have read MOL's AI policy. Training is itemised separately in the quotation.</p>
+  </div>
+</section>
+
+<section id="security">
+  <div class="container center">
+    <span class="eyebrow">AI and data security</span>
+    <h2 class="section-h">How a company keeps its data safe <span class="w-teal">while using AI</span>.</h2>
+    <p class="section-sub">The risk is rarely the AI itself. It is what people paste into it, what it is allowed to reach, and whether anyone checks what comes out. Four published frameworks cover most of what a company needs.</p>
+    <div class="tw"><table class="cmp">
+      <tr><th>Framework</th><th>What it is</th><th>Use it for</th></tr>
+      <tr><td>NIST AI Risk Management Framework, with its Generative AI Profile<sup class="cite"><a href="#ref-11">[11]</a></sup></td><td>A US government framework organised around four functions: govern, map, measure and manage</td><td>Structuring a company-wide AI risk programme and briefing executives and auditors</td></tr>
+      <tr><td>ISO/IEC 42001<sup class="cite"><a href="#ref-6">[6]</a></sup></td><td>The international standard for an AI management system, certifiable like ISO 27001</td><td>Proving to a parent company or customer that AI is managed systematically</td></tr>
+      <tr><td>OWASP Top 10 for LLM Applications (2025)<sup class="cite"><a href="#ref-12">[12]</a><a href="#ref-13">[13]</a></sup></td><td>The ten most serious security risks in applications built on language models; prompt injection is first and sensitive information disclosure second</td><td>Checking any AI tool or agent the company builds or buys</td></tr>
+      <tr><td>Philippine NPC guidelines on AI systems processing personal data<sup class="cite"><a href="#ref-14">[14]</a></sup></td><td>The privacy regulator's December 2024 advisory on applying the Data Privacy Act to AI systems</td><td>Any AI use in the Philippines that touches personal data, such as attendance or contacts</td></tr>
+    </table></div>
+
+    <div class="shield">
+      <div class="fact rv"><span class="n2">1</span><h3>Know your data</h3><p>Classify information before deciding what AI may see: public, internal, confidential, restricted. Personal data and commercial terms sit at the top.</p></div>
+      <div class="fact rv"><span class="n2">2</span><h3>Approve the tools</h3><p>Keep a short list of approved AI tools. Anything else goes through an assessment before use. This is already MOL's rule.<sup class="cite"><a href="#ref-15">[15]</a></sup></p></div>
+      <div class="fact rv"><span class="n2">3</span><h3>Limit what AI can reach</h3><p>An AI assistant sees whatever its user can open. Tidy up over-shared folders and apply sensitivity labels before switching it on.</p></div>
+      <div class="fact rv"><span class="n2">4</span><h3>Keep a person in charge</h3><p>AI drafts; people decide. Nothing AI writes is sent, filed or acted on without someone checking it.</p></div>
+      <div class="fact rv"><span class="n2">5</span><h3>Guard against manipulation</h3><p>Text hidden in a document or web page can instruct an AI tool. Give agents the least access they need and never let them act on outside content unchecked.<sup class="cite"><a href="#ref-12">[12]</a></sup></p></div>
+      <div class="fact rv"><span class="n2">6</span><h3>Log and review</h3><p>Record which tools are used, by whom and for what. Review the log, and any incident, on a fixed schedule.</p></div>
+      <div class="fact rv"><span class="n2">7</span><h3>Contract for it</h3><p>Vendors commit in writing: no training on your data, where it is processed, how long it is kept, and breach notice times.</p></div>
+      <div class="fact rv"><span class="n2">8</span><h3>Train everyone</h3><p>Most leaks are honest mistakes. A short rule set that people remember does more than a long policy.</p></div>
+    </div>
+
+    <h3 style="font-size:1.25rem;margin:48px 0 0">The rule staff remember: red, amber, green</h3>
+    <div class="lights">
+      <div class="light g rv"><h3>Green · go ahead</h3><ul><li>Public information</li><li>Your own writing, to improve wording</li><li>General questions and learning</li><li>Anything, inside an approved company tool, that you are already allowed to open</li></ul></div>
+      <div class="light a rv"><h3>Amber · approved tools only</h3><ul><li>Internal reports and meeting notes</li><li>Vessel performance data</li><li>Supplier and partner correspondence</li><li>Attendance and vehicle records</li></ul></div>
+      <div class="light r rv"><h3>Red · never without sign-off</h3><ul><li>Personal data of seafarers, staff or contacts in any unapproved tool</li><li>Commercial terms, charter rates and contracts</li><li>Passwords, keys and system configurations</li><li>Executive travel and anything marked confidential by headquarters</li></ul></div>
+    </div>
+    <p class="fine" style="text-align:center">The three lists are a starting point for discussion. MOL's own classification and policy take precedence.</p>
+
+    <div class="wfs" style="max-width:1000px;margin:36px auto 0">
+      <div class="wf rv"><h3>The safe path for one AI request</h3><p>What happens between a question and an answer</p><div class="lane"><div class="nd"><b>Person</b>Asks in an approved tool, signed in as themselves</div><span class="ar"></span><div class="nd bl"><b>Check</b>Data label and access rights applied</div><span class="ar"></span><div class="nd bl"><b>Model</b>Runs inside the company boundary; prompts not used for training</div><span class="ar"></span><div class="nd bl"><b>Answer</b>Returned with its sources</div><span class="ar"></span><div class="nd"><b>Person</b>Verifies before using</div><span class="ar"></span><div class="nd dk"><b>Log</b>Recorded for review</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="molplan" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Applied to MOL</span>
+    <h2 class="section-h">What this means for <span class="w-teal">MOL Philippines</span>.</h2>
+    <div class="two">
+      <div class="fact rv"><h3>What MOL already has in place</h3><ul>
+        <li>A Microsoft 365 E5 environment, with its security and compliance tools<sup class="cite"><a href="#ref-15">[15]</a><a href="#ref-16">[16]</a></sup></li>
+        <li>A rule that AI tools built outside approved platforms need a separate security assessment<sup class="cite"><a href="#ref-15">[15]</a></sup></li>
+        <li>An internal AI and cybersecurity policy, to be shared with TechNext<sup class="cite"><a href="#ref-15">[15]</a></sup></li>
+        <li>A vendor assessment run by Tokyo headquarters<sup class="cite"><a href="#ref-15">[15]</a></sup></li>
+      </ul></div>
+      <div class="fact rv"><h3>What we suggest adding</h3><ul>
+        <li>A one-page red, amber, green rule set, taught in Tier 3</li>
+        <li>An AI use-case register, built in Tier 2 and owned by IT Administration</li>
+        <li>A check of file sharing and labels before any wider Copilot rollout</li>
+        <li>A standard clause set for AI vendors, reused in each assessment</li>
+      </ul></div>
+    </div>
+    <h3 style="font-size:1.2rem;margin:40px 0 0;text-align:left">How this project handles AI</h3>
+    <div class="tw"><table class="cmp" style="margin-top:14px">
+      <tr><th>Where AI appears</th><th>How it is kept safe</th><th>Data involved</th></tr>
+      <tr><td>Reading business cards</td><td>Recognition runs on the phone itself; the image need not leave the device to be read<sup class="cite"><a href="#ref-17">[17]</a></sup></td><td>Names and contact details on the card</td></tr>
+      <tr><td>Attendance email import</td><td>Runs inside Odoo or MOL's Microsoft tenant; any other service passes MOL's assessment first; only approved senders accepted</td><td>Staff IDs and punch times</td></tr>
+      <tr><td>Vehicle state estimate</td><td>Simple rules on the tablet, not a cloud AI service; only state and duration are sent, never position</td><td>Moving, idling or parked minutes</td></tr>
+      <tr><td>TechNext's own work</td><td>Customer data is not put into unapproved AI tools; this is written into the draft agreement</td><td>Whatever MOL shares during the project</td></tr>
+    </table></div>
+    <div class="next n3" style="grid-template-columns:repeat(3,1fr)">
+      <div class="fact rv"><b class="who">First 30 days</b><h3>Set the rules</h3><p>Review MOL's AI policy, agree the red, amber, green list, run Tier 1 for executives.</p></div>
+      <div class="fact rv"><b class="who">Days 30 to 60</b><h3>Build the register</h3><p>Run Tier 2; each department lists its AI uses, owners and data classes.</p></div>
+      <div class="fact rv"><b class="who">Days 60 to 90</b><h3>Train and measure</h3><p>Run Tier 3 for staff; review usage, incidents and feedback; adjust the rules.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="sources" style="padding-top:64px">
+  <div class="container center">
+    <span class="eyebrow">Sources</span>
+    <h2 class="section-h" style="font-size:1.6rem">References</h2>
+    <ol class="refs">
+      <li id="ref-1">Microsoft, "Microsoft Credentials roundup: February 2026 edition" (AB-730 and AB-731). <a href="https://techcommunity.microsoft.com/blog/skills-hub-blog/microsoft-credentials-roundup-february-2026-edition/3666867" target="_blank" rel="noopener">techcommunity.microsoft.com</a></li>
+      <li id="ref-2">CBT Nuggets, "Microsoft's new AB-series certs" (AB-900, AB-730, AB-731 progression). <a href="https://www.cbtnuggets.com/blog/technology/programming/microsofts-new-ab-series-certs" target="_blank" rel="noopener">cbtnuggets.com</a></li>
+      <li id="ref-3">Microsoft Learn, "Azure AI Fundamentals". <a href="https://learn.microsoft.com/certifications/azure-ai-fundamentals" target="_blank" rel="noopener">learn.microsoft.com</a></li>
+      <li id="ref-4">IAPP, "AIGP Body of Knowledge". <a href="https://iapp.org/certify/body-of-knowledge-aigp" target="_blank" rel="noopener">iapp.org</a></li>
+      <li id="ref-5">IAPP, "AIGP certification". <a href="https://iapp.org/certify/aigp" target="_blank" rel="noopener">iapp.org</a></li>
+      <li id="ref-6">PECB, "ISO/IEC 42001 Lead Implementer" brochure. <a href="https://pecb.com/pdf/brochures/iso-iec-42001-lead-implementer-elearning.pdf" target="_blank" rel="noopener">pecb.com</a></li>
+      <li id="ref-7">QA, "Certified ISO/IEC 42001 Lead Implementer" course listing. <a href="https://www.qa.com/course-catalogue/courses/certified-isoiec-42001-lead-implementer-qaiso42kli/" target="_blank" rel="noopener">qa.com</a></li>
+      <li id="ref-8">Brown University, "Generative AI Workshop: Hands-on Applications for Executive Success". <a href="https://professional.brown.edu/executive-education/generative-ai-workshop-hands-applications-executive-success" target="_blank" rel="noopener">professional.brown.edu</a></li>
+      <li id="ref-9">University of Connecticut, "Workshop: Generative AI for Business". <a href="https://digitalfrontiers.business.uconn.edu/executive-workshops/genai-for-business" target="_blank" rel="noopener">uconn.edu</a></li>
+      <li id="ref-10">London Business School, "Generative AI for Leaders: From Insight to Implementation". <a href="https://www.london.edu/lbs-online/generative-ai-for-leaders-from-insight-to-implementation" target="_blank" rel="noopener">london.edu</a></li>
+      <li id="ref-11">NIST, "AI Risk Management Framework" and "Generative AI Profile (NIST AI 600-1)". <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">nist.gov</a></li>
+      <li id="ref-12">OWASP GenAI Security Project, "Top 10 for LLM Applications". <a href="https://genai.owasp.org/llm-top-10/" target="_blank" rel="noopener">genai.owasp.org</a></li>
+      <li id="ref-13">HackerOne, "The OWASP Top 10 for LLMs 2025". <a href="https://www.hackerone.com/blog/owasp-top-10-llms-2025-how-genai-risks-are-evolving" target="_blank" rel="noopener">hackerone.com</a></li>
+      <li id="ref-14">National Privacy Commission (Philippines), Advisory of 19 December 2024, guidelines on applying the Data Privacy Act to AI systems processing personal data. <a href="https://privacy.gov.ph/wp-content/uploads/2024/12/Advisory-2024.12.19-Guidelines-on-Artificial-Intelligence-w-SGD.pdf" target="_blank" rel="noopener">privacy.gov.ph</a></li>
+      <li id="ref-15">Discovery session between MOL Enterprise (Philippines) Inc. and TechNext, 26 November 2026. Notes held by TechNext.</li>
+      <li id="ref-16">Microsoft, "Microsoft 365 enterprise plans". <a href="https://www.microsoft.com/en-us/microsoft-365/enterprise/microsoft365-plans-and-pricing" target="_blank" rel="noopener">microsoft.com</a></li>
+      <li id="ref-17">Google, "ML Kit Text Recognition v2" (on-device). <a href="https://developers.google.com/ml-kit/vision/text-recognition/v2" target="_blank" rel="noopener">developers.google.com</a></li>
+    </ol>
+    <p class="fine" style="text-align:center;margin-top:18px">The eight practices, the red, amber, green lists and the tiered agendas are TechNext's own synthesis, informed by the sources above. They are not quoted from any one of them.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <img class="f-logo" src="img/mol_logo.svg" alt="MOL"/>
+    <p>Prepared by TechNext for MOL Enterprise (Philippines) Inc. · MOL is a trademark of Mitsui O.S.K. Lines, Ltd. Certification names belong to their respective owners.</p>
+  </div>
+</footer>
+
+<div id="lb" role="dialog" aria-label="Enlarged clip"><img alt=""/></div>
+<script>
+(function(){
+  var lb=document.getElementById('lb'),im=lb.querySelector('img');
+  document.querySelectorAll('figure.gif').forEach(function(f){
+    f.addEventListener('click',function(){var s=f.querySelector('img');im.src=s.src;im.alt=s.alt;lb.classList.add('open');});
+  });
+  function close(){lb.classList.remove('open');im.removeAttribute('src');}
+  lb.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  var rv=[].slice.call(document.querySelectorAll('.rv, .stat'));
+  rv.forEach(function(e){e.classList.add('rv');});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{rootMargin:'0px 0px -6% 0px'});rv.forEach(function(e){io.observe(e);});}
+  else{rv.forEach(function(e){e.classList.add('in');});}
+  setTimeout(function(){rv.forEach(function(e){e.classList.add('in');});},4000);
+  var links=[].slice.call(document.querySelectorAll('.nav-links a'));
+  var map=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+140,cur=0;
+    map.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i;});
+    links.forEach(function(a,i){a.classList.toggle('active',i===cur);});
+  },{passive:true});
+})();
+</script>
+</body>
+</html>

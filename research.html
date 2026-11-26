@@ -108,13 +108,18 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
 .src a{text-decoration:underline;color:var(--blue)}
 @media(max-width:1080px){.nav-links{display:none}}
 @media(max-width:680px){header.hero{padding-top:150px}}
+
+/* ---- review round 2 fixes ---- */
+@media(max-width:860px){.tabs{order:2;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs a{font-size:11.5px;padding:7px 6px;flex:1;text-align:center}}
+@media(max-width:900px){.next.n3{grid-template-columns:1fr!important}}
+@media(max-width:520px){.phones{gap:10px}.phone{width:156px;padding:7px;border-radius:24px}.scr{border-radius:18px;height:340px;font-size:9.5px}.scr .top{padding:9px 10px;font-size:10.5px}.scr .top img{display:none}.scr .bd{padding:9px 9px}.bcard{height:84px;padding:9px}.bcard b{font-size:10.5px}.bcard i:nth-of-type(n+2){display:none}.bcard .co{font-size:8.5px;right:9px;bottom:7px}.acts{gap:3px}.act{font-size:7.5px;padding:7px 0 5px;border-radius:7px}.act svg{width:13px;height:13px}.who .av{width:32px;height:32px;font-size:11px}.who b{font-size:11px}.savebtn,.tophone{font-size:9.5px;padding:7px}}
 </style>
 </head>
 <body>
 <nav id="nav">
   <div class="nav-inner">
     <a class="brand" href="index.html"><img src="img/mol_logo.svg" alt="MOL Mitsui O.S.K. Lines"/></a>
-    <div class="tabs"><a href="index.html">Proposal</a><a class="on" href="research.html">Research &amp; preparation</a></div>
+    <div class="tabs"><a href="index.html">Proposal</a><a class="on" href="research.html">Research</a><a href="ai.html">AI &amp; security</a><a href="demo.html">Demo guide</a></div>
     <div class="nav-links">
       <a href="#asks">Key asks</a>
       <a href="#account">Account</a>
@@ -124,7 +129,6 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <a href="#zk">ZKTeco</a>
       <a href="#e5">Microsoft E5</a>
       <a href="#open">Open items</a>
-      <a href="#phrases">Shipping terms</a>
     </div>
   </div>
 </nav>
@@ -133,7 +137,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   <div class="container">
     <span class="eyebrow">Research &amp; preparation</span>
     <h1>What MOL Enterprise Philippines asked for, and what we found out.</h1>
-    <p>Working notes behind the proposal: the key asks from the discovery session of 26 November 2026, research into a MOL-branded business card app, ESP32-based OBD devices and ZKTeco integration, and the points still to confirm.</p>
+    <p>Working notes behind the proposal: the key asks from the discovery session of 26 November 2026, research into the business card options, vehicle monitoring, ZKTeco integration and the Microsoft environment, and the points still to confirm.</p>
   </div>
 </header>
 
@@ -188,8 +192,8 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
 <section id="cardapp" class="alt">
   <div class="container">
     <span class="eyebrow">Research · business card app</span>
-    <h2>A MOL-branded card scanner on Odoo's database</h2>
-    <p class="sub">Because the users include the president and senior leaders, the proposal is a custom app for iPhone and Android instead of Odoo's standard app. This is what already exists that we can build on.</p>
+    <h2>Business cards: standard Odoo or a MOL-branded app</h2>
+    <p class="sub">The proposal offers two options: Odoo's own Contacts and CRM apps (Option A), or a custom MOL-branded app for iPhone and Android (Option B, recommended for leadership). Both save to the same Odoo database. This is what already exists that we can build on.</p>
 
     <div class="diagram">
       <svg viewBox="0 0 1000 150" role="img" aria-label="The MOL app photographs a card, reads it on the phone, the user confirms, and the contact is saved to Odoo Contacts">
@@ -211,7 +215,8 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <tr><td><a href="https://github.com/crewcircle/CardSnap" target="_blank" rel="noopener">CardSnap</a></td><td>Native Android app. ML Kit OCR, parses details and saves to device contacts.</td><td>Reference for the "save to phone contacts" flow</td><td>Android only; licence to check</td></tr>
       <tr><td><a href="https://pub.dev/packages/odoo_rpc" target="_blank" rel="noopener">odoo_rpc</a></td><td>Dart client library for Odoo. Its own example creates a contact record.</td><td>The link between the app and Odoo</td><td>Uses JSON-RPC, which Odoo plans to remove in Odoo 22; build on the newer JSON-2 API or plan the switch</td></tr>
       <tr><td><a href="https://pub.dev/packages/odoo_rest_ov" target="_blank" rel="noopener">odoo_rest_ov</a></td><td>Higher-level Dart wrapper with one-line create and search calls; states it is tested on Odoo 14 to 19.</td><td>Alternative Odoo link</td><td>Small project; review the code before relying on it</td></tr>
-      <tr><td>Odoo's built-in card scan</td><td>Odoo's CRM mobile app digitises cards using paid credits.</td><td>Baseline to compare against; fallback if the custom app is deferred</td><td>Odoo branding and menus; per-scan credits</td></tr>
+      <tr><td>Odoo's own mobile app</td><td>Forum answers describe a camera option in the Odoo mobile app that reads a card into a lead or contact. We found no official documentation for it, and no dedicated card-scanning module in the Odoo 20 module list on the demo database.</td><td>Option A in the proposal; to be tested on MOL's version before it is relied on</td><td>Unverified; Odoo branding and menus</td></tr>
+      <tr><td>Scanner add-ons on the Odoo Apps Store</td><td>Third-party modules such as <a href="https://apps.odoo.com/apps/modules/19.0/business_card_scanner" target="_blank" rel="noopener">business_card_scanner</a>, <a href="https://apps.odoo.com/apps/modules/19.0/odoo_ai_business_card_scan_app" target="_blank" rel="noopener">odoo_ai_business_card_scan_app</a> and <a href="https://apps.odoo.com/apps/modules/19.0/setu_vision_ocr" target="_blank" rel="noopener">setu_vision_ocr</a>.</td><td>A way to add scanning to Option A without a custom app</td><td>Several send card images to an outside AI or vision service, which would need MOL's security assessment</td></tr>
     </table></div>
 
     <div class="grid g3" style="margin-top:28px">
@@ -223,9 +228,20 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
         <li>OCR accuracy on stylised or bilingual cards; always show a confirm screen</li>
         <li>The app and its data flow go into the Tokyo security assessment</li>
         <li>Odoo's external API requires the Custom plan</li>
+        <li>Adding to phone contacts uses the standard vCard format, which Odoo already exports from any contact</li>
       </ul></div>
     </div>
-    <p class="src">Package details are as listed on pub.dev and GitHub at the time of research; none has been tested by us yet.</p>
+    <h3 style="font-size:1.2rem;margin:30px 0 14px">Reaching a contact: what Odoo 20 includes</h3>
+    <div class="tw"><table>
+      <tr><th>Channel</th><th>Odoo 20 app (as named in the demo database)</th><th>What MOL must provide</th></tr>
+      <tr><td>WhatsApp</td><td>"WhatsApp Messaging: Text your Contacts on WhatsApp", with a companion module for CRM</td><td>A WhatsApp Business account and approved message templates</td></tr>
+      <tr><td>Phone calls</td><td>"Phone: Make and receive phone calls from within Odoo", with companions for CRM, SMS and call transcription</td><td>A VoIP provider account</td></tr>
+      <tr><td>SMS</td><td>"SMS gateway", installed by default; a Twilio option is also listed</td><td>Message credits or a Twilio account</td></tr>
+      <tr><td>Email and calendar</td><td>"Microsoft Outlook", "Outlook Calendar" and "Microsoft Users" for sign-in</td><td>Set-up in MOL's Microsoft 365 tenant</td></tr>
+      <tr><td>Phone address book</td><td>Contact action "Download (vCard)"</td><td>Nothing</td></tr>
+      <tr><td>Viber</td><td>No Odoo app found</td><td>Use from the phone once the contact is saved</td></tr>
+    </table></div>
+    <p class="src">Read from the module list of the Odoo 20 demo database on 26 November 2026. Requirements in the last column follow Odoo's documentation for <a href="https://www.odoo.com/documentation/19.0/applications/productivity/whatsapp.html" target="_blank" rel="noopener">WhatsApp</a>, <a href="https://www.odoo.com/documentation/19.0/applications/productivity/voip.html" target="_blank" rel="noopener">VoIP</a> and <a href="https://www.odoo.com/documentation/19.0/applications/marketing/sms_marketing.html" target="_blank" rel="noopener">SMS</a> (version 19) and our own knowledge. Package details above are as listed on pub.dev, GitHub and the Odoo Apps Store at the time of research; none has been tested by us yet. Community answers on Odoo's card scanning: <a href="https://www.odoo.com/forum/help-1/does-odoo-have-a-business-card-scanner-app-166569" target="_blank" rel="noopener">Odoo forum</a>.</p>
   </div>
 </section>
 
@@ -483,7 +499,8 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <div class="box"><span class="pill p-check">MOL</span><h3>ZKTeco device models</h3><p>Model and firmware of each terminal, to confirm push (ADMS) support.</p></div>
       <div class="box"><span class="pill p-ok">Decided</span><h3>Hosting: Odoo.sh</h3><p>Chosen because it allows the connector and custom modules. Sizing (workers, storage) to be set for the quotation.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>Microsoft tenant settings</h3><p>Whether Microsoft 365 Copilot is licensed, which AI models the administrators allow, and whether premium Power Platform connectors are available. See the <a href="#e5" style="text-decoration:underline">Microsoft E5 section</a>.</p></div>
-      <div class="box"><span class="pill p-check">Both</span><h3>Card app publication</h3><p>MOL developer accounts, brand approval, and public or staff-only distribution.</p></div>
+      <div class="box"><span class="pill p-check">Both</span><h3>Card option and publication</h3><p>Option A, Option B or both; for the app, MOL developer accounts, brand approval, and public or staff-only distribution.</p></div>
+      <div class="box"><span class="pill p-check">MOL</span><h3>Messaging accounts</h3><p>Whether MOL has, or will open, a WhatsApp Business account and a VoIP provider for calls from Odoo.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>AI and security policy</h3><p>Policy documents and vendor assessment forms to be shared.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>User and driver counts</h3><p>Number of Odoo users and number of drivers, to size licences.</p></div>
       <div class="box"><span class="pill p-check">Both</span><h3>OBD pilot vehicles</h3><p>Model year and engine of each vehicle, and which one of each model can be used for the plug-in test and two-week trial.</p></div>
@@ -491,82 +508,12 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
   </div>
 </section>
 
-<section id="phrases">
-  <div class="container">
-    <span class="eyebrow">Industry preparation</span>
-    <h2>Shipping terms in MOL's business</h2>
-    <p class="sub">A working glossary. Note that in shipping "fleet" means vessels; in this proposal it always means company vehicles.</p>
-    <div class="tools">
-      <input id="q" type="search" placeholder="Search a term…" aria-label="Search terms"/>
-      <div class="chips" id="chips">
-        <button class="on" data-f="all">All</button>
-        <button data-f="segment">Business lines</button>
-        <button data-f="ops">Operations</button>
-        <button data-f="people">Crew &amp; people</button>
-        <button data-f="safety">Safety &amp; environment</button>
-        <button data-f="mol">MOL-specific</button>
-      </div>
-    </div>
-    <div class="phrases" id="list">
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Fleet</h3><p>To a shipping company, the fleet is its vessels.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Vessel</h3><p>The trade word for a ship.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>Dry bulk / bulk carrier</h3><p>Ships carrying unpackaged cargo such as iron ore, coal, grain and wood chips. MOL Drybulk has an operations hub in the Philippines.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>Car carrier (PCTC / RoRo)</h3><p>Pure Car and Truck Carriers: vehicles are driven on and off ("roll-on/roll-off"). MOL's are the "ACE" ships.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>LNG carrier</h3><p>Tanker for liquefied natural gas. MOL states it operates the world's largest LNG carrier fleet.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>FSRU / FLNG</h3><p>Floating Storage and Regasification Unit; Floating LNG production. Ships that act as offshore gas terminals.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>Chemical tanker</h3><p>Tanker with many separate tanks for liquid chemicals. A listed MOL business in the region.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>Container shipping / liner</h3><p>Scheduled services carrying containers. MOL's container business runs through Ocean Network Express (ONE), a joint venture.</p></div>
-      <div class="ph" data-c="segment"><span class="cat">Business line</span><h3>Logistics / cold chain</h3><p>Land-side transport and warehousing; cold chain means temperature-controlled storage and delivery. MOL Logistics is a regional business.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Ship management</h3><p>Running a vessel day to day for its owner: technical upkeep, crewing, compliance.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Voyage</h3><p>One trip from loading port to discharge port. Their dry bulk team handles 160+ a year.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Charter (time / voyage)</h3><p>Hiring a ship: by period (time charter) or by trip (voyage charter). The hirer is the charterer.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Port call</h3><p>A vessel's stop at a port. Staff and agents attend to it.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Ship agent / husbandry</h3><p>The local representative who arranges a vessel's needs in port: berthing, supplies, crew changes.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Bunker</h3><p>Ship fuel. Usually the largest running cost of a voyage.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Demurrage / laytime</h3><p>Laytime is the agreed time to load or unload; demurrage is the charge when it is exceeded.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Dry-docking / off-hire</h3><p>Taking a ship out of the water for scheduled maintenance; off-hire is time it cannot earn.</p></div>
-      <div class="ph" data-c="ops"><span class="cat">Operations</span><h3>Vessel performance monitoring</h3><p>Collecting and cleaning ship data — speed, fuel use — to improve efficiency. EcoMOL does this for about 700 vessels.</p></div>
-      <div class="ph" data-c="people"><span class="cat">Crew &amp; people</span><h3>Seafarer / crew</h3><p>People who work on board.</p></div>
-      <div class="ph" data-c="people"><span class="cat">Crew &amp; people</span><h3>Shore staff vs sea staff</h3><p>Office employees versus crew on vessels. They are managed and paid differently.</p></div>
-      <div class="ph" data-c="people"><span class="cat">Crew &amp; people</span><h3>Crewing / manning</h3><p>Recruiting and deploying seafarers. In the Philippines it is licensed work; MOL does it through joint ventures with Magsaysay.</p></div>
-      <div class="ph" data-c="people"><span class="cat">Crew &amp; people</span><h3>MMMA</h3><p>MOL Magsaysay Maritime Academy, their seafarer training partnership.</p></div>
-      <div class="ph" data-c="people"><span class="cat">Crew &amp; people</span><h3>Principal</h3><p>The foreign shipowner or operator that a local agent or manning company acts for. Here, Tokyo.</p></div>
-      <div class="ph" data-c="safety"><span class="cat">Safety</span><h3>4 Zeros</h3><p>MOL's safety targets: zero serious marine incidents, zero oil spills, zero fatal accidents, zero cargo damage.</p></div>
-      <div class="ph" data-c="safety"><span class="cat">Environment</span><h3>BLUE ACTION 2035</h3><p>MOL Group's management plan, including GHG reduction targets (45% by 2035 against 2019).</p></div>
-      <div class="ph" data-c="safety"><span class="cat">Environment</span><h3>Decarbonization / GHG</h3><p>Cutting greenhouse-gas emissions. Central to MOL's public message.</p></div>
-      <div class="ph" data-c="safety"><span class="cat">Safety</span><h3>ISM Code / audit</h3><p>The international safety-management standard for ships; it makes shipping people very audit-minded.</p></div>
-      <div class="ph" data-c="mol"><span class="cat">MOL-specific</span><h3>EcoMOL</h3><p>MOL subsidiary founded 2022 in the Philippines for data-driven operational efficiency.</p></div>
-      <div class="ph" data-c="mol"><span class="cat">MOL-specific</span><h3>Strategic control center</h3><p>How MOL describes MOL Enterprise (Philippines) Inc.</p></div>
-      <div class="ph" data-c="mol"><span class="cat">MOL-specific</span><h3>Sub-HQ / MOL Asia Oceania</h3><p>The regional head office in Singapore that country offices report to.</p></div>
-      <div class="ph" data-c="mol"><span class="cat">MOL-specific</span><h3>Joint venture (JV)</h3><p>MOL works in the Philippines through 7 JV companies.</p></div>
-      <div class="ph" data-c="mol"><span class="cat">MOL-specific</span><h3>"Beyond the Sea of Possibilities"</h3><p>The headline on their regional website.</p></div>
-    </div>
-    <p class="none" id="none">No term matches that search.</p>
-  </div>
-</section>
 
 <footer>
   <div class="container">
-    <p>Sources: discovery session transcript (26 November 2026), <a href="https://molseao.com/mol-philippines/" target="_blank" rel="noopener">molseao.com/mol-philippines</a>, and the device pages linked above. Shipping definitions are general industry usage. Prepared by TechNext.</p>
+    <p>Sources: discovery session transcript (26 November 2026), <a href="https://molseao.com/mol-philippines/" target="_blank" rel="noopener">molseao.com/mol-philippines</a>, and the pages linked under each section. Prepared by TechNext.</p>
   </div>
 </footer>
-<script>
-(function(){
-  var q=document.getElementById('q'),items=[].slice.call(document.querySelectorAll('.ph')),none=document.getElementById('none'),f='all';
-  function run(){
-    var s=q.value.trim().toLowerCase(),n=0;
-    items.forEach(function(e){
-      var ok=(f==='all'||e.dataset.c===f)&&(!s||e.textContent.toLowerCase().indexOf(s)>-1);
-      e.style.display=ok?'':'none';if(ok)n++;
-    });
-    none.style.display=n?'none':'block';
-  }
-  q.addEventListener('input',run);
-  document.getElementById('chips').addEventListener('click',function(e){
-    var b=e.target.closest('button');if(!b)return;
-    f=b.dataset.f;[].forEach.call(this.children,function(c){c.classList.toggle('on',c===b);});run();
-  });
-})();
-</script>
+
 </body>
 </html>

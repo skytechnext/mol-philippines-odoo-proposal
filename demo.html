@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Odoo Demo Guide — MOL Enterprise (Philippines) · TechNext</title>
+<meta name="description" content="Guide to the Odoo 20 demonstration database prepared by TechNext for MOL Enterprise (Philippines) Inc."/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23005396'/><text x='16' y='22' font-size='17' font-weight='700' font-family='sans-serif' fill='white' text-anchor='middle'>M</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Slab:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --purple:#005396;--purple-dark:#003E71;--purple-light:#E6F0F8;--navy:#001B33;--sky:#22C3FF;
+  --teal:#0086BD;--coral:#E8695D;--blue:#007CE1;--mint:#00A0DC;
+  --ink:#001B33;--body:#3F4C5C;--muted:#7C8A9A;--line:#DCE3EC;--bg-alt:#F0F2F8;
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:'Roboto',system-ui,-apple-system,sans-serif;color:var(--body);background:#fff;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{color:var(--ink);font-family:'Roboto',sans-serif;font-weight:700;line-height:1.15;letter-spacing:.01em}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.center{text-align:center}
+.ink-purple{color:var(--purple);text-decoration:underline wavy;text-decoration-color:rgba(0,160,220,.55);text-underline-offset:7px;text-decoration-thickness:2.5px}
+.w-teal{color:var(--mint)}.w-coral{color:var(--coral)}.w-blue{color:var(--blue)}
+.hl-teal{background:rgba(0,160,220,.22);padding:.02em .18em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.u-blue{background:linear-gradient(var(--blue),var(--blue)) 0 90%/100% 5px no-repeat;padding-bottom:3px}
+.eyebrow{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:20px}
+.section-h{font-size:clamp(2.3rem,4.8vw,3.6rem);margin:0 auto 18px;max-width:20em}
+.section-sub{font-size:1.13rem;max-width:44em;margin:0 auto;color:var(--body)}
+
+/* nav */
+#nav{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 10px 30px -18px rgba(0,27,51,.25)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{height:20px;width:auto}
+.by{display:flex;align-items:center;gap:8px;flex:none}.by img{height:17px;width:auto}.by img.tn{height:15px}.by i{font-style:normal;color:var(--muted);font-size:13px}.by small{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.brand i{font-style:normal;color:var(--muted);font-size:16px}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;flex:1}
+.nav-links a{font-size:13.5px;font-weight:600;white-space:nowrap;transition:color .18s}
+.nav-links a:hover,.nav-links a.active{color:var(--purple)}
+.nav-links a.active{font-weight:800}
+@media(max-width:1080px){.by small{display:none}}
+@media(max-width:860px){.nav-inner{flex-wrap:wrap;row-gap:8px;justify-content:space-between}.nav-links{order:3}.nav-links{width:100%;justify-content:center;gap:6px 14px}.nav-links a{font-size:12.5px}}
+
+/* hero */
+.page-hero{position:relative;padding:150px 0 130px;text-align:center;color:#D5E4F1;background:linear-gradient(160deg,#001B33 0%,#003E71 55%,#005396 100%);overflow:hidden}
+.page-hero h1{color:#fff}.page-hero .eyebrow{color:var(--sky)}.page-hero .section-sub{color:#D5E4F1}
+.page-hero .ink-purple{color:var(--sky);text-decoration-color:rgba(34,195,255,.6)}
+.hero-logo{height:34px;width:auto;margin:0 auto 34px}
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:90px;display:block}
+.prepared{font-size:13px;font-weight:700;letter-spacing:.05em;color:var(--muted);margin-bottom:22px;text-transform:uppercase}
+.prepared{color:#9DB8D1}.prepared b{color:#fff}
+.page-hero h1{font-size:clamp(2.5rem,5.6vw,4.1rem);margin:0 auto 18px;max-width:15em}
+@media(max-width:860px){.page-hero{padding-top:170px}}
+
+section{padding:84px 0}
+section.alt{background:var(--bg-alt)}
+
+/* context strip */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;text-align:left}
+.fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 28px;box-shadow:0 18px 44px -30px rgba(0,27,51,.25)}
+.fact h3{font-family:'Roboto',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:8px}
+.fact p{font-size:.97rem;line-height:1.6}
+.fact .tag{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.fact:nth-child(1) .tag{color:var(--coral)}.fact:nth-child(2) .tag{color:var(--teal)}.fact:nth-child(3) .tag{color:var(--purple)}
+
+/* journey map */
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;text-align:left}
+.j-col{background:var(--purple-light);border-radius:18px;padding:28px 30px}
+.j-col h3{font-size:2rem;margin-bottom:10px}
+.j-col a{display:flex;gap:10px;align-items:baseline;padding:7px 0;font-weight:600;font-size:1rem;color:var(--ink);transition:transform .2s,color .2s}
+.j-col a:hover{transform:translateX(5px);color:var(--purple)}
+.j-col a span{font-family:'Roboto',sans-serif;font-size:1.35rem;color:var(--purple);width:1.1em;flex:none}
+
+/* steps */
+.step-head{max-width:820px;margin:0 auto;text-align:center}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;background:var(--purple);color:#fff;font-family:'Roboto',sans-serif;font-size:2rem;font-weight:700;margin-bottom:16px}
+.step-head h2{font-size:clamp(2.2rem,4.4vw,3.3rem);margin-bottom:16px}
+.step-head p{font-size:1.08rem}
+.shot{position:relative;max-width:1000px;margin:44px auto 0}
+.shot::before{content:"";position:absolute;left:50%;top:52%;transform:translate(-50%,-50%) rotate(-5deg);width:106%;height:98%;background:rgba(0,83,150,.07);border-radius:48% 52% 56% 44%/56% 45% 55% 44%;z-index:0;pointer-events:none}
+figure.gif{position:relative;z-index:1;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 46px -26px rgba(0,27,51,.34);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;cursor:zoom-in}
+figure.gif:hover{transform:translateY(-5px);box-shadow:0 34px 70px -28px rgba(0,27,51,.45)}
+.gif-bar{display:flex;align-items:center;gap:6px;padding:9px 14px;background:#F0F2F8;border-bottom:1px solid var(--line)}
+.gif-bar i{width:9px;height:9px;border-radius:50%;background:#c5d0dd}
+.gif-bar span{margin-left:8px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+figure.gif img{width:100%;height:auto}
+figure.gif figcaption{padding:13px 18px;font-size:.93rem;line-height:1.5;border-top:1px solid var(--line);text-align:left;color:var(--body)}
+figure.gif figcaption b{color:var(--ink)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:1120px;margin:44px auto 0}
+.duo .shot{margin:0;max-width:none}
+.duo .shot::before{display:none}
+.script-line{font-family:'Roboto',sans-serif;font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:700;color:var(--ink);text-align:center;margin-top:40px}
+.mol-note{max-width:820px;margin:34px auto 0;display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:12px;padding:20px 24px;text-align:left;font-size:.99rem;line-height:1.6}
+.mol-note b{color:var(--ink)}
+.mol-note .lbl{flex:none;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);padding-top:4px;width:74px}
+
+/* cards */
+.cards{columns:2;column-gap:26px;margin-top:44px;text-align:left}
+.card{background:#fff;border-radius:14px;padding:28px 32px;box-shadow:0 18px 44px -26px rgba(0,27,51,.25);break-inside:avoid;margin-bottom:26px}
+.card h3{font-family:'Roboto',sans-serif;font-size:1.18rem;font-weight:800;margin-bottom:10px}
+.card p{font-size:1rem}
+.h-left{text-align:left;margin-left:0;max-width:13em}
+
+/* connected apps */
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px;text-align:left}
+.app{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;transition:transform .25s,box-shadow .25s}
+.app:hover{transform:translateY(-4px);box-shadow:0 24px 50px -30px rgba(0,27,51,.4)}
+.app .ico{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:#fff}
+.app .ico svg{width:26px;height:26px}
+.app h3{font-family:'Roboto',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:8px}
+.app p{font-size:.94rem;line-height:1.6}
+.app .scope{display:inline-block;margin-top:12px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+.app.now{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-light)}
+
+/* timeline */
+.cutover{max-width:900px;margin:44px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;text-align:center}
+.cutover::before{content:"";position:absolute;left:12.5%;right:12.5%;top:13px;height:3px;background:var(--line)}
+.cut{position:relative;padding:0 10px}
+.cut i{display:block;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid var(--purple);margin:0 auto 14px;position:relative}
+.cut.end i{border-color:var(--coral);background:var(--coral)}
+.cut b{display:block;color:var(--ink);font-size:.98rem}
+.cut span{font-size:.88rem;line-height:1.45;display:block;margin-top:4px}
+
+footer{padding:44px 0 60px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted);text-align:center}
+footer a{color:var(--purple);font-weight:600}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:200;background:rgba(0,27,51,.86);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+#lb.open{display:flex}
+#lb img{max-width:min(1500px,100%);max-height:100%;width:100%;height:auto;object-fit:contain;border-radius:10px;background:#fff}
+
+.section-h{font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:-.015em;line-height:1.2}
+.page-hero h1{font-size:clamp(2rem,4.6vw,3.3rem);letter-spacing:-.02em;line-height:1.15;max-width:17em}
+.step-head h2{font-size:clamp(1.7rem,3.1vw,2.35rem);letter-spacing:-.015em;line-height:1.2}
+.j-col h3{font-size:1.3rem;letter-spacing:0}
+.j-col a span{font-size:.95rem;font-weight:900}
+.step-num{font-size:1.35rem;font-weight:900;border-radius:6px;width:48px;height:48px}
+.script-line{font-family:'Roboto Slab',serif;font-weight:500;font-size:clamp(1.25rem,2.4vw,1.6rem);color:var(--purple)}
+.fact,.card,.app,figure.gif,.mol-note,.j-col{border-radius:8px}
+.stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1080px;margin:-72px auto 0;padding:0 28px}
+.stat{background:#fff;border-radius:8px;padding:22px 24px;box-shadow:0 24px 50px -28px rgba(0,27,51,.45);border-top:4px solid var(--mint);text-align:left}
+.stat b{display:block;font-size:2rem;font-weight:900;color:var(--purple);line-height:1.1}
+.stat span{display:block;font-size:.88rem;line-height:1.45;margin-top:6px}
+.stats-src{text-align:center;font-size:.8rem;color:var(--muted);margin-top:14px}
+.stats-src a{text-decoration:underline}
+.bridge{max-width:860px;margin:0 auto;border-left:5px solid var(--mint);padding:6px 0 6px 26px;text-align:left}
+.bridge q{display:block;font-family:'Roboto Slab',serif;font-size:1.3rem;line-height:1.5;color:var(--ink);quotes:none}
+.bridge p{margin-top:12px;font-size:1rem}
+footer .f-logo{height:22px;margin:0 auto 18px}
+@media(max-width:900px){
+  .stats{grid-template-columns:1fr 1fr}
+  section{padding:60px 0}
+  .facts,.journey,.duo{grid-template-columns:1fr}
+  .apps{grid-template-columns:1fr 1fr}
+  .cards{columns:1}
+  .shot::before{display:none}
+  .cutover{grid-template-columns:1fr;gap:22px;text-align:left}
+  .cutover::before{display:none}
+  .cut{display:grid;grid-template-columns:28px 1fr;column-gap:14px;padding:0}
+  .cut i{margin:0;grid-row:span 2}
+  .mol-note{flex-direction:column;gap:6px}
+}
+@media(max-width:520px){.apps{grid-template-columns:1fr}.container{padding:0 18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+.tabs{display:flex;gap:4px;background:var(--bg-alt);border-radius:8px;padding:4px;flex:none}
+.tabs a{font-size:13px;font-weight:700;padding:7px 14px;border-radius:6px;white-space:nowrap;color:var(--body)}
+.tabs a.on{background:var(--purple);color:#fff}
+.tabs a:not(.on):hover{color:var(--purple)}
+.nav-links{gap:13px;flex-wrap:nowrap}.nav-links a{font-size:13px}.by small{display:none}
+.pri{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;text-align:left}
+.pri .fact{position:relative;padding-top:30px}
+.pri .n{position:absolute;top:-18px;left:24px;width:40px;height:40px;border-radius:6px;background:var(--purple);color:#fff;font-weight:900;font-size:1.15rem;display:flex;align-items:center;justify-content:center}
+.pri ul,.sol ul{padding-left:18px;margin-top:10px}
+.pri li,.sol li{font-size:.96rem;margin:5px 0;line-height:1.55}
+.sol{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;max-width:1080px;margin:0 auto;text-align:left}
+.sol h2{font-size:clamp(1.7rem,3.1vw,2.35rem);margin-bottom:14px}
+.sol .panel{background:#fff;border:1px solid var(--line);border-radius:8px;padding:26px 28px;box-shadow:0 18px 44px -30px rgba(0,27,51,.25)}
+.sol .panel h3{font-size:1.02rem;margin-bottom:6px;letter-spacing:0}
+.sol .panel h3+ul{margin-top:4px}
+.sol .panel h3:not(:first-child){margin-top:18px}
+.flow{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin-top:8px}
+.flow div{flex:1;min-width:120px;background:var(--purple-light);padding:14px 16px;font-size:.9rem;line-height:1.45;position:relative;margin:0 14px 10px 0;border-radius:6px}
+.flow div b{display:block;color:var(--purple);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.tag2{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:3px 10px;margin-bottom:12px;background:var(--purple-light);color:var(--purple)}
+.tag2.p2{background:#FBF1DD;color:#B7791F}
+.step-num.sm{width:38px;height:38px;font-size:1.05rem;margin-bottom:12px}
+table.inv{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:.96rem;text-align:left;margin-top:36px}
+table.inv th,table.inv td{padding:13px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+table.inv th{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+table.inv tr:last-child td{border-bottom:0}
+table.inv td:first-child{font-weight:700;color:var(--ink);width:26%}
+table.inv td:last-child{white-space:nowrap;color:var(--purple);font-weight:700}
+.tw{overflow-x:auto}
+.fine{font-size:.86rem;color:var(--muted);margin-top:14px;text-align:left}
+.next{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;text-align:left}
+.next .fact b.who{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+@media(max-width:1180px){.nav-links{display:none}}
+@media(max-width:900px){.pri,.sol,.next{grid-template-columns:1fr}.sol{gap:26px}.pri{gap:34px}}
+@media(max-width:520px){.next{grid-template-columns:1fr}.by{display:none}}
+
+.doc-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:30px;font-size:.85rem;color:#9DB8D1}
+.doc-meta b{color:#fff;font-weight:700}
+.exec{max-width:900px;margin:0 auto;text-align:left}
+.exec .lead{font-family:'Roboto Slab',serif;font-size:1.35rem;line-height:1.5;color:var(--ink);border-left:5px solid var(--mint);padding-left:24px;margin-bottom:26px}
+.exec p{margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:left}
+.two .fact ul{padding-left:18px;margin-top:8px}.two .fact li{font-size:.96rem;margin:6px 0;line-height:1.55}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;text-align:left}
+.kpi .fact b.big{display:block;font-size:1.5rem;font-weight:900;color:var(--purple);line-height:1.2;margin-bottom:8px}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px;text-align:left}
+.day{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.day h3{background:var(--navy);color:#fff;font-size:1.02rem;padding:16px 22px;letter-spacing:0}
+.day h3 small{display:block;font-weight:400;font-size:.8rem;color:#9DB8D1;margin-top:2px}
+.day ol{list-style:none;padding:8px 22px 18px;counter-reset:d}
+.day li{position:relative;padding:12px 0 12px 34px;font-size:.95rem;line-height:1.5;border-bottom:1px dashed var(--line)}
+.day li:last-child{border-bottom:0}
+.day li::before{counter-increment:d;content:counter(d);position:absolute;left:0;top:13px;width:22px;height:22px;border-radius:50%;background:var(--purple-light);color:var(--purple);font-size:.75rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.gal figure.gif figcaption{font-size:.88rem}
+.plan{margin-top:40px;text-align:left}
+.ph-row{display:grid;grid-template-columns:150px 1fr 1.2fr;gap:22px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+.ph-row:last-child{border-bottom:1px solid var(--line)}
+.ph-row .wk{font-weight:900;color:var(--purple);font-size:.95rem}
+.ph-row .wk small{display:block;font-weight:500;color:var(--muted);font-size:.8rem;margin-top:2px}
+.ph-row h3{font-size:1.08rem;letter-spacing:0;margin-bottom:4px}
+.ph-row p{font-size:.95rem;line-height:1.55}
+.ph-row .gate{font-size:.9rem;background:var(--purple-light);border-radius:6px;padding:10px 14px}
+.ph-row .gate b{color:var(--purple);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:left}
+.team table{width:100%;border-collapse:collapse;font-size:.95rem}
+.team td{padding:10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.team td:first-child{font-weight:700;color:var(--ink);width:42%;padding-right:12px}
+.team tr:last-child td{border-bottom:0}
+@media(max-width:900px){.two,.kpi,.days,.gal,.team{grid-template-columns:1fr}.ph-row{grid-template-columns:1fr;gap:8px}}
+@media(min-width:901px) and (max-width:1100px){.kpi{grid-template-columns:1fr 1fr}.gal{grid-template-columns:1fr 1fr}}
+
+/* ---- round 3: citations, motion, phones, workflows ---- */
+.cite a{font-size:.68em;font-weight:700;color:var(--teal);padding:0 1px;text-decoration:none}
+.cite a:hover{text-decoration:underline}
+html.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+html.js .rv.in{opacity:1;transform:none}
+.opt2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:40px;text-align:left}
+.opt{background:#fff;border:1px solid var(--line);border-radius:10px;padding:30px 30px 26px;position:relative;box-shadow:0 18px 44px -30px rgba(0,27,51,.25)}
+.opt.rec{border:2px solid var(--purple)}
+.opt .badge{position:absolute;top:-13px;left:26px;background:var(--purple);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:99px}
+.opt .badge.alt{background:var(--mint)}
+.opt h3{font-size:1.35rem;letter-spacing:-.01em;margin:6px 0 8px}
+.opt>p{font-size:.98rem}
+.opt ul{list-style:none;margin-top:14px}
+.opt li{position:relative;padding:7px 0 7px 28px;font-size:.95rem;line-height:1.5;border-top:1px dashed var(--line)}
+.opt li::before{content:"";position:absolute;left:2px;top:13px;width:14px;height:8px;border-left:2.5px solid var(--mint);border-bottom:2.5px solid var(--mint);transform:rotate(-45deg)}
+.opt li.no::before{border:0;width:12px;height:2.5px;background:var(--muted);transform:none;top:17px}
+.opt .when{margin-top:16px;background:var(--bg-alt);border-radius:6px;padding:12px 14px;font-size:.92rem}
+.opt .when b{color:var(--ink)}
+.showcase{display:grid;grid-template-columns:auto 1fr;gap:54px;align-items:center;max-width:1080px;margin:56px auto 0;text-align:left}
+.phones{display:flex;gap:22px;align-items:flex-end}
+.phone{width:218px;border-radius:30px;background:#0b1e33;padding:9px;box-shadow:0 40px 70px -30px rgba(0,27,51,.6);flex:none}
+.phone.b{transform:translateY(-22px)}
+.scr{background:#fff;border-radius:22px;overflow:hidden;height:420px;display:flex;flex-direction:column;font-size:11.5px;line-height:1.35;color:var(--body)}
+.scr .top{background:var(--purple);color:#fff;padding:12px 14px 11px;font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:8px}
+.scr .top img{height:11px;filter:brightness(0) invert(1)}
+.scr .bd{padding:13px 14px;flex:1}
+.bcard{position:relative;border-radius:8px;background:linear-gradient(135deg,#f7f9fc,#e6eef7);border:1px solid var(--line);height:112px;padding:13px 12px;overflow:hidden}
+.bcard b{display:block;color:var(--ink);font-size:12.5px}
+.bcard i{display:block;font-style:normal;font-size:10px;color:var(--muted)}
+.bcard .co{position:absolute;right:12px;bottom:10px;font-weight:900;color:var(--purple);font-size:10.5px;letter-spacing:.06em}
+.bcard::after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--sky);box-shadow:0 0 14px 4px rgba(34,195,255,.55);top:0;animation:scan 2.6s ease-in-out infinite}
+@keyframes scan{0%,100%{top:4%}50%{top:92%}}
+.fld{margin-top:9px;border-bottom:1px solid var(--line);padding-bottom:6px;opacity:0;animation:fin 7s infinite}
+.fld small{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fld span{color:var(--ink);font-weight:500}
+.fld:nth-of-type(2){animation-delay:.5s}.fld:nth-of-type(3){animation-delay:1s}.fld:nth-of-type(4){animation-delay:1.5s}.fld:nth-of-type(5){animation-delay:2s}
+@keyframes fin{0%,6%{opacity:0;transform:translateY(5px)}14%,92%{opacity:1;transform:none}100%{opacity:0}}
+.savebtn{margin-top:12px;background:var(--purple);color:#fff;text-align:center;border-radius:8px;padding:9px;font-weight:700;font-size:12px}
+.who{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.who .av{width:42px;height:42px;border-radius:50%;background:var(--purple-light);color:var(--purple);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:14px}
+.who b{display:block;color:var(--ink);font-size:13px}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.act{border-radius:10px;padding:9px 2px 7px;text-align:center;font-size:9.5px;font-weight:700;color:#fff;animation:pop 6s infinite}
+.act svg{width:17px;height:17px;display:block;margin:0 auto 4px}
+.act:nth-child(1){background:#1F8A5B}.act:nth-child(2){background:#25a366;animation-delay:.4s}.act:nth-child(3){background:#005396;animation-delay:.8s}.act:nth-child(4){background:#7C5CBF;animation-delay:1.2s}
+@keyframes pop{0%,8%{transform:scale(1)}4%{transform:scale(1.09)}}
+.row2{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line)}
+.row2 span:last-child{color:var(--ink);font-weight:500}
+.tophone{margin-top:10px;border:1.5px solid var(--purple);color:var(--purple);border-radius:8px;text-align:center;padding:8px;font-weight:700;font-size:11.5px}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px}
+.feat div{padding-left:44px;position:relative}
+.feat .ic{position:absolute;left:0;top:2px;width:32px;height:32px;border-radius:8px;background:var(--purple-light);color:var(--purple);display:flex;align-items:center;justify-content:center}
+.feat .ic svg{width:17px;height:17px}
+.feat b{display:block;color:var(--ink);font-size:.98rem}
+.feat span{font-size:.9rem;line-height:1.5;display:block}
+.bene{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;text-align:left}
+.bene .fact b.big{display:block;font-size:1.25rem;font-weight:900;color:var(--purple);margin-bottom:6px;line-height:1.2}
+.chan{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:40px;text-align:left}
+.chan .fact{padding:22px 20px}
+.chan .ico2{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:12px}
+.chan .ico2 svg{width:21px;height:21px}
+.chan small{display:block;margin-top:8px;font-size:.8rem;color:var(--muted);line-height:1.45}
+/* workflows */
+.wfs{display:grid;gap:22px;margin-top:40px;text-align:left}
+.wf{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 24px 20px}
+.wf h3{font-size:1.08rem;letter-spacing:0;margin-bottom:2px}
+.wf>p{font-size:.92rem;margin-bottom:16px;color:var(--body)}
+.lane{display:flex;align-items:stretch;gap:0}
+.nd{flex:1;min-width:0;background:var(--purple-light);border-radius:8px;padding:12px 12px 11px;font-size:.84rem;line-height:1.4;position:relative}
+.nd b{display:block;color:var(--purple);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.nd.dk{background:var(--navy);color:#D5E4F1}.nd.dk b{color:var(--sky)}
+.nd.bl{background:var(--purple);color:#E6F0F8}.nd.bl b{color:#fff}
+.ar{flex:none;width:34px;position:relative;align-self:center;height:2px;background:repeating-linear-gradient(90deg,var(--purple) 0 6px,transparent 6px 11px);background-size:22px 2px;animation:dash 1.1s linear infinite}
+.ar::after{content:"";position:absolute;right:-1px;top:-4px;border-left:7px solid var(--purple);border-top:5px solid transparent;border-bottom:5px solid transparent}
+@keyframes dash{to{background-position:22px 0}}
+.states{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.st{display:flex;align-items:center;gap:8px;border-radius:99px;padding:6px 14px 6px 10px;font-size:.84rem;font-weight:700;background:var(--bg-alt);color:var(--ink)}
+.st i{width:10px;height:10px;border-radius:50%;display:block}
+.st.mv i{background:#1F8A5B;animation:pulse 1s infinite}.st.id i{background:#E8A13D;animation:pulse 2.2s infinite}.st.pk i{background:#8A97A6}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,138,91,.5)}100%{box-shadow:0 0 0 9px rgba(31,138,91,0)}}
+table.cmp{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:.95rem;text-align:left;margin-top:34px}
+table.cmp th,table.cmp td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp th{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+table.cmp td:first-child{font-weight:700;color:var(--ink);width:22%}
+table.cmp tr:last-child td{border-bottom:0}
+.faq{max-width:880px;margin:36px auto 0;text-align:left}
+.faq details{border-top:1px solid var(--line);padding:16px 4px}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{font-weight:700;color:var(--ink);cursor:pointer;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--purple);font-weight:900;font-size:1.2rem;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin-top:10px;font-size:.97rem}
+.refs{max-width:920px;margin:28px auto 0;text-align:left;font-size:.88rem;line-height:1.55;columns:2;column-gap:36px}
+.refs li{margin:0 0 8px 18px;break-inside:avoid}
+.refs a{color:var(--purple);text-decoration:underline;word-break:break-word}
+:target{scroll-margin-top:100px}
+.refs li:target{background:var(--purple-light);border-radius:4px}
+@media(max-width:1000px){.showcase{grid-template-columns:1fr;gap:34px}.phones{justify-content:center}.chan{grid-template-columns:1fr 1fr}.bene{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.opt2,.feat{grid-template-columns:1fr}.lane{flex-direction:column}.ar{width:2px;height:22px;align-self:flex-start;margin-left:26px;background:repeating-linear-gradient(180deg,var(--purple) 0 6px,transparent 6px 11px)}.ar::after{right:-4px;top:auto;bottom:-2px;border-top:7px solid var(--purple);border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:0}.refs{columns:1}}
+@media(max-width:520px){.phone{width:150px}.scr{height:330px;font-size:9.5px}.phone.b{transform:none}.chan,.bene{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.bcard::after,.fld,.act,.ar,.st i{animation:none!important}.fld{opacity:1}html.js .rv{opacity:1;transform:none}}
+
+.page-hero.slim{padding:140px 0 110px}
+.path{display:inline-block;background:var(--purple-light);color:var(--purple);font-weight:700;font-size:.82rem;border-radius:5px;padding:2px 8px;white-space:nowrap}
+.script{background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px 28px;text-align:left}
+.script h3{font-size:1.12rem;letter-spacing:0;margin-bottom:4px}
+.script .mins{font-size:.78rem;font-weight:700;color:var(--teal);letter-spacing:.08em;text-transform:uppercase}
+.script ol{padding-left:20px;margin-top:10px}
+.script li{font-size:.95rem;margin:7px 0;line-height:1.55}
+.script .say{margin-top:12px;border-left:4px solid var(--mint);padding:4px 0 4px 14px;font-family:'Roboto Slab',serif;font-size:.97rem;color:var(--ink)}
+.scripts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
+code{font-family:Consolas,Menlo,monospace;font-size:.88em;background:var(--bg-alt);padding:1px 6px;border-radius:4px}
+@media(max-width:900px){.scripts{grid-template-columns:1fr}}
+
+/* ---- review round 2 fixes ---- */
+@media(max-width:860px){.tabs{order:2;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs a{font-size:11.5px;padding:7px 6px;flex:1;text-align:center}}
+@media(max-width:900px){.next.n3{grid-template-columns:1fr!important}}
+@media(max-width:520px){.phones{gap:10px}.phone{width:156px;padding:7px;border-radius:24px}.scr{border-radius:18px;height:340px;font-size:9.5px}.scr .top{padding:9px 10px;font-size:10.5px}.scr .top img{display:none}.scr .bd{padding:9px 9px}.bcard{height:84px;padding:9px}.bcard b{font-size:10.5px}.bcard i:nth-of-type(n+2){display:none}.bcard .co{font-size:8.5px;right:9px;bottom:7px}.acts{gap:3px}.act{font-size:7.5px;padding:7px 0 5px;border-radius:7px}.act svg{width:13px;height:13px}.who .av{width:32px;height:32px;font-size:11px}.who b{font-size:11px}.savebtn,.tophone{font-size:9.5px;padding:7px}}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><img src="img/mol_logo.svg" alt="MOL Mitsui O.S.K. Lines"/></a>
+    <div class="tabs"><a href="index.html">Proposal</a><a href="research.html">Research</a><a href="ai.html">AI &amp; security</a><a class="on" href="demo.html">Demo guide</a></div>
+    <div class="nav-links">
+      <a href="#access">Access</a>
+      <a href="#contents">What is loaded</a>
+      <a href="#scripts">Demo scripts</a>
+      <a href="#vehicles">Vehicles</a>
+      <a href="#built">How it was built</a>
+      <a href="#limits">Limits</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero slim" id="top">
+  <div class="container">
+    <p class="prepared">Odoo 20 demonstration database · for <b>MOL Enterprise (Philippines) Inc.</b></p>
+    <h1>The MOL demo, <span class="ink-purple">and how to present it</span>.</h1>
+    <p class="section-sub">A working Odoo 20 database set up as MOL Enterprise Philippines, with ten vehicles, their drivers, a month of attendance and odometer readings, and a set of business contacts. Everything in it is fictional.</p>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50 C 240 10, 480 90, 720 50 S 1200 10, 1440 50 V90 H0Z" fill="#00A0DC" opacity=".35"/><path d="M0 62 C 260 28, 520 96, 760 60 S 1220 30, 1440 64 V90 H0Z" fill="#fff"/></svg>
+</header>
+
+<div class="stats">
+  <div class="stat"><b>10</b><span>vehicles with drivers, contracts and services</span></div>
+  <div class="stat"><b>14</b><span>employees: ten agency drivers, four office staff</span></div>
+  <div class="stat"><b>262</b><span>attendance records for November 2026</span></div>
+  <div class="stat"><b>12</b><span>business-card contacts across seven companies</span></div>
+</div>
+
+<section id="access">
+  <div class="container center">
+    <span class="eyebrow">Access</span>
+    <h2 class="section-h">Opening the demo.</h2>
+    <div class="facts">
+      <div class="fact"><span class="tag">Address</span><h3>Odoo.sh development build</h3><p><a href="https://skytechnext-moldemo-main-42739009.dev.odoo.com/odoo" target="_blank" rel="noopener" style="text-decoration:underline;word-break:break-all">skytechnext-moldemo-main-42739009.dev.odoo.com</a></p><p style="margin-top:8px">Odoo 20 Enterprise, project <code>skytechnext-moldemo</code>, branch <code>main</code>.</p></div>
+      <div class="fact"><span class="tag">Sign in</span><h3>Through Odoo.sh</h3><p>Open the project on odoo.sh, select the <code>main</code> branch and press <b>Connect</b>. You arrive signed in as the administrator. No password is published on this page.</p></div>
+      <div class="fact"><span class="tag" style="color:var(--coral)">Before you present</span><h3>Three things to know</h3><p>A new commit to <code>main</code> rebuilds the database and erases the demo. The Odoo.sh trial ends about 29 days after 26 November 2026. Set the display language and time zone to Manila before sharing your screen.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contents" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Contents</span>
+    <h2 class="section-h">What is <span class="w-teal">loaded</span>.</h2>
+    <div class="tw"><table class="cmp">
+      <tr><th>App</th><th>Records</th><th>Where to find them</th></tr>
+      <tr><td>Fleet</td><td>10 vehicles; 5 models (Toyota Alphard, Innova, Zenix; Isuzu mu-X; Mitsubishi Montero Sport); 22 contracts; 56 services; 193 odometer readings; tags for executive, pool, port visits, leased and tablet-fitted</td><td><span class="path">Fleet</span> <span class="path">Fleet › Contracts</span> <span class="path">Fleet › Services</span> <span class="path">Fleet › Reporting</span></td></tr>
+      <tr><td>Employees</td><td>10 agency drivers and 4 office staff in five departments, each with a badge code</td><td><span class="path">Employees</span></td></tr>
+      <tr><td>Attendances</td><td>262 records from 2 to 26 November; drivers' records carry a clock-in and clock-out location in Makati; office records are marked as kiosk entries</td><td><span class="path">Attendances › Overview</span></td></tr>
+      <tr><td>Contacts</td><td>12 people at 7 companies, tagged "Scanned card", plus 6 vendor records (insurer, workshop, fuel card, leasing, driver agency, LTO)</td><td><span class="path">Contacts</span></td></tr>
+      <tr><td>Maintenance</td><td>23 pieces of equipment assigned to vehicles: safety kits, dash cameras, and tablets on three vehicles</td><td><span class="path">Maintenance › Equipment</span>, or the Equipment button on a vehicle</td></tr>
+      <tr><td>CRM, Phone, WhatsApp Messaging</td><td>Installed and empty: switched on so the call and message options can be shown on a contact. Phone needs a telephony provider and WhatsApp needs a business account before either can send anything.</td><td><span class="path">CRM</span> <span class="path">Phone</span> <span class="path">WhatsApp</span></td></tr>
+      <tr><td>Time Off</td><td>Installed, no records</td><td><span class="path">Time Off</span></td></tr>
+    </table></div>
+    <p class="fine">The company is set to MOL Enterprise (Philippines) Inc., Makati, with Philippine pesos as currency.</p>
+  </div>
+</section>
+
+<section id="scripts">
+  <div class="container center">
+    <span class="eyebrow">Demo scripts</span>
+    <h2 class="section-h">Five stories, <span class="w-teal">about fifteen minutes</span>.</h2>
+    <p class="section-sub">Each story matches one of MOL's asks. Follow them in order, or pick the ones the audience cares about.</p>
+    <div class="wfs" style="max-width:1000px;margin:30px auto 0">
+      <div class="wf rv"><h3>Suggested order</h3><p>From the simplest to the one that answers MOL's main question</p><div class="lane"><div class="nd"><b>1</b>The fleet at a glance</div><span class="ar"></span><div class="nd"><b>2</b>Renewals that warn you</div><span class="ar"></span><div class="nd"><b>3</b>A driver's day</div><span class="ar"></span><div class="nd bl"><b>4</b>The idling question</div><span class="ar"></span><div class="nd"><b>5</b>A scanned contact</div></div></div>
+    </div>
+    <div class="scripts">
+      <div class="script rv"><span class="mins">2 minutes</span><h3>1 · The fleet at a glance</h3><ol>
+        <li>Open <span class="path">Fleet</span>. Ten vehicles appear as cards under "Registered".</li>
+        <li>Point out the plate, model, driver and tags on each card.</li>
+        <li>Filter by the tag "Executive car" to show three vehicles.</li>
+        <li>Open NFA 1023 (Alphard). Show the buttons along the top: drivers, contracts, services, odometer, equipment.</li>
+      </ol><p class="say">"Every vehicle has one record, and everything about it hangs off that record."</p></div>
+      <div class="script rv"><span class="mins">3 minutes</span><h3>2 · Renewals that warn you</h3><ol>
+        <li>On the Fleet board, find the warning icons on NFA 1023 and NDC 7302 (due soon) and NBD 5518 (overdue).</li>
+        <li>Open NBD 5518 and press <b>Contracts</b>. Its insurance expired on 20 November.</li>
+        <li>Go to <span class="path">Fleet › Contracts</span> and sort by expiration date to see the whole year.</li>
+      </ol><p class="say">"Nothing depends on someone remembering a date in a spreadsheet."</p></div>
+      <div class="script rv"><span class="mins">3 minutes</span><h3>3 · A driver's day</h3><ol>
+        <li>Open <span class="path">Attendances › Overview</span> and switch to the list. Filter on Ramon Dela Cruz.</li>
+        <li>Open one record. Show the check-in and check-out times and the location recorded with each.</li>
+        <li>Open his vehicle, NFA 1023, and press <b>Odometer</b>. One reading per working day lines up with the attendance.</li>
+        <li>Mention that the odometer photo is an addition TechNext would build; the demo shows the readings only.</li>
+      </ol><p class="say">"Two clock-ins a day give you hours and kilometres from a single action."</p></div>
+      <div class="script rv"><span class="mins">4 minutes</span><h3>4 · The idling question</h3><ol>
+        <li>Open vehicle NAH 6630 (mu-X, driver Ricardo Aquino) and press <b>Odometer</b>. Note the small daily distances.</li>
+        <li>Open <span class="path">Attendances</span> for Ricardo Aquino: 11 to 12 hour days on 5, 12, 13, 19 and 24 November.</li>
+        <li>Open <span class="path">Fleet › Reporting › Costs</span> and group by vehicle. NAH 6630's fuel is far above vehicles that drive more.</li>
+        <li>Open its <b>Services</b>: a check of fuel consumption is already booked for 8 December.</li>
+      </ol><p class="say">"Long hours, few kilometres, high fuel. This is the pattern you asked how to find."</p></div>
+      <div class="script rv"><span class="mins">3 minutes</span><h3>5 · A scanned contact</h3><ol>
+        <li>Open <span class="path">Contacts</span> and filter on the tag "Scanned card".</li>
+        <li>Open Hiroshi Tanabe. Show the company, title, phone and email, and the note that it came from the card app.</li>
+        <li>Use the action menu to <b>Download (vCard)</b>, which a phone adds to its address book.</li>
+        <li>Point out the phone number: with Phone installed it can be clicked to call. WhatsApp and SMS are offered from the same record. None is connected to a provider in the demo, so do not press send.</li>
+      </ol><p class="say">"The card is typed by nobody, and it belongs to MOL, not to one person's phone."</p></div>
+      <div class="script rv"><span class="mins">Optional</span><h3>Extra · Equipment on board</h3><ol>
+        <li>Open any vehicle tagged "Tablet fitted" and press <b>Equipment</b>.</li>
+        <li>Show the tablet, dash camera and safety kit listed against the vehicle.</li>
+        <li>Link this to asset management, which MOL's team plans to configure in phase 2.</li>
+      </ol><p class="say">"An audit of the vehicle is an audit of what is inside it."</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="vehicles" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Reference</span>
+    <h2 class="section-h">The ten demo vehicles.</h2>
+    <div class="tw"><table class="cmp">
+      <tr><th>Plate</th><th>Vehicle</th><th>Driver</th><th>Tags</th><th>Use in the demo</th></tr>
+      <tr><td>NFA 1023</td><td>Toyota Alphard</td><td>Ramon Dela Cruz</td><td>Executive car, Tablet fitted</td><td>Insurance due soon (5 December)</td></tr>
+      <tr><td>NGE 9046</td><td>Toyota Zenix</td><td>Jose Santos</td><td>Executive car, Leased, Tablet fitted</td><td>Lease contract with monthly cost</td></tr>
+      <tr><td>NGK 3175</td><td>Toyota Zenix</td><td>Antonio Reyes</td><td>Pool vehicle, Leased</td><td>Lease contract</td></tr>
+      <tr><td>NDC 7302</td><td>Toyota Innova</td><td>Mario Garcia</td><td>Pool vehicle</td><td>Insurance due soon; next driver set; service booked 3 December</td></tr>
+      <tr><td>NCF 2284</td><td>Toyota Innova</td><td>Eduardo Mendoza</td><td>Port &amp; partner visits</td><td>Brake service in September</td></tr>
+      <tr><td>NEB 4471</td><td>Toyota Innova</td><td>Rolando Bautista</td><td>Pool vehicle, Tablet fitted</td><td>Typical vehicle</td></tr>
+      <tr><td>NBD 5518</td><td>Isuzu mu-X</td><td>Danilo Villanueva</td><td>Port &amp; partner visits</td><td>Insurance overdue; tyres replaced in October</td></tr>
+      <tr><td>NAH 6630</td><td>Isuzu mu-X</td><td>Ricardo Aquino</td><td>Pool vehicle</td><td>The idling story: long days, few kilometres, high fuel</td></tr>
+      <tr><td>NDK 8892</td><td>Mitsubishi Montero Sport</td><td>Fernando Castillo</td><td>Executive car</td><td>Typical vehicle</td></tr>
+      <tr><td>NBL 1407</td><td>Mitsubishi Montero Sport</td><td>Noel Navarro</td><td>Port &amp; partner visits</td><td>Battery replaced in November</td></tr>
+    </table></div>
+    <p class="fine">Plates, names and companies are invented. The mix of models is illustrative: MOL told us it has ten vehicles across these five models, without the exact count of each.</p>
+  </div>
+</section>
+
+<section id="built">
+  <div class="container center">
+    <span class="eyebrow">How it was built</span>
+    <h2 class="section-h">From an empty build to <span class="w-teal">the MOL demo</span>.</h2>
+    <div class="wfs" style="max-width:1000px;margin:30px auto 0">
+      <div class="wf rv"><h3>Build steps</h3><p>All done through Odoo's programming interface with an administrator key</p><div class="lane"><div class="nd dk"><b>Clean</b>Sample users and 37 sample contacts deleted</div><span class="ar"></span><div class="nd dk"><b>Switch off</b>Sample-data loading disabled before any app was installed</div><span class="ar"></span><div class="nd dk"><b>Company</b>Renamed to MOL, Makati, pesos</div><span class="ar"></span><div class="nd dk"><b>Install</b>Fleet, Attendances, Employees, Contacts, Maintenance, Time Off, CRM, Phone, WhatsApp</div><span class="ar"></span><div class="nd dk"><b>Load</b>Fictional MOL records created</div></div></div>
+    </div>
+    <div class="two">
+      <div class="fact"><h3>To rebuild after a reset</h3><ul>
+        <li>Connect to the new build and create an administrator API key.</li>
+        <li>Run the three steps again: clean, install, load. TechNext keeps the loading script.</li>
+        <li>The build address changes if the branch is rebuilt, so update the link on this page.</li>
+      </ul></div>
+      <div class="fact"><h3>To keep it permanently</h3><ul>
+        <li>Move the branch to Production on Odoo.sh. Production databases are not rebuilt on each commit and start without sample data.</li>
+        <li>A project has one production database, so this one would become the demo.</li>
+        <li>The trial needs a paid subscription to continue after it ends.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="limits" class="alt">
+  <div class="container center">
+    <span class="eyebrow">Limits</span>
+    <h2 class="section-h">What the demo does <span class="w-teal">not</span> show.</h2>
+    <div class="facts">
+      <div class="fact"><span class="tag" style="color:var(--coral)">Not built yet</span><h3>Proposed additions</h3><p>The MOL card app, the odometer photo at clock-in, the ZKTeco email import, and the tablet's moving, idling and parked estimate are proposals. The demo shows the standard Odoo screens they would feed.</p></div>
+      <div class="fact"><span class="tag" style="color:var(--coral)">Not installed</span><h3>Apps left out</h3><p>Accounting and vendor bills, Documents and Helpdesk are available in Odoo 20 but not switched on here. Phone and WhatsApp are installed but not connected to any provider, so they cannot place calls or send messages.</p></div>
+      <div class="fact"><span class="tag" style="color:var(--coral)">Checked how</span><h3>Verified by data, not by eye</h3><p>Record counts and warning flags were confirmed through the programming interface. Walk through each script once on screen before presenting.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <img class="f-logo" src="img/mol_logo.svg" alt="MOL"/>
+    <p>Demo prepared by TechNext on 26 November 2026. All people, plates and companies in the demo are fictional. Odoo is a trademark of Odoo S.A.</p>
+  </div>
+</footer>
+
+<div id="lb" role="dialog" aria-label="Enlarged clip"><img alt=""/></div>
+<script>
+(function(){
+  var lb=document.getElementById('lb'),im=lb.querySelector('img');
+  document.querySelectorAll('figure.gif').forEach(function(f){
+    f.addEventListener('click',function(){var s=f.querySelector('img');im.src=s.src;im.alt=s.alt;lb.classList.add('open');});
+  });
+  function close(){lb.classList.remove('open');im.removeAttribute('src');}
+  lb.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  var rv=[].slice.call(document.querySelectorAll('.rv, .stat, section .fact'));
+  rv.forEach(function(e){e.classList.add('rv');});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{rootMargin:'0px 0px -6% 0px'});rv.forEach(function(e){io.observe(e);});}
+  else{rv.forEach(function(e){e.classList.add('in');});}
+  setTimeout(function(){rv.forEach(function(e){e.classList.add('in');});},4000);
+  var links=[].slice.call(document.querySelectorAll('.nav-links a'));
+  var map=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+140,cur=0;
+    map.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i;});
+    links.forEach(function(a,i){a.classList.toggle('active',i===cur);});
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
