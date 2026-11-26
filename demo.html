@@ -408,9 +408,13 @@ code{font-family:Consolas,Menlo,monospace;font-size:.88em;background:var(--bg-al
       <tr><td>Fleet</td><td>10 vehicles; 5 models (Toyota Alphard, Innova, Zenix; Isuzu mu-X; Mitsubishi Montero Sport); 22 contracts; 56 services; 193 odometer readings; tags for executive, pool, port visits, leased and tablet-fitted</td><td><span class="path">Fleet</span> <span class="path">Fleet › Contracts</span> <span class="path">Fleet › Services</span> <span class="path">Fleet › Reporting</span></td></tr>
       <tr><td>Employees</td><td>10 agency drivers and 4 office staff in five departments, each with a badge code</td><td><span class="path">Employees</span></td></tr>
       <tr><td>Attendances</td><td>262 records from 2 to 26 November; drivers' records carry a clock-in and clock-out location in Makati; office records are marked as kiosk entries</td><td><span class="path">Attendances › Overview</span></td></tr>
-      <tr><td>Contacts</td><td>12 people at 7 companies, tagged "Scanned card", plus 6 vendor records (insurer, workshop, fuel card, leasing, driver agency, LTO)</td><td><span class="path">Contacts</span></td></tr>
+      <tr><td>Contacts</td><td>14 people at 8 companies, tagged "Scanned card", two of them with Japanese names and titles; each carries a note of the automatic WhatsApp greeting. Plus 7 vendor records (insurer, workshop, fuel card, leasing, driver agency, LTO, TechNext)</td><td><span class="path">Contacts</span></td></tr>
       <tr><td>Maintenance</td><td>23 pieces of equipment assigned to vehicles: safety kits, dash cameras, and tablets on three vehicles</td><td><span class="path">Maintenance › Equipment</span>, or the Equipment button on a vehicle</td></tr>
-      <tr><td>CRM, Phone, WhatsApp Messaging</td><td>Installed and empty: switched on so the call and message options can be shown on a contact. Phone needs a telephony provider and WhatsApp needs a business account before either can send anything.</td><td><span class="path">CRM</span> <span class="path">Phone</span> <span class="path">WhatsApp</span></td></tr>
+      <tr><td>CRM</td><td>14 opportunities created from scanned cards, tagged "From business card" and spread across the pipeline stages</td><td><span class="path">CRM › Pipeline</span></td></tr>
+      <tr><td>Accounting</td><td>Philippine chart of accounts; an opening capital entry; 15 vendor bills for October and November 2026 (Shell fuel statements, workshop, insurance, LTO, leasing, driver agency, TechNext), 10 of them paid; 54 fleet services linked to their bill lines</td><td><span class="path">Accounting › Vendors › Bills</span>, or the Bills button on a vehicle</td></tr>
+      <tr><td>Assets</td><td>15 running assets with monthly straight-line depreciation posted from each purchase date: the 8 owned vehicles (5 years, 10% residual value), laptops, attendance terminals, network equipment, vehicle tablets, furniture, office fit-out and the Odoo implementation. Net book value about PHP 6.8 million. The two leased vehicles are not assets.</td><td><span class="path">Accounting › Accounting › Assets</span></td></tr>
+      <tr><td>Helpdesk</td><td>12 tickets in the IT Service Desk team, across the stages</td><td><span class="path">Helpdesk</span></td></tr>
+      <tr><td>Phone, WhatsApp Messaging</td><td>Installed, not connected. Phone needs a telephony provider and WhatsApp needs a business account before either can send anything. The WhatsApp greetings on contacts are notes, not sent messages.</td><td><span class="path">Phone</span> <span class="path">WhatsApp</span></td></tr>
       <tr><td>Time Off</td><td>Installed, no records</td><td><span class="path">Time Off</span></td></tr>
     </table></div>
     <p class="fine">The company is set to MOL Enterprise (Philippines) Inc., Makati, with Philippine pesos as currency.</p>
@@ -460,6 +464,13 @@ code{font-family:Consolas,Menlo,monospace;font-size:.88em;background:var(--bg-al
         <li>Show the tablet, dash camera and safety kit listed against the vehicle.</li>
         <li>Link this to asset management, which MOL's team plans to configure in phase 2.</li>
       </ol><p class="say">"An audit of the vehicle is an audit of what is inside it."</p></div>
+      <div class="script rv"><span class="mins">3 minutes</span><h3>Extra · Assets and depreciation</h3><ol>
+        <li>Open <span class="path">Accounting › Accounting › Assets</span>. Fifteen assets are running.</li>
+        <li>Open "Toyota Alphard NFA 1023": bought for PHP 4,280,000 in April 2024, five years straight line, book value about PHP 2.33 million today.</li>
+        <li>Show the depreciation board: one posted entry a month, with the future ones waiting.</li>
+        <li>Open the vehicle from the asset, press <b>Bills</b>, and show the Shell and workshop bills behind its costs.</li>
+        <li>Open "Odoo Accounting implementation": the asset was created from the vendor bill line.</li>
+      </ol><p class="say">"The asset register and the books are the same records, so they cannot drift apart."</p></div>
     </div>
   </div>
 </section>
@@ -513,7 +524,7 @@ code{font-family:Consolas,Menlo,monospace;font-size:.88em;background:var(--bg-al
     <h2 class="section-h">What the demo does <span class="w-teal">not</span> show.</h2>
     <div class="facts">
       <div class="fact"><span class="tag" style="color:var(--coral)">Not built yet</span><h3>Proposed additions</h3><p>The MOL card app, the odometer photo at clock-in, the ZKTeco email import, and the tablet's GPS trips and moving, idling and parked estimate are proposals. The demo shows the standard Odoo screens they would feed.</p></div>
-      <div class="fact"><span class="tag" style="color:var(--coral)">Not installed</span><h3>Apps left out</h3><p>Accounting and vendor bills, Documents and Helpdesk are available in Odoo 20 but not switched on here. Phone and WhatsApp are installed but not connected to any provider, so they cannot place calls or send messages.</p></div>
+      <div class="fact"><span class="tag" style="color:var(--coral)">Not installed</span><h3>Apps left out</h3><p>Purchase, Inventory and Payroll are available in Odoo 20 but not switched on here. Accounting figures are invented for the demonstration: costs, purchase dates and useful lives are not MOL's. Phone and WhatsApp are installed but not connected to any provider, so they cannot place calls or send messages.</p></div>
       <div class="fact"><span class="tag" style="color:var(--coral)">Checked how</span><h3>Verified by data, not by eye</h3><p>Record counts and warning flags were confirmed through the programming interface. Walk through each script once on screen before presenting.</p></div>
     </div>
   </div>

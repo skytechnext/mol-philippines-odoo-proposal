@@ -365,22 +365,10 @@ table.cmp tr:last-child td{border-bottom:0}
 @media(max-width:900px){.chatwrap{grid-template-columns:1fr;gap:28px}.chat{margin:0 auto}}
 @media(prefers-reduced-motion:reduce){.bub{animation:none;opacity:1}}
 
-/* ---- chapter bands: make each part and priority unmistakable ---- */
+/* ---- a plain line between parts and priorities ---- */
 section+section{border-top:1px solid var(--line)}
-.chapter{--acc:#22C3FF;position:relative;overflow:hidden;color:#fff;padding:58px 0 54px;background:linear-gradient(115deg,#001B33 0%,#00335F 62%,#005396 100%);border-top:7px solid var(--acc)}
-.chapter::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,var(--acc) 0%,transparent 68%);opacity:.16;pointer-events:none}
-.chapter .container{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;position:relative;z-index:1}
-.chapter .num{font-family:'Roboto Slab',serif;font-weight:700;font-size:132px;line-height:.85;color:transparent;-webkit-text-stroke:2.5px var(--acc);letter-spacing:-.02em;min-width:150px}
-.chapter .kick{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;background:var(--acc);color:#001B33;border-radius:99px;padding:5px 14px;margin-bottom:14px}
-.chapter h2{color:#fff;font-size:clamp(28px,4.2vw,46px);margin-bottom:10px}
-.chapter p{color:rgba(255,255,255,.8);max-width:760px;font-size:17.5px}
-.chapter .inside{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.chapter .inside a{font-size:13px;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,.32);border-radius:99px;padding:5px 13px;transition:background .2s,border-color .2s}
-.chapter .inside a:hover{background:rgba(255,255,255,.12);border-color:var(--acc)}
-.chapter.part{padding:38px 0 36px;background:linear-gradient(115deg,#003E71,#005396)}
-.chapter.part .container{grid-template-columns:1fr}
-.chapter.part h2{font-size:clamp(24px,3.2vw,34px)}
-.chapter.p1{--acc:#22C3FF}.chapter.p2{--acc:#3DDC97}.chapter.p3{--acc:#FFB547}.chapter.part{--acc:#9FD8F5}
+hr.pline{border:0;height:4px;margin:0;background:var(--purple)}
+hr.pline.p1{background:#0A8FD6}hr.pline.p2{background:#12A150}hr.pline.p3{background:#E08A00}hr.pline.part{background:var(--line);height:2px}
 section[data-p]{position:relative}
 section[data-p]::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--pacc)}
 section[data-p="1"]{--pacc:#0A8FD6;--ptint:#E3F4FD;--pink:#005C8F}
@@ -389,9 +377,6 @@ section[data-p="3"]{--pacc:#E08A00;--ptint:#FDF1DC;--pink:#8F5800}
 section[data-p] .tag2:not(.p2){background:var(--ptint);color:var(--pink);font-size:12px;padding:5px 13px;box-shadow:inset 0 0 0 1px var(--pacc)}
 section[data-p] .section-h,section[data-p] .sol h2{position:relative}
 @media(max-width:760px){
-  .chapter{padding:40px 0}
-  .chapter .container{grid-template-columns:1fr;gap:10px}
-  .chapter .num{font-size:78px;-webkit-text-stroke-width:2px;min-width:0}
   section[data-p]::before{width:5px}
 }
 </style>
@@ -502,7 +487,7 @@ section[data-p] .section-h,section[data-p] .sol h2{position:relative}
 </section>
 
 <div id="solution"></div>
-<div class="chapter p1"><div class="container rv"><div class="num" aria-hidden="true">01</div><div><span class="kick">Priority 1</span><h2>Business card management</h2><p>Every card your leadership receives becomes a contact in Odoo, searchable, shared and one tap from a message or a call.</p><div class="inside"><a href="#cards">Option A · Odoo CRM and Contacts</a><a href="#cards">Option B · MOL-branded card app</a><a href="#reach">WhatsApp, email, VoIP and SMS</a></div></div></div></div>
+<hr class="pline p1">
 <section id="cards" data-p="1" class="alt">
   <div class="container center">
     <span class="tag2">Priority 1 · Business cards</span>
@@ -636,7 +621,7 @@ section[data-p] .section-h,section[data-p] .sol h2{position:relative}
     <p class="fine" style="text-align:center">Viber is not a built-in Odoo channel. From a phone, a contact's number can still be opened in Viber once it is saved to the address book.</p>
   </div>
 </section>
-<div class="chapter p2"><div class="container rv"><div class="num" aria-hidden="true">02</div><div><span class="kick">Priority 2</span><h2>Driver attendance</h2><p>Agency drivers clock in and out at the vehicle with a location stamp and an odometer photo. Office staff keep using the ZKTeco terminals.</p><div class="inside"><a href="#attendance">The driver's day in the Odoo app</a></div></div></div></div>
+<hr class="pline p2">
 <section id="attendance" data-p="2">
   <div class="container">
     <div class="sol">
@@ -667,7 +652,7 @@ section[data-p] .section-h,section[data-p] .sol h2{position:relative}
   </div>
 </section>
 
-<div class="chapter p3"><div class="container rv"><div class="num" aria-hidden="true">03</div><div><span class="kick">Priority 3</span><h2>Fleet management</h2><p>Ten vehicles, each with one record for documents, contracts, services, odometer, fuel and cost, plus a view of how each vehicle is being used.</p><div class="inside"><a href="#fleet">Odoo Fleet</a><a href="#monitoring">Moving, idling or parked</a><a href="#fuel">Shell fuel card by email</a></div></div></div></div>
+<hr class="pline p3">
 <section id="fleet" data-p="3" class="alt">
   <div class="container center">
     <span class="tag2">Priority 3 · Odoo Fleet</span>
@@ -754,7 +739,7 @@ section[data-p] .section-h,section[data-p] .sol h2{position:relative}
   </div>
 </section>
 
-<div class="chapter part"><div class="container rv"><div><span class="kick">Putting it together</span><h2>How the three priorities work as one</h2><p>A day at MOL once the tools are live, and the workflows behind it.</p><div class="inside"><a href="#day">A day in practice</a><a href="#workflows">Workflows</a></div></div></div></div>
+<hr class="pline part">
 <section id="day">
   <div class="container center">
     <span class="eyebrow">In practice</span>
@@ -800,7 +785,7 @@ section[data-p] .section-h,section[data-p] .sol h2{position:relative}
   </div>
 </section>
 
-<div class="chapter part"><div class="container rv"><div><span class="kick">Delivery</span><h2>How we get you there</h2><p>The plan, the team, what your own IT team builds in phase 2, and training.</p><div class="inside"><a href="#plan">Delivery plan</a><a href="#team">Team and governance</a><a href="#assets">Asset management</a><a href="#training">Training</a></div></div></div></div>
+<hr class="pline part">
 <section id="plan">
   <div class="container center">
     <span class="eyebrow">Delivery plan</span>
@@ -872,7 +857,7 @@ section[data-p] .section-h,section[data-p] .sol h2{position:relative}
     </div>
   </div>
 </section>
-<div class="chapter part"><div class="container rv"><div><span class="kick">Commercials</span><h2>Investment, compliance and next steps</h2><p>What it costs, how it stays compliant, and what happens after you say yes.</p><div class="inside"><a href="#investment">Investment</a><a href="#compliance">Compliance</a><a href="#why">Why TechNext</a><a href="#faq">Questions</a><a href="#next">Next steps</a></div></div></div></div>
+<hr class="pline part">
 <section id="investment">
   <div class="container center">
     <span class="eyebrow">Investment</span>
