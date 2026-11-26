@@ -263,6 +263,42 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <tr><td>Commercial OBD tracker (not ESP32)</td><td>Ready-made 4G fleet tracker such as Teltonika's OBD range</td><td>4G to a tracking server</td><td>Proven hardware; built-in idling detection</td><td>Built around GPS, which conflicts with the route-confidentiality rule unless switched off; one model in the range is already end-of-life</td></tr>
     </table></div>
 
+    <h3 id="compat" style="font-size:1.2rem;margin:34px 0 8px">Compatibility with MOL's vehicles</h3>
+    <p class="sub" style="margin-bottom:18px">Short answer: neither maker lists any of MOL's five models, and we found no owner report confirming either device on them. Both devices speak the protocols these vehicles use, so the limit is what each car chooses to expose, not the device. That can only be settled by plugging in.</p>
+
+    <div class="grid g2" style="margin-bottom:24px">
+      <div class="box"><span class="pill p-fact">MeatPi WiCAN Pro</span><h3>What the maker states</h3><ul>
+        <li>Protocols: CAN (ISO 15765-4, 11-bit and 29-bit), J1939, raw CAN, KWP2000 (ISO 14230-4) and J1850.</li>
+        <li>Reads standard OBD-II values on any vehicle that provides them; the maker warns that some manufacturers switch certain standard values off.</li>
+        <li>Published vehicle list is user-submitted. Toyota entries: Hilux, RAV4, bZ4X. No Alphard, Innova or Zenix. No Isuzu. Mitsubishi entries are electric and plug-in models only.</li>
+        <li>Has a built-in "scan standard PIDs" function, which makes the plug-in test quick.</li>
+        <li>An unlisted model can still work on standard values; a model profile can be requested or written.</li>
+      </ul></div>
+      <div class="box"><span class="pill p-fact">Freematics ONE+ (Model B)</span><h3>What the maker states</h3><ul>
+        <li>Protocols: CAN at 500 and 250 kbps, 11-bit and 29-bit, and KWP2000 (fast and 5-baud). Model B also lists J1939.</li>
+        <li>No vehicle compatibility list is published.</li>
+        <li>Reads standard OBD-II values through its own firmware library; anything else needs custom code.</li>
+        <li>One user reported it did not work on a Renault, so failures on individual models do occur.</li>
+        <li>4G is built in, so it does not depend on a tablet hotspot.</li>
+      </ul></div>
+    </div>
+
+    <div class="tw"><table>
+      <tr><th>MOL vehicle</th><th>What we know</th><th>WiCAN Pro</th><th>Freematics ONE+</th><th>Main doubt</th></tr>
+      <tr><td>Toyota Alphard</td><td>CAN-based. Not on either maker's list. No owner report found.</td><td class="mid">Likely for engine speed and road speed; unconfirmed</td><td class="mid">Likely; unconfirmed</td><td>If it is the 2023-on model, Toyota's newer security may limit what the port returns</td></tr>
+      <tr><td>Toyota Innova</td><td>CAN-based. One owners' forum says the Innova follows the standard protocol but keeps most data in Toyota-only codes.</td><td class="ok">Likely for the basic values</td><td class="ok">Likely for the basic values</td><td>Diesel versions may return fewer standard values, for example no fuel rate</td></tr>
+      <tr><td>Toyota Zenix</td><td>Newest platform of the five (2023 on). Not on either list. No report found.</td><td class="mid">Uncertain</td><td class="mid">Uncertain</td><td>Highest risk of restricted access; hybrid versions report engine speed differently because the engine stops while the car is on</td></tr>
+      <tr><td>Isuzu mu-X</td><td>CAN-based diesel. A scan-tool vendor lists the mu-X as compatible, without detail.</td><td class="mid">Likely; unconfirmed</td><td class="mid">Likely; unconfirmed</td><td>Which standard values the diesel engine computer answers</td></tr>
+      <tr><td>Mitsubishi Montero</td><td>CAN-based diesel. A forum report on a related Pajero says Mitsubishi blocks many readings but the basics can be read.</td><td class="mid">Likely for the basics</td><td class="mid">Likely for the basics</td><td>Mitsubishi keeps much data in its own codes; only basic values expected</td></tr>
+    </table></div>
+
+    <div class="grid g3" style="margin-top:24px">
+      <div class="box"><span class="pill p-ok">What this means</span><h3>Good enough for idle detection, probably</h3><p>Idle detection needs only engine speed and road speed, the two most basic values. Those are the most likely to be available on all five. Fuel rate and fuel level are much less certain.</p></div>
+      <div class="box"><span class="pill p-check">Cheapest check</span><h3>A ten-minute test per vehicle</h3><p>Before buying either device, plug a basic OBD reader into each vehicle with a phone app and note whether engine speed and road speed appear. If they do, both devices should read them too.</p></div>
+      <div class="box"><span class="pill p-check">Need from MOL</span><h3>Model year and engine</h3><p>The year and engine of each vehicle decide the answer, especially for the Alphard and Zenix. Philippine-market vehicles are not bound by the US and EU rules that guarantee these values, which is why testing matters.</p></div>
+    </div>
+    <p class="src">Sources: <a href="https://meatpihq.github.io/wican-fw/config/automate/supported_vehicles" target="_blank" rel="noopener">WiCAN supported vehicles</a> · <a href="https://www.crowdsupply.com/meatpi-electronics/wican-pro" target="_blank" rel="noopener">WiCAN Pro specifications</a> · <a href="https://hn.jakechampion.name/reader/https://freematics.com/pages/products/freematics-one-plus" target="_blank" rel="noopener">Freematics ONE+ product page (mirror)</a> · <a href="https://www.traccar.org/freematics/" target="_blank" rel="noopener">Traccar: Freematics Model B</a> · <a href="https://gist.github.com/soshial/d07919e0fac67f5501a38fe3c39be416" target="_blank" rel="noopener">Freematics user notes</a> · <a href="https://www.team-bhp.com/forum/technical-stuff/97809-standards-based-can-obd-communication-etios-ecu-2.html" target="_blank" rel="noopener">Team-BHP on Toyota OBD</a> · <a href="https://www.4x4community.co.za/forum/showthread.php/250860-Pajero-OBD-Readings" target="_blank" rel="noopener">4x4 Community on Pajero OBD</a> · <a href="https://www.klavkarr.com/vehicle-list-compatible-obd2/isuzu" target="_blank" rel="noopener">Isuzu OBD compatibility list</a>. "Likely" and "uncertain" are our judgement from these sources, not test results.</p>
+
     <div class="grid g2" style="margin-top:28px">
       <div class="box"><span class="pill p-warn">Risks</span><h3>What could stop it working</h3><ul>
         <li><b>Toyota access limits.</b> Newer Toyotas have a security gateway. Standard readings such as RPM and speed are the most likely to remain available, but we found no confirmation for the Alphard, Innova or Zenix. This must be tested on the actual vehicles.</li>
@@ -337,7 +373,7 @@ td.ok{color:var(--green);font-weight:700}td.mid{color:var(--amber);font-weight:7
       <div class="box"><span class="pill p-check">Both</span><h3>Card app publication</h3><p>MOL developer accounts, brand approval, and public or staff-only distribution.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>AI and security policy</h3><p>Policy documents and vendor assessment forms to be shared.</p></div>
       <div class="box"><span class="pill p-check">MOL</span><h3>User and driver counts</h3><p>Number of Odoo users and number of drivers, to size licences.</p></div>
-      <div class="box"><span class="pill p-check">Both</span><h3>OBD pilot vehicles</h3><p>Which vehicle of each model can be used for the two-week trial.</p></div>
+      <div class="box"><span class="pill p-check">Both</span><h3>OBD pilot vehicles</h3><p>Model year and engine of each vehicle, and which one of each model can be used for the plug-in test and two-week trial.</p></div>
     </div>
   </div>
 </section>
